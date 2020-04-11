@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node server/server.js",
-    "start:k": "NODE_ENV=production node server/server.js",
+    "dev": "node server/bootstrap.js",
+    "start:k": "NODE_ENV=production node server/bootstrap.js",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "serve:dev": "NODE_PATH=app NODE_ENV=dev nodemon app/bootstrap.js",
+    "serve:prod": "cross-env NODE_PATH=app NODE_ENV=prod pm2 start app/bootstrap.js -n $INSTANCE_NAME --no-daemon -i 2 --log-date-format \"YYYY-MM-DD HH:mm:ss\""
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -18,5 +20,8 @@
     "sass": "^1.26.3",
     "styled-jsx": "^3.2.5",
     "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^13.11.1"
   }
 }
