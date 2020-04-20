@@ -1,5 +1,16 @@
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 import Router from './router';
+import unistoreStore from '@/stores/store';
+import { Provider } from 'unistore/react';
+import { Message } from '@/components/Message';
 
-render(<Router />, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={unistoreStore}>
+    <>
+      <Router />
+      <Message />
+    </>
+  </Provider>,
+  document.getElementById('root')
+);
