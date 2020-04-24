@@ -59,7 +59,7 @@ module.exports = {
   ],
   resolve: {
     // modules: [path.resolve(__dirname, 'client'), 'node_modules'],
-    extensions: ['*', '.js', '.jsx'],
+    extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.d.ts'],
     mainFields: ['browser', 'module', 'main'],
     alias: {
       '@': path.join(__dirname, 'client'),

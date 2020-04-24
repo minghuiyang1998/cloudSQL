@@ -1,61 +1,13 @@
-import localforage from 'localforage';
-import sortBy from 'lodash/sortBy';
-import { Message } from '@/utils/message';
-import { request } from '@/utils/request';
-const ONE_HOUR_MS = 1000 * 60 * 60;
+import * as localforage from 'localforage';
+import Message from '../utils/message';
+import { request } from '../utils/request';
 
-function sortConnections(connections) {
-  return sortBy(connections, [connection => connection.name.toLowerCase()]);
-}
-
-export const initialState = {
-  selectedConnectionId: '',
-  connectionClient: null,
-  connectionClientInterval: null,
-  connections: [],
-  connectionsLastUpdated: null,
-  connectionsLoading: false
+export const postConnectingClient = connectionId => {
+  const json = await request('POST', '/api/connection-clients', { connectionId });
+  return json;
 };
 
-export async function initSelectedConnection(state) {
-  const selectedConnectionId = await localforage.getItem(
-    'selectedConnectionId'
-  );
-  if (typeof selectedConnectionId === 'string') {
-    return {
-      selectedConnectionId
-    };
-  }
-}
-
-/**
- * Open a connection client for the currently selected connection if supported
- * @param {*} state
- */
-export const connectConnectionClient = store => async state => {
-  const { connectionClient, connections, selectedConnectionId } = state;
-
-  // If a connectionClient is already open, or connections or selected connection id doesn't exist, do nothing
-  if (connectionClient || !connections || !selectedConnectionId) {
-    return;
-  }
-
-  const connection = connections.find(
-    connection => connection._id === selectedConnectionId
-  );
-
-  const supportedAndEnabled =
-    connection &&
-    connection.supportsConnectionClient &&
-    connection.multiStatementTransactionEnabled;
-
-  if (!supportedAndEnabled) {
-    return;
-  }
-
-  const json = await request('POST', '/api/connection-clients', {
-    connectionId: selectedConnectionId
-  });
+export const putConnectingClient = () => {
   if (json.error) {
     return Message.error('Problem connecting to database');
   }
@@ -91,10 +43,6 @@ export const connectConnectionClient = store => async state => {
   return { connectionClient: json.connectionClient, connectionClientInterval };
 };
 
-/**
- * Disconnect the current connection client if one exists
- * @param {*} state
- */
 export const disconnectConnectionClient = async state => {
   const { connectionClient, connectionClientInterval } = state;
   if (connectionClientInterval) {

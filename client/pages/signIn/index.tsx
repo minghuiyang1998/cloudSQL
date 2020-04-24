@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'unistore/react';
-import message from '@/utils/message';
-import { refreshAppContext } from '@/store';
-import { goSignIn } from '@/dao/user';
+import message from '../../utils/message';
+import { refreshAppContext } from '../../store';
+import { goSignIn } from '../../dao/user';
 
 
 function SignIn({ config, refreshAppContext }) {

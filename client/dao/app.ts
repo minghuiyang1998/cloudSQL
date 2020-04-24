@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request } from '../utils/request';
 
 export const refreshAppContext = async () => {
   const {
@@ -7,6 +7,7 @@ export const refreshAppContext = async () => {
     adminRegistrationOpen,
     version
   } = await request('GET', 'api/app');
+
   if (!config) {
     return;
   }
@@ -22,5 +23,3 @@ export const refreshAppContext = async () => {
     version
   };
 };
-
-export default { refreshAppContext };

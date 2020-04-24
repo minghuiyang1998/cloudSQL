@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import * as React, { PureComponent } from './node_modules/react';
 
 export default class Home extends PureComponent {
   render() {

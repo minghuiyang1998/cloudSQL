@@ -1,7 +1,7 @@
-import Message from '@/components/Message';
+import Message from './message';
 import Axios from 'axios';
 
-export async function request(method, url, body) {
+export async function request(method = '', url = '', body = {}) {
   const BASE_URL = window.BASE_URL || '';
   const opts = {
     method: method.toUpperCase(),

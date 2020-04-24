@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "skipLibCheck": true,
+        "jsx": "react",
+        "typeRoots": [
+            "node_modules/@types",
+            "app/interface/**/*",
+            ".kitc/**/*"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

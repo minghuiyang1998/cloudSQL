@@ -1,7 +1,7 @@
-import mitt from 'mitt';
+import * as mitt from 'mitt';
 const emitter = mitt();
 
-export class Message {
+export default class Message {
   static error(message) {
     emitter.emit('message', { type: 'error', message });
   }
