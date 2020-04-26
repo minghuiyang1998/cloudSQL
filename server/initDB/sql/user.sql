@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
 	`_id` integer NOT NULL AUTO_INCREMENT,
 	`uuid` linestring NOT NULL,
@@ -7,5 +8,4 @@ CREATE TABLE `user` (
 	`createdDate` datetime NOT NULL,
 	`modifiedDate` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`_id`)
-) ENGINE=InnoDB
-DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
