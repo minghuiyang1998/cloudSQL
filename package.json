@@ -8,7 +8,7 @@
     "build:client": "rm -rf ./output && NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:server": "babel ./server/bootstrap.ts --out-dir dist",
     "start:server": "nodemon ./server/bootstrap.ts --exec babel-node --extensions '.ts,.tsx'",
-    "initDB": "npx babel-node --extensions '.ts,.tsx' ./server/utils/initDB/index.ts",
+    "initDB": "npx babel-node --extensions '.ts,.tsx' ./server/initDB/index.ts",
     "lint": "eslint src --fix --ext .ts,.tsx "
   },
   "repository": {
@@ -42,6 +42,7 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
     "@babel/register": "^7.0.0",
+    "@types/node": "^13.13.2",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.5.2",
     "eslint": "^6.8.0",
@@ -57,23 +58,22 @@
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "@types/node": "^13.11.1",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
     "axios": "^0.19.2",
+    "bcrypt": "^4.0.1",
     "core-js": "^3.6.5",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
-    "koa-mysql-session": "0.0.2",
     "koa-router": "^8.0.8",
-    "koa-session-minimal": "^4.0.0",
     "localforage": "^1.7.3",
     "mitt": "^1.2.0",
-    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
@@ -81,6 +81,7 @@
     "react-split-pane": "^0.1.91",
     "redux": "^4.0.5",
     "sequelize": "^5.21.7",
-    "styled-jsx": "^3.2.5"
+    "styled-jsx": "^3.2.5",
+    "uuid": "^7.0.3"
   }
 }
