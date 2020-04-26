@@ -34,6 +34,7 @@ app.use(
     store: mysqlSession,
     cookie,
   })
+  
 );
 
 app.use(async ctx => {
