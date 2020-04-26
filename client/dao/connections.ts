@@ -1,4 +1,4 @@
-import * as localforage from 'localforage';
+import localforage from 'localforage';
 import Message from '../utils/message';
 import { request } from '../utils/request';
 

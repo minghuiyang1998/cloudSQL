@@ -1,32 +1,50 @@
 import router from './router';
-const Koa = require('koa');
+import { mysqlSession } from './utils/connectDB';
+import { authenticate } from './utils/authenticate';
+import json from 'koa-json';
+import logger from 'koa-logger';
+import koaBody from 'koa-body';
+import Koa from 'koa';
+import session from 'koa-session-minimal';
+
 const app = new Koa();
-const session = require('koa-session');
 
+app.use(koaBody());
+app.use(json());
+app.use(logger());
 
+// TODO: connect database & database related and
+// other request operation write in service dir/
+// create table and key directely don't code a database here
+// and this database can be used to test the program
 
-app.keys = ['some secret hurr'];
-const CONFIG = {
-  key: 'koa:sess',
-  maxAge: 86400000,
-  autoCommit: true,
-  overwrite: true,
-  httpOnly: true,
-  signed: true,
-  rolling: false,
-  renew: false,
-  sameSite: null,
+// TODO: authority check
+// 存放sessionId的cookie配置
+const cookie = {
+  maxAge: 604800, // cookie有效时长
+  overwrite: true, // 是否允许重写
+  secure: '',
+  sameSite: '',
+  signed: '',
 };
 
-app.use(session(CONFIG, app));
-app.use(ctx => {
-  let n = ctx.session.views || 0;
-  ctx.session.views = ++n;
-  ctx.body = `${n } views`;
+app.use(
+  session({
+    key: 'SESSION_ID',
+    store: mysqlSession,
+    cookie,
+  })
+);
+
+app.use(async ctx => {
+  // 读取session信息
+  authenticate(ctx);
 });
 
-
+// TODO: inject router
 app.use(router.routes());
+
+// TODO: start server
 app.listen(3000);
 
 module.exports = app;

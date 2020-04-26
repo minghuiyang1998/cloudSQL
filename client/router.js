@@ -1,10 +1,5 @@
-import * as React from 'react';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch
-} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import NotFound from '@/pages/404';
 import SignIn from '@/pages/SignIn';
 import SignUp from '@/pages/SignUp';

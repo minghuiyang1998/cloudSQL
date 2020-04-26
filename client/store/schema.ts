@@ -1,29 +1,27 @@
-import * as localforage from 'localforage';
+import localforage from 'localforage';
 import Message from '../utils/message';
 import { request } from '../utils/request';
 // import updateCompletions from '../utilities/updateCompletions.js';
 
 export const initialState = {
   showSchema: false,
-  schema: {} // schema.<connectionId>.loading / schemaInfo / lastUpdated
+  schema: {}, // schema.<connectionId>.loading / schemaInfo / lastUpdated
 };
 
 export async function initSchema() {
   const showSchema = await localforage.getItem('showSchema');
   if (typeof showSchema === 'boolean') {
     return {
-      showSchema
+      showSchema,
     };
   }
 }
 
 export function toggleSchema(state) {
   const showSchema = !state.showSchema;
-  localforage
-    .setItem('showSchema', showSchema)
-    .catch(error => Message.error(error));
+  localforage.setItem('showSchema', showSchema).catch(error => Message.error(error));
   return {
-    showSchema
+    showSchema,
   };
 }
 
@@ -35,25 +33,22 @@ export const loadSchemaInfo = store => async (state, connectionId, reload) => {
         ...schema,
         [connectionId]: {
           loading: true,
-          expanded: {}
-        }
-      }
+          expanded: {},
+        },
+      },
     });
 
     const qs = reload ? '?reload=true' : '';
-    const json = await request(
-      'GET',
-      `/api/schema-info/${connectionId}${qs}`
-    );
+    const json = await request('GET', `/api/schema-info/${connectionId}${qs}`);
     const { error, schemaInfo } = json;
     if (error) {
       store.setState({
         schema: {
           ...schema,
           [connectionId]: {
-            loading: false
-          }
-        }
+            loading: false,
+          },
+        },
       });
       return Message.error(error);
     }
@@ -73,9 +68,9 @@ export const loadSchemaInfo = store => async (state, connectionId, reload) => {
         [connectionId]: {
           loading: false,
           schemaInfo,
-          expanded
-        }
-      }
+          expanded,
+        },
+      },
     };
   }
 };
@@ -89,9 +84,9 @@ export const toggleSchemaItem = (state, connectionId, item) => {
       ...schema,
       [connectionId]: {
         ...connectionSchema,
-        expanded: { ...connectionSchema.expanded, [item.id]: open }
-      }
-    }
+        expanded: { ...connectionSchema.expanded, [item.id]: open },
+      },
+    },
   };
 };
 
@@ -99,5 +94,5 @@ export default {
   initialState,
   loadSchemaInfo,
   toggleSchema,
-  toggleSchemaItem
+  toggleSchemaItem,
 };

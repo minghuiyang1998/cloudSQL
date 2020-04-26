@@ -1,15 +1,11 @@
 import debounce from 'lodash/debounce';
-import * as ConsoleType from "./interface";
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+import ConsoleType from './interface';
+import React, { useEffect, useState, SFC } from 'react';
 import SplitPane from 'react-split-pane';
 import AppHeader from '../app-header/AppHeader';
 import { resizeChart } from '../common/tauChartRef';
 import SchemaSidebar from '../schema/SchemaSidebar.js';
-import {
-  connectConnectionClient,
-  loadConnections
-} from '../stores/connections';
+import { connectConnectionClient, loadConnections } from '../stores/connections';
 import { loadQuery, resetNewQuery } from '../stores/queries';
 import { loadTags } from '../stores/tags';
 import DocumentTitle from './DocumentTitle';
@@ -21,12 +17,10 @@ import QueryResultHeader from './QueryResultHeader.js';
 import Shortcuts from './Shortcuts';
 import Toolbar from './toolbar/Toolbar';
 import UnsavedQuerySelector from './UnsavedQuerySelector';
-import { SFC } from 'react'
 
 const deboucedResearchChart = debounce(resizeChart, 700);
 
-
-const QueryEditor: SFC<ConsoleType.P> = (props) => {
+const QueryEditor: SFC<ConsoleType.P> = props => {
   const {
     connectConnectionClient,
     loadConnections,
@@ -35,15 +29,13 @@ const QueryEditor: SFC<ConsoleType.P> = (props) => {
     queryId,
     resetNewQuery,
     showSchema,
-    showVis
+    showVis,
   } = props;
 
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    Promise.all([loadConnections(), loadTags()]).then(() =>
-      setInitialized(true)
-    );
+    Promise.all([loadConnections(), loadTags()]).then(() => setInitialized(true));
   }, [loadConnections, loadTags]);
 
   // Once initialized reset or load query on changes accordingly
@@ -67,13 +59,7 @@ const QueryEditor: SFC<ConsoleType.P> = (props) => {
   }
 
   const editorAndVis = showVis ? (
-    <SplitPane
-      key="editorAndVis"
-      split="vertical"
-      defaultSize={'50%'}
-      maxSize={-200}
-      onChange={handleVisPaneResize}
-    >
+    <SplitPane key="editorAndVis" split="vertical" defaultSize={'50%'} maxSize={-200} onChange={handleVisPaneResize}>
       <QueryEditorSqlEditor />
       <div style={{ position: 'absolute' }} className="h-100 w-100">
         <QueryEditorChartToolbar>
@@ -86,13 +72,7 @@ const QueryEditor: SFC<ConsoleType.P> = (props) => {
   );
 
   const editorResultPane = (
-    <SplitPane
-      split="horizontal"
-      minSize={100}
-      defaultSize={'60%'}
-      maxSize={-100}
-      onChange={handleVisPaneResize}
-    >
+    <SplitPane split="horizontal" minSize={100} defaultSize={'60%'} maxSize={-100} onChange={handleVisPaneResize}>
       {editorAndVis}
       <div>
         <QueryResultHeader />
@@ -102,7 +82,7 @@ const QueryEditor: SFC<ConsoleType.P> = (props) => {
             top: 30,
             bottom: 0,
             left: 0,
-            right: 0
+            right: 0,
           }}
         >
           <QueryEditorResult />
@@ -112,13 +92,7 @@ const QueryEditor: SFC<ConsoleType.P> = (props) => {
   );
 
   const sqlTabPane = showSchema ? (
-    <SplitPane
-      split="vertical"
-      minSize={150}
-      defaultSize={280}
-      maxSize={-100}
-      onChange={handleVisPaneResize}
-    >
+    <SplitPane split="vertical" minSize={150} defaultSize={280} maxSize={-100} onChange={handleVisPaneResize}>
       <SchemaSidebar />
       {editorResultPane}
     </SplitPane>
@@ -132,7 +106,7 @@ const QueryEditor: SFC<ConsoleType.P> = (props) => {
         height: '100vh',
         width: '100%',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
       }}
     >
       <AppHeader />
@@ -143,18 +117,14 @@ const QueryEditor: SFC<ConsoleType.P> = (props) => {
       <Shortcuts />
     </div>
   );
-}
-
+};
 
 function mapStateToProps(state, props) {
-  const showVis =
-    state.query &&
-    state.query.chartConfiguration &&
-    Boolean(state.query.chartConfiguration.chartType);
+  const showVis = state.query && state.query.chartConfiguration && Boolean(state.query.chartConfiguration.chartType);
 
   return {
     showVis,
-    showSchema: state.showSchema
+    showSchema: state.showSchema,
   };
 }
 
@@ -163,5 +133,5 @@ export default connect(mapStateToProps, store => ({
   loadConnections: loadConnections(store),
   loadQuery,
   loadTags,
-  resetNewQuery
+  resetNewQuery,
 }))(QueryEditor);

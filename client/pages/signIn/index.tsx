@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import message from '../../utils/message';

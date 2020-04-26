@@ -1,4 +1,4 @@
-// import * as React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
 // import styles from './index.scss';
 // import mitt from 'mitt';
 

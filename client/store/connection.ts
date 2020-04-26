@@ -1,4 +1,4 @@
-import  * as localforage from 'localforage';
+import localforage from 'localforage';
 import sortBy from 'lodash/sortBy';
 import Message from '../utils/message';
 import { request } from '../utils/request';
@@ -14,16 +14,14 @@ export const initialState = {
   connectionClientInterval: null,
   connections: [],
   connectionsLastUpdated: null,
-  connectionsLoading: false
+  connectionsLoading: false,
 };
 
 export async function initSelectedConnection(state) {
-  const selectedConnectionId = await localforage.getItem(
-    'selectedConnectionId'
-  );
+  const selectedConnectionId = await localforage.getItem('selectedConnectionId');
   if (typeof selectedConnectionId === 'string') {
     return {
-      selectedConnectionId
+      selectedConnectionId,
     };
   }
 }
@@ -40,21 +38,17 @@ export const connectConnectionClient = store => async state => {
     return;
   }
 
-  const connection = connections.find(
-    connection => connection._id === selectedConnectionId
-  );
+  const connection = connections.find(connection => connection._id === selectedConnectionId);
 
   const supportedAndEnabled =
-    connection &&
-    connection.supportsConnectionClient &&
-    connection.multiStatementTransactionEnabled;
+    connection && connection.supportsConnectionClient && connection.multiStatementTransactionEnabled;
 
   if (!supportedAndEnabled) {
     return;
   }
 
   const json = await request('POST', '/api/connection-clients', {
-    connectionId: selectedConnectionId
+    connectionId: selectedConnectionId,
   });
   if (json.error) {
     return Message.error('Problem connecting to database');
@@ -62,10 +56,7 @@ export const connectConnectionClient = store => async state => {
 
   // Poll connection-clients api to keep it alive
   const connectionClientInterval = setInterval(async () => {
-    const updateJson = await request(
-      'PUT',
-      `/api/connection-clients/${json.connectionClient.id}`
-    );
+    const updateJson = await request('PUT', `/api/connection-clients/${json.connectionClient.id}`);
 
     // Not sure if this should message user here
     // In the event of an error this could get really noisy
@@ -79,11 +70,11 @@ export const connectConnectionClient = store => async state => {
       clearInterval(connectionClientInterval);
       store.setState({
         connectionClientInterval: null,
-        connectionClient: null
+        connectionClient: null,
       });
     } else {
       store.setState({
-        connectionClient: updateJson.connectionClient
+        connectionClient: updateJson.connectionClient,
       });
     }
   }, 10000);
@@ -101,13 +92,11 @@ export const disconnectConnectionClient = async state => {
     clearInterval(connectionClientInterval);
   }
   if (connectionClient) {
-    request('DELETE', `/api/connection-clients/${connectionClient.id}`).then(
-      json => {
-        if (json.error) {
-          Message.error(json.error);
-        }
+    request('DELETE', `/api/connection-clients/${connectionClient.id}`).then(json => {
+      if (json.error) {
+        Message.error(json.error);
       }
-    );
+    });
   }
   return { connectionClient: null, connectionClientInterval: null };
 };
@@ -119,18 +108,14 @@ export const disconnectConnectionClient = async state => {
  */
 export const selectConnectionId = (state, selectedConnectionId) => {
   const { connectionClient, connectionClientInterval } = state;
-  localforage
-    .setItem('selectedConnectionId', selectedConnectionId)
-    .catch(error => Message.error(error));
+  localforage.setItem('selectedConnectionId', selectedConnectionId).catch(error => Message.error(error));
 
   if (connectionClient) {
-    request('DELETE', `/api/connection-clients/${connectionClient.id}`).then(
-      json => {
-        if (json.error) {
-          Message.error(json.error);
-        }
+    request('DELETE', `/api/connection-clients/${connectionClient.id}`).then(json => {
+      if (json.error) {
+        Message.error(json.error);
       }
-    );
+    });
   }
 
   if (connectionClientInterval) {
@@ -140,13 +125,13 @@ export const selectConnectionId = (state, selectedConnectionId) => {
   return {
     selectedConnectionId,
     connectionClient: null,
-    connectionClientInterval: null
+    connectionClientInterval: null,
   };
 };
 
 export const deleteConnection = async (state, connectionId) => {
   const { connections } = state;
-  const json = await request('DELETE', `/api/connections/${ connectionId}`);
+  const json = await request('DELETE', `/api/connections/${connectionId}`);
   if (json.error) {
     return Message.error('Delete failed');
   }
@@ -176,12 +161,7 @@ export const loadConnections = store => async (state, force) => {
     return;
   }
 
-  if (
-    force ||
-    !connections.length ||
-    (connectionsLastUpdated &&
-      new Date() - connectionsLastUpdated > ONE_HOUR_MS)
-  ) {
+  if (force || !connections.length || (connectionsLastUpdated && new Date() - connectionsLastUpdated > ONE_HOUR_MS)) {
     store.setState({ connectionsLoading: true });
     const { error, connections } = await request('GET', '/api/connections/');
     if (error) {
@@ -190,7 +170,7 @@ export const loadConnections = store => async (state, force) => {
     const update = {
       connectionsLoading: false,
       connectionsLastUpdated: new Date(),
-      connections: sortConnections(connections)
+      connections: sortConnections(connections),
     };
 
     if (connections && connections.length === 1) {
@@ -206,5 +186,5 @@ export default {
   selectConnectionId,
   deleteConnection,
   addUpdateConnection,
-  loadConnections
+  loadConnections,
 };

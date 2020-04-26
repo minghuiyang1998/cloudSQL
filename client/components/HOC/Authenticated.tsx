@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+
 import { Redirect } from 'react-router-dom';
 // import initApp from '/stores/initApp';
 
@@ -20,5 +20,5 @@ function Authenticated({ children, currentUser, initApp, initialized }) {
 }
 
 export default connect(['currentUser', 'initialized'], {
-  initApp
+  initApp,
 })(Authenticated);

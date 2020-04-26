@@ -1,7 +1,28 @@
 {
     "compilerOptions": {
         "skipLibCheck": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
         "jsx": "react",
+        "lib": [
+            "es2017",
+            "dom",
+            "es5"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "noEmitHelpers": true,
+        "noImplicitThis": false,
+        "noUnusedLocals": false,
+        "removeComments": true,
+        "sourceMap": true,
+        "strict": false,
+        "target": "es2017",
+        "declaration": false,
+        "baseUrl": "./server",
+        "outDir": "build",
         "typeRoots": [
             "node_modules/@types",
             "app/interface/**/*",
