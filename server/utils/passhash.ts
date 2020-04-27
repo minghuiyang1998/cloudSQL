@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
  * @param {string} passhash
  * @returns {Promise<boolean>}
  */
-function comparePassword(password, passhash) {
+export function comparePassword(password, passhash) {
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, passhash, (err, isMatch) => {
       if (err) {
@@ -16,7 +16,7 @@ function comparePassword(password, passhash) {
   });
 }
 
-function getPasshash(password) {
+export function getPasshash(password) {
   return new Promise((resolve, reject) => {
     bcrypt.hash(password, null, null, (err, hash) => {
       if (err) {
@@ -29,5 +29,5 @@ function getPasshash(password) {
 
 export default {
   comparePassword,
-  getPasshash
+  getPasshash,
 };
