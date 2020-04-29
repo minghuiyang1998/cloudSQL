@@ -1,31 +1,33 @@
-import router from './router';
-import { authenticate } from './utils/authenticate';
+import 'reflect-metadata';
 import json from 'koa-json';
 import logger from 'koa-logger';
-import koaBody from 'koa-body';
+import bodyParser from 'koa-bodyparser';
 import Koa from 'koa';
+import router from './router'
+import { mysql } from './utils/mysql';
+import { authenticate } from './utils/authenticate';
+import { initModel } from './models';
+import { User } from './entities/User';
 
-const app = new Koa();
+async function init () {
+  const connection = await mysql()
+  const user = connection.getRepository(User)
+  console.log("init -> user", user)
+  const app = new Koa();
+  app.use(async ctx => {
+    authenticate(ctx);
+  });
 
-app.use(koaBody());
-app.use(json());
-app.use(logger());
+  app.use( ctx => ctx.connection = connection )
+  app.use( ctx => initModel(ctx))
 
-// TODO: connect database & database related and
-// other request operation write in service dir/
-// create table and key directely don't code a database here
-// and this database can be used to test the program
+  app.use(json());
+  app.use(logger());
+  app.use(bodyParser());
+  
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+  app.listen(3000);
+}
 
-// TODO: authority check
-app.use(async ctx => {
-  // 读取session信息
-  authenticate(ctx);
-});
-
-// TODO: inject router
-app.use(router.routes());
-
-// TODO: start server
-app.listen(3000);
-
-module.exports = app;
+init()

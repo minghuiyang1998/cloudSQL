@@ -37,6 +37,7 @@
     "@babel/cli": "^7.2.0",
     "@babel/core": "^7.2.0",
     "@babel/node": "^7.2.0",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
     "@babel/plugin-transform-async-to-generator": "^7.8.3",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.9.4",
@@ -67,12 +68,13 @@
     "core-js": "^3.6.5",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
-    "koa-body": "^4.1.1",
+    "koa-bodyparser": "^4.3.0",
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
     "koa-router": "^8.0.8",
     "localforage": "^1.7.3",
     "mitt": "^1.2.0",
+    "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -80,8 +82,10 @@
     "react-scripts": "^3.4.1",
     "react-split-pane": "^0.1.91",
     "redux": "^4.0.5",
+    "reflect-metadata": "^0.1.13",
     "sequelize": "^5.21.7",
     "styled-jsx": "^3.2.5",
+    "typeorm": "^0.2.24",
     "uuid": "^7.0.3"
   }
 }
