@@ -8,11 +8,12 @@ const models = [
     }
 ]
 
-export async function initModel(ctx: Context){
-    console.log('111')
+export async function initModel(ctx: Context, next: () => {}){
+    ctx.models = {}
     models.forEach((m) => {
         const { name = '', model = null } = m || {}
         ctx.models[name] = new model(ctx) 
     })
     console.log(ctx.models)
+    return next()
 }

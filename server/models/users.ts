@@ -2,25 +2,24 @@ import { Model } from './model'
 import { User } from '../entities/User';
 import { v4 } from 'uuid';
 import { getPasshash } from '../utils/passhash';
+import moment from 'moment';
 
 export class UserModel extends Model {
   userSave = async () => {
     const userRepo = this.ctx.connection.getRepository(User);
     const { body } = this.ctx.request || {}
-    const { username = '', password = '' } = body;
+    const { username = '', password = '' } = body || {};
     let passhash = '';
-    if (password) {
-      passhash = await getPasshash(password);
-    }
-    const uuid = v4();
+    password.length && ( passhash = await getPasshash(password))
+    const uuid = v4()
     const _user = {
       uuid,
       username,
       passhash,
-      password,
-      createdDate: Date.now(),
+      createdDate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
     }
     const newUser = userRepo.create(_user);
+    console.log("UserModel -> userSave -> newUser", newUser)
     await userRepo.save(newUser);
     return newUser
   }

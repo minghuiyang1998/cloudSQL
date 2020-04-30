@@ -1,4 +1,6 @@
 import bcrypt from 'bcrypt';
+
+const salt = "DI3MS00mFkLYTlkMGI0ODUtZMTgwNzct"
 /**
  * Compares password string to passhash string
  * @param {string} password
@@ -17,12 +19,16 @@ export function comparePassword(password: string, passhash: string) {
 }
 
 export function getPasshash(password: string) {
+  const saltRounds = 10;
   return new Promise<string>((resolve, reject) => {
-    bcrypt.hash(password, null, null, (err, hash) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(hash);
+    bcrypt.genSalt(saltRounds, function(err, salt) {
+      bcrypt.hash(password, salt, function(err, hash) {
+        // Store hash in your password DB.
+        if (err) {
+          return reject(err);
+        }
+        return resolve(hash);
+        });
     });
   });
 }

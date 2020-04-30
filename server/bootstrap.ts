@@ -14,12 +14,12 @@ async function init () {
   app.use(json());
   app.use(logger());
   app.use(bodyParser());
-  app.use(authenticate);
-  app.use(async ctx => {
+  // app.use(authenticate);
+  app.use(async (ctx, next) => {
     ctx.connection = connection
+    return next()
   })
-  app.use(async ctx => initModel(ctx))
-  
+  app.use(async (ctx, next) => initModel(ctx, next))
   app.use(router.routes());
   app.use(router.allowedMethods());
   app.listen(3000);

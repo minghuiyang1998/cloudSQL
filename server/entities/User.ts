@@ -5,16 +5,13 @@ export class User {
   @PrimaryGeneratedColumn({ type: "int", name: "_id" })
   id: number;
 
-  @Column("linestring", { name: "uuid" })
+  @Column("text", { name: "uuid" })
   uuid: string;
 
-  @Column("linestring", { name: "username" })
+  @Column("text", { name: "username" })
   username: string;
 
-  @Column("linestring", { name: "password" })
-  password: string;
-
-  @Column("linestring", { name: "passhash" })
+  @Column("text", { name: "passhash" })
   passhash: string;
 
   @Column("datetime", { name: "createdDate" })

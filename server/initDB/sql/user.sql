@@ -1,11 +1,17 @@
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-	`_id` integer NOT NULL AUTO_INCREMENT,
-	`uuid` linestring NOT NULL,
-	`username` linestring NOT NULL,
-	`password` linestring NOT NULL,
-	`passhash` linestring NOT NULL,
+	`_id` int(11) NOT NULL AUTO_INCREMENT,
+	`uuid` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+	`username` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+	`passhash` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
 	`createdDate` datetime NOT NULL,
 	`modifiedDate` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`_id`)
-) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1
+ROW_FORMAT=DYNAMIC
+AVG_ROW_LENGTH=0;
+
+
+
