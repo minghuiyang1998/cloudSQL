@@ -2,7 +2,7 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "jsx": "react",
-    "lib": ["es5", "es6"],
+    "lib": ["es5", "es6", "DOM"],
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -17,7 +17,6 @@
     "sourceMap": true,
     "strict": false,
     "declaration": false,
-    "baseUrl": "./server",
     "outDir": "build"
   },
   "exclude": ["node_modules"]

@@ -30,5 +30,14 @@ export class UserModel extends Model {
     const _user = await userRepo.findOne(uuid);
     return _user
   }
+
+  // TODO: unique name
+  userGetByName = async () => {
+    const { body } = this.ctx.request || {}
+    const { username = '', password = '' } = body;
+    const userRepo = this.ctx.connection.getRepository(User);
+    const _user = await userRepo.findOne(username);
+    return _user
+  }
 }
 

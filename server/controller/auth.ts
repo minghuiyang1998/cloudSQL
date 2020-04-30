@@ -1,37 +1,32 @@
-import { newToken } from '../utils/authenticate'
+import { COOKIE_NAME, newToken } from '../utils/token'
 import { Context } from 'koa';
 
-const newUser = async (ctx: Context) =>{
-  const _user = await ctx.model.userSave()
-  const { uuid = '' } = _user || {}
-  const userInfos = await ctx.model.userGetById(uuid)
-  const token = newToken(userInfos)
-  ctx.cookie.set("session", token, {
-    expires: new Date(Date.now() + 30 * 24 * 60 * 1000)
-  });
-  if (!userInfos) {
-    ctx.status = 404;
-    return;
+export const newUser = async (ctx: Context) =>{
+  console.log('newUser')
+  const _user = await ctx.models.userSave()
+  if (!_user) {
+    ctx.response.status = 500;
+    ctx.body = {
+      msg:'Busy, please try later'
+    }
   }
-  ctx.redirect("/");
 }
 
-const signOut = (ctx: Context) => {
-  ctx.clearCookie("session");
-  ctx.redirect('/login');
+export const signOut = (ctx: Context) => {
+  ctx.cookie.set(COOKIE_NAME, null);
 }
 
-const signIn = (ctx: Context) => {
-  if (ctx.authenticate()) {
-    ctx.body = '认证通过';
+export const signIn = async (ctx: Context) => {
+  const _user = await ctx.models.userGetByName()
+  if (Object.keys(_user).length) {
+    const token = newToken(_user)
+    ctx.cookie.set(COOKIE_NAME, token, {
+      expires: new Date(Date.now() + 30 * 24 * 60 * 1000)
+    });
   } else {
-    ctx.throw(401);
-    ctx.body = '非法访问';
+    ctx.response.status = 500;
+    ctx.body = {
+      msg:'Busy, please try later'
+    }
   }
-}
-
-export default {
-  newUser,
-  signOut,
-  signIn,
 }

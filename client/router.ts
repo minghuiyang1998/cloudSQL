@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-import NotFound from '@/pages/404';
-import SignIn from '@/pages/SignIn';
-import SignUp from '@/pages/SignUp';
-import Home from '@/pages/Home';
+import NotFound from './pages/404';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Home from './pages/Home';
 
 export default function Routes() {
   return (

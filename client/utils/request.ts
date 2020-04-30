@@ -2,7 +2,7 @@ import Message from './message';
 import Axios from 'axios';
 
 export async function request(method = '', url = '', body = {}) {
-  const BASE_URL = window.BASE_URL || '';
+  const BASE_URL = window.location || '';
   const opts = {
     method: method.toUpperCase(),
     credentials: 'same-origin',
@@ -14,9 +14,6 @@ export async function request(method = '', url = '', body = {}) {
       Pragma: 'no-cache'
     }
   };
-  if (body) {
-    opts.body = JSON.stringify(body);
-  }
 
   let fetchUrl = BASE_URL + url;
   if (BASE_URL && url.substring(0, 1) !== '/') {

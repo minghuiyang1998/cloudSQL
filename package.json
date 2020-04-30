@@ -7,7 +7,8 @@
     "start:client": "NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
     "build:client": "rm -rf ./output && NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:server": "babel ./server/bootstrap.ts --out-dir dist",
-    "start:server": "nodemon ./server/bootstrap.ts --exec babel-node --extensions '.ts,.tsx'",
+    "watch:server": "nodemon --exec babel-node --extensions '.ts,.tsx' ./server/bootstrap.ts",
+    "start:server": "npx babel-node --extensions '.ts,.tsx' ./server/bootstrap.ts",
     "initDB": "npx babel-node --extensions '.ts,.tsx' ./server/initDB/index.ts",
     "lint": "eslint src --fix --ext .ts,.tsx "
   },
