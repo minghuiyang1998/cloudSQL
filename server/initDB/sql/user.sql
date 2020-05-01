@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-	`_id` int(11) NOT NULL AUTO_INCREMENT,
+	`_id` bigint NOT NULL AUTO_INCREMENT,
 	`uuid` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
 	`username` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
 	`passhash` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -9,9 +9,11 @@ CREATE TABLE `user` (
 	PRIMARY KEY (`_id`)
 ) ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
-AUTO_INCREMENT=1
+AUTO_INCREMENT=5
 ROW_FORMAT=DYNAMIC
-AVG_ROW_LENGTH=0;
+AVG_ROW_LENGTH=4096;
+
+
 
 
 

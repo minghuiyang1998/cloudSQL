@@ -11,7 +11,20 @@ router.post('/node/signin', controller.auth.signIn);
 router.get('/node/signout', authenticate, controller.auth.signOut);
 
 /**
- * @name home 
+ * @name connections 
+ */
+router.post('/node/connection',authenticate, controller.connection.createConnection)
+router.get('/node/connection/:id',authenticate, controller.connection.getConnectionInfos)
+router.put('/node/connection/:id',authenticate, controller.connection.modifyConnectionInfos)
+router.delete('/node/connection/:id',authenticate, controller.connection.deleteConnection)
+
+/**
+ * @name history 
+ */
+router.get('/node/history',authenticate, controller.connection.getAllConnections)
+
+/**
+ *lConnections
  */
 router.get('/', async ctx => {
   ctx.body = 'index.html';

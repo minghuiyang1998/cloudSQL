@@ -2,8 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("user", { schema: "cloud_sql" })
 export class User {
-  @PrimaryGeneratedColumn({ type: "int", name: "_id" })
-  id: number;
+  @PrimaryGeneratedColumn({ type: "bigint", name: "_id" })
+  id: string;
 
   @Column("text", { name: "uuid" })
   uuid: string;

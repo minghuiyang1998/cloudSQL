@@ -4,11 +4,11 @@ import logger from 'koa-logger';
 import bodyParser from 'koa-bodyparser';
 import Koa from 'koa';
 import router from './router'
-import { mysql } from './utils/mysql';
+import { typeorm } from './utils/typeorm';
 import { initModel } from './models';
 
 async function init () {
-  const connection = await mysql()
+  const connection = await typeorm()
   const app = new Koa();
   app.use(json());
   app.use(logger());
