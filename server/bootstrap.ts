@@ -5,7 +5,6 @@ import bodyParser from 'koa-bodyparser';
 import Koa from 'koa';
 import router from './router'
 import { mysql } from './utils/mysql';
-import { authenticate } from './middleware/authenticate';
 import { initModel } from './models';
 
 async function init () {
@@ -14,7 +13,7 @@ async function init () {
   app.use(json());
   app.use(logger());
   app.use(bodyParser());
-  // app.use(authenticate);
+
   app.use(async (ctx, next) => {
     ctx.connection = connection
     return next()

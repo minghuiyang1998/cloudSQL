@@ -6,13 +6,15 @@ export const checkToken = token => {
   if(!token) return false
   const userInfo = jwt.verify(token, KEY);
   let valid = false;
-  if (userInfo.PersonId) {
+  const { uuid = '' } = userInfo || {}
+  if (uuid) {
     valid = true;
   }
   return valid;
 };
 
 export const newToken = userInfo => {
-  const token = jwt.sign(JSON.parse(userInfo), KEY, { expiresIn: '7d' });
+  const { username = '', uuid = '' } = userInfo || {}
+  const token = jwt.sign({ username, uuid }, KEY, { expiresIn: '7d' });
   return token;
 };
