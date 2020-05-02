@@ -13,15 +13,24 @@ type Connection = {
 }
 
 export class HistoryModel extends Model {
-  historyCreate = async (uuid: String, connection: Connection) => {
+  connectionCreate = async (uuid: String, connection: Connection) => {
     try {
       const historyRepo = this.ctx.connection.getRepository(History);
-      const _new = historyRepo.create({
-        uuid,
-        data: JSON.stringify([connection])
-      });
-      await historyRepo.save(_new);
-      
+      const history = await historyRepo.findOne(uuid);
+      if (!history) {
+        const _new = historyRepo.create({
+          uuid,
+          data: JSON.stringify([connection])
+        });
+        await historyRepo.save(_new);
+      } else {
+        const { data = '' } = history || {}
+        const _data = JSON.parse(data)
+        _data.push(connection)
+        history.data = JSON.stringify(_data)
+        await historyRepo.persist(history)
+      }
+
       const _history = await historyRepo.findOne(uuid);
       const { data = ''} = _history
       let result = []
@@ -34,7 +43,7 @@ export class HistoryModel extends Model {
     }
   }
 
-  historyUpdate = async (uuid: string, cid: String, connection: Connection) => {
+  connectionUpdate = async (uuid: string, cid: String, connection: Connection) => {
     try {
       const historyRepo = this.ctx.connection.getRepository(History);
       const history = await historyRepo.findOne(uuid);
@@ -64,7 +73,7 @@ export class HistoryModel extends Model {
     }
   }
 
-  historyDelete = async (uuid: string, cid: string) => {
+  connectionDelete = async (uuid: string, cid: string) => {
     try {
       const historyRepo = this.ctx.connection.getRepository(History);
       const history = await historyRepo.findOne(uuid);
@@ -72,6 +81,8 @@ export class HistoryModel extends Model {
       const _data = JSON.parse(data)
       const _index = _data.findIndex( c  => c.cid = cid )
       _data.slice(_index, 1)
+      history.data = JSON.stringify(_data)
+      await historyRepo.persist(history)
       
       const newHistory = await historyRepo.findOne(uuid);
       const { data: newStr = ''} = newHistory

@@ -14,7 +14,7 @@ router.get('/node/signout', authenticate, controller.auth.signOut);
  * @description update userinfos and connect history
  * @output use cookie info return user + history
  */
-router.get('/node/app',authenticate, controller.history.getHistory)
+router.get('/node/app',authenticate, controller.connection.getHistory)
 /**
  * @name connect-test
  */
@@ -23,8 +23,8 @@ router.post('/node/test-connect',authenticate, controller.sql.connectDB)
  * @name DBconnections 
  * @description only modify connection in history
  */
-router.post('/node/connection',authenticate, controller.connection.createConnection)// connect and return basic infos
-router.put('/node/connection/:cid',authenticate, controller.connection.modifyConnectionInfos)// connect and return basic infos
+router.post('/node/connection',authenticate, controller.connection.createConnection)
+router.put('/node/connection/:cid',authenticate, controller.connection.modifyConnectionInfos)
 router.delete('/node/connection/:cid',authenticate, controller.connection.deleteConnection)
 /**
  * @name SQL
