@@ -1,11 +1,16 @@
-import { UserModel } from './users'
 import { Context } from 'koa'
+import { HistoryModel } from './history'
+import { UserModel } from './user'
 
 const models = [
     {
         name:"user",
         model: UserModel
-    }
+    },
+    {
+        name:"history",
+        model: HistoryModel
+    },
 ]
 
 export async function initModel(ctx: Context, next: () => {}){

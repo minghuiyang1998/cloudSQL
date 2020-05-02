@@ -3,14 +3,13 @@ export const COOKIE_NAME = 'cloud_sql_session';
 const KEY = 'cloud_sql_session';
 
 export const checkToken = token => {
-  if(!token) return false
+  if(!token) return {}
   const userInfo = jwt.verify(token, KEY);
-  let valid = false;
-  const { uuid = '' } = userInfo || {}
-  if (uuid) {
-    valid = true;
-  }
-  return valid;
+  const { username = '', uuid = '' } = userInfo || {}
+  return {
+    username,
+    uuid
+  };
 };
 
 export const newToken = userInfo => {

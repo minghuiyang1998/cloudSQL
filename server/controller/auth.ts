@@ -9,9 +9,8 @@ export const newUser = async (ctx: Context) =>{
   const { username = '', password = '' } = body || {};
   let passhash = '';
   password.length && ( passhash = await getPasshash(password))
-  const uuid = v4()
   const _user = {
-    uuid,
+    uuid: v4(),
     username,
     passhash,
     createdDate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
