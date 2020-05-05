@@ -1,12 +1,18 @@
-import { createStore } from 'redux';
-import connections from '../dao/connections';
-import queries from '../dao/queries';
-import schema from '../dao/schema';
-import tags from '../dao/tags';
+import { decorate, observable, computed } from "mobx"
 
-export const store = createStore({
-  ...queries.initialState,
-  ...schema.initialState,
-  ...connections.initialState,
-  ...tags.initialState
-}, ()=>{});
+export class AppState {
+    @observable baseURL = '';
+    @observable user = {};
+    @observable history = {};
+    @observable connection = {};
+}
+
+let store = null
+
+export const initStore = () => {
+   store = new AppState()
+}
+
+export const getStore = () => {
+   return store
+}

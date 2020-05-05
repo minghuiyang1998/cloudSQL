@@ -3,15 +3,15 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './client/index.js',
+  entry: path.resolve(__dirname, 'client/index'),
   output: {
-    path: path.join(__dirname, 'public'),
+    path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js'
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
@@ -58,7 +58,6 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
   ],
   resolve: {
-    // modules: [path.resolve(__dirname, 'client'), 'node_modules'],
     extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.d.ts'],
     mainFields: ['browser', 'module', 'main'],
     alias: {

@@ -4,20 +4,17 @@
             "@babel/preset-env",
             {
                 "useBuiltIns": "usage",
-                "corejs": "3",
-                "targets": {
-                    "node": "current"
-                }
+                "corejs": "3"
             }
         ],
         "@babel/preset-react",
         "@babel/preset-typescript"
     ],
     "plugins": [
-        "styled-jsx/babel",
-        "@babel/plugin-transform-async-to-generator",
         ["@babel/plugin-proposal-decorators", { "legacy": true }],
-        ["@babel/plugin-proposal-class-properties", { "loose": true }]
-      ]
+        ["@babel/plugin-proposal-class-properties", { "loose": true }],
+        "styled-jsx/babel",
+        "@babel/plugin-transform-async-to-generator"
+    ]
   }
   

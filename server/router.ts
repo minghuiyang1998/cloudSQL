@@ -18,7 +18,7 @@ router.get('/node/app',authenticate, controller.connection.getHistory)
 /**
  * @name connect-test
  */
-router.post('/node/test-connect',authenticate, controller.sql.connectDB)
+router.post('/node/test-connect', controller.sql.connectDB)
 /**
  * @name DBconnections 
  * @description only modify connection in history
@@ -32,7 +32,7 @@ router.delete('/node/connection/:cid',authenticate, controller.connection.delete
  * @input database info + sql, get all infos
  * @output redult
  */
-router.post('/node/sql', authenticate, controller.sql.runSQL)
+router.post('/node/sql', controller.sql.runSQL)
 /**
  * @name app
  */

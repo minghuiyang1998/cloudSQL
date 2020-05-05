@@ -7,9 +7,9 @@ import Home from './pages/Home';
 
 export default function Routes() {
   return (
-    <Router basename={config.baseUrl}>
+    <Router>
       <Switch>
-        <Route exact path="/" render={() => <Redirect to={'/query/new'} />} />
+        <Route exact path="/" render={ () => <Redirect to={'/query/new'} />} />
         <Route exact path="/signin" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/query" render={() => <Redirect to={'/query/new'} />} />
