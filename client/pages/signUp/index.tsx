@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
-export default class Home extends PureComponent {
+export default class SignUp extends PureComponent {
   render() {
-    return <div>home</div>;
+    return <div>SignUp</div>;
   }
 }

@@ -13,6 +13,7 @@
     "plugins": [
         ["@babel/plugin-proposal-decorators", { "legacy": true }],
         ["@babel/plugin-proposal-class-properties", { "loose": true }],
+        ["react-hot-loader/babel"],
         "styled-jsx/babel",
         "@babel/plugin-transform-async-to-generator"
     ]

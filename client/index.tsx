@@ -2,13 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Router from './router';
 import Message from './components/Message';
+import { hot } from 'react-hot-loader';
 import { initStore } from './store'
 initStore()
 
-ReactDOM.render(
-  <>
+const App = () => {
+  return (<>
     <Router />
     <Message />
-  </>,
-  document.getElementById('root')
-);
+  </>)
+}
+const HotApp = hot(module)(App);
+ReactDOM.render(<HotApp />, document.getElementById('root'));

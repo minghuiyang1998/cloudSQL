@@ -1,10 +1,15 @@
-import { decorate, observable, computed } from "mobx"
+import { action, observable } from "mobx"
 
 export class AppState {
-    @observable baseURL = '';
+    @observable baseURL = '1111';
     @observable user = {};
     @observable history = {};
     @observable connection = {};
+
+    @action
+    changeURL(url) {
+      this.baseURL = url
+    }
 }
 
 let store = null

@@ -2,8 +2,13 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const commonConfig = require('./webpack.config.common');
 const pathConfig = require('./pathConfig');
+const path = require('path');
 
-const config = merge({
+const config = merge(commonConfig, {
+  entry: [
+    'react-hot-loader/patch',
+    path.resolve(__dirname, 'client/index')
+  ],
   devtool: 'source-map',
   mode: 'development',
   devServer: {
@@ -19,7 +24,15 @@ const config = merge({
     lazy: false,
     hot: true,
     port: 9000,
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }  
   }
-}, commonConfig);
+});
 
 module.exports = config;
