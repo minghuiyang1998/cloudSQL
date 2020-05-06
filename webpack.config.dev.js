@@ -26,7 +26,7 @@ const config = merge(commonConfig, {
     port: 9000,
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
   ],
   resolve: {
     alias: {
