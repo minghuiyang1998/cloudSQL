@@ -1,0 +1,38 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "import/no-unresolved": "off",
+        "import/extensions": "off",
+        "react/button-has-type": "off",
+        "react/jsx-props-no-spreading": "off",
+        "max-len": ["error", { "code": 120 }],
+        "no-console": "off",
+        "semi": ["error", "always"],
+        "quotes": ["error", "double"],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }]
+    }
+}

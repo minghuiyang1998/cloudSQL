@@ -1,23 +1,24 @@
-import { action, observable } from "mobx"
+import { action, observable } from "mobx";
 
 export class AppState {
-    @observable baseURL = '1111';
-    @observable user = {};
-    @observable history = {};
-    @observable connection = {};
+  @observable baseURL = "1111";
 
-    @action
-    changeURL(url) {
-      this.baseURL = url
-    }
+  @observable user = {};
+
+  @observable history = {};
+
+  @observable connection = {};
+
+  @action
+  changeURL(url) {
+    this.baseURL = url;
+  }
 }
 
-let store = null
+let store = null;
 
 export const initStore = () => {
-   store = new AppState()
-}
+  store = new AppState();
+};
 
-export const getStore = () => {
-   return store
-}
+export const getStore = () => store;

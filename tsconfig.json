@@ -2,8 +2,8 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "jsx": "react",
-    "lib": ["es5", "es6", "DOM"],
-    "target": "es5",
+    "lib": ["es6", "DOM"],
+    "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
