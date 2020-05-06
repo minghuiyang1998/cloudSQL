@@ -1,6 +1,6 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 // eslint-disable-next-line no-unused-vars
-import { AppState, getStore } from "../../store";
+import { AppState, getStore } from '../../store';
 
 type Props = {
   store: AppState

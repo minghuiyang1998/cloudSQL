@@ -25,14 +25,16 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "react/no-unused-state": "off",
+        "react/prop-types": "off",
         "import/no-unresolved": "off",
         "import/extensions": "off",
         "react/button-has-type": "off",
         "react/jsx-props-no-spreading": "off",
-        "max-len": ["error", { "code": 120 }],
+        "max-len": "off",
         "no-console": "off",
         "semi": ["error", "always"],
-        "quotes": ["error", "double"],
+        "quotes": ["error", "single"],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }]
     }
 }

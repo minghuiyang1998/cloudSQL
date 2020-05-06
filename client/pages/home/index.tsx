@@ -1,13 +1,17 @@
-import React from "react";
-import Tree from "../../components/Tree";
-import style from "./index.scss";
+import React from 'react';
+import SplitPane from 'react-split-pane';
+import Header from '../../components/Header';
+// import Sidebar from '../../components/Sidebar';
+// import Panel from '../../components/Panel';
 
 export default function Home() {
   return (
     <>
-      <style jsx>{style}</style>
-      <h1 className="text">home</h1>
-      <Tree />
+      <Header />
+      <SplitPane split="vertical" minSize={150} defaultSize={280} maxSize={-100}>
+        {/* <Sidebar />
+        <Panel /> */}
+      </SplitPane>
     </>
   );
 }

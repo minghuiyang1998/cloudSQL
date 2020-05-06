@@ -1,7 +1,7 @@
-import Message from './message';
 import Axios from 'axios';
+import Message from './message';
 
-export async function request(method = '', url = '', body = {}) {
+async function request(method = '', url = '', body = {}) {
   const BASE_URL = window.location || '';
   const opts = {
     method: method.toUpperCase(),
@@ -11,34 +11,35 @@ export async function request(method = '', url = '', body = {}) {
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
       Expires: '-1',
-      Pragma: 'no-cache'
-    }
+      Pragma: 'no-cache',
+    },
+    body,
   };
 
   let fetchUrl = BASE_URL + url;
   if (BASE_URL && url.substring(0, 1) !== '/') {
-    fetchUrl = `${BASE_URL }/${ url}`;
+    fetchUrl = `${BASE_URL}/${url}`;
   }
   opts.url = fetchUrl || '';
 
   return Axios(opts)
-    .then(response => {
+    .then((response) => {
       // API server will send 200 even if error occurs
       // Eventually this should change to proper status code usage
       if (response.redirected) {
-        return (window.location = response.url);
-      } else if (response.status === 200) {
+        window.location = response.url;
+      } if (response.status === 200) {
         return response.json();
-      } else {
-        console.error(response);
-        throw new Error('Server responded not ok');
       }
+      console.error(response);
+      throw new Error('Server responded not ok');
     })
-    .catch(error => {
+    .catch((error) => {
       Message.error(error.toString());
       return {
-        error: 'Server responded not ok'
+        error: 'Server responded not ok',
       };
     });
 }
 
+export default request;

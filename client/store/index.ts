@@ -1,7 +1,7 @@
-import { action, observable } from "mobx";
+import { action, observable } from 'mobx';
 
 export class AppState {
-  @observable baseURL = "1111";
+  @observable baseURL = '1111';
 
   @observable user = {};
 

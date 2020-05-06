@@ -1,36 +1,19 @@
 import React from 'react';
-import AppHeaderAdminSection from './AppHeaderAdminSection';
-import AppMenu from './AppMenu';
-import HistoryButton from './HistoryButton';
-import Logo from './Logo';
-import QueryListButton from './QueryListButton';
-import ToolbarNewQueryButton from './ToolbarNewQueryButton';
-import AppHeaderSpacer from './AppHeaderSpacer';
-import AppHeaderUser from './AppHeaderUser';
+import { Link } from 'react-router-dom';
+import Dropdown from '../Dropdown';
+import style from './index.scss';
 
-function Appheader() {
+export default function Header() {
+  const avatar = <img alt="" src="https://avatars2.githubusercontent.com/u/38376387?s=40&amp;v=4" />;
+  const menu = <div className="dropdown-item">Sign out</div>;
+
   return (
-    <div
-      style={{
-        width: '100%',
-        color: '#fff',
-        backgroundColor: 'rgba(0, 0, 0, 0.84)',
-        padding: 6,
-        borderBottom: '1px solid rgb(204, 204, 204)',
-      }}
-    >
-      <div style={{ display: 'flex' }}>
-        <Logo />
-        <QueryListButton />
-        <ToolbarNewQueryButton />
-        <HistoryButton />
-        <AppHeaderAdminSection />
-        <AppHeaderSpacer grow />
-        <AppHeaderUser />
-        <AppMenu />
+    <header className="header">
+      <style jsx>{style}</style>
+      <Link to="/" className="title">Cloud SQL</Link>
+      <div className="right-items">
+        <Dropdown icon={avatar} menu={menu} />
       </div>
-    </div>
+    </header>
   );
 }
-
-export default React.memo(Appheader);
