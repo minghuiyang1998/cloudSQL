@@ -1,24 +1,32 @@
-import { action, observable } from 'mobx';
+import {
+  ConnectionStore,
+  SchemaStore,
+  UserStore,
+} from './stores';
 
-export class AppState {
-  @observable baseURL = '1111';
+import {
+  ConnectionAction,
+  SchemaAction,
+  UserAction,
+} from './actions';
 
-  @observable user = {};
 
-  @observable history = {};
-
-  @observable connection = {};
-
-  @action
-  changeURL(url) {
-    this.baseURL = url;
-  }
-}
-
-let store = null;
+let mobxStates = {};
+let actions = {};
 
 export const initStore = () => {
-  store = new AppState();
+  mobxStates = {
+    home: new ConnectionStore(),
+    details: new SchemaStore(),
+    recommends: new UserStore(),
+  };
+
+  actions = {
+    home: new ConnectionAction(mobxStates),
+    detail: new SchemaAction(mobxStates),
+    recommend: new UserAction(mobxStates),
+  };
 };
 
-export const getStore = () => store;
+export const getStore = () => mobxStates;
+export const getAction = () => actions;
