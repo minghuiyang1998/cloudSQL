@@ -21,6 +21,10 @@ class AppAction {
     const component = list.find((i) => i.id === id);
     this.app.currentTab = component;
   }
+
+  @action async storeConnection(connection = {}) {
+    this.app.connection = connection;
+  }
 }
 
 export default AppAction;

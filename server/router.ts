@@ -1,44 +1,39 @@
-import { controller } from './controller'
 import Router from 'koa-router';
-import { authenticate } from './middleware/authenticate'
+import { controller } from './controller';
+import { authenticate } from './middleware/authenticate';
+
 const router = new Router();
 
 /**
- * @name auth 
+ * @name auth
  */
 router.post('/node/signup', controller.auth.newUser);
-router.post('/node/signin', controller.auth.signIn); 
+router.post('/node/signin', controller.auth.signIn);
+router.post('/node/userinfo', authenticate, controller.auth.getUserInfo);
 router.get('/node/signout', authenticate, controller.auth.signOut);
 /**
  * @name app-basic
  * @description update userinfos and connect history
  * @output use cookie info return user + history
  */
-router.get('/node/app',authenticate, controller.connection.getHistory)
+router.get('/node/app', authenticate, controller.connection.getHistory);
 /**
  * @name connect-test
  */
-router.post('/node/test-connect', controller.sql.connectDB)
+router.post('/node/test-connect', controller.sql.connectDB);
 /**
- * @name DBconnections 
+ * @name DBconnections
  * @description only modify connection in history
  */
-router.post('/node/connection',authenticate, controller.connection.createConnection)
-router.put('/node/connection/:cid',authenticate, controller.connection.modifyConnectionInfos)
-router.delete('/node/connection/:cid',authenticate, controller.connection.deleteConnection)
+router.post('/node/connection', authenticate, controller.connection.createConnection);
+router.put('/node/connection/:cid', authenticate, controller.connection.modifyConnectionInfos);
+router.delete('/node/connection/:cid', authenticate, controller.connection.deleteConnection);
 /**
  * @name SQL
- * @description all sql operation 
+ * @description all sql operation
  * @input database info + sql, get all infos
  * @output redult
  */
-router.post('/node/sql', controller.sql.runSQL)
-/**
- * @name app
- */
-router.get('/', async ctx => {
-  ctx.body = 'index.html';
-});
+router.post('/node/sql', controller.sql.runSQL);
 
 export default router;
-

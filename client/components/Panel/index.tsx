@@ -8,8 +8,8 @@ class Panel extends PureComponent {
     return (
       <div>
         <style jsx>{style}</style>
-        <Toolbar />
-        <Tabs />
+        {/* <Toolbar />
+        <Tabs /> */}
       </div>
     );
   }

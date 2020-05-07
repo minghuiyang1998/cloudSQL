@@ -3,3 +3,8 @@
 2. npm run initDB
 3. 生成新entities
 4. 替换entities
+
+前后端联调：
+cores去掉插件
+或者
+build以后通过后端的接口拿到页面

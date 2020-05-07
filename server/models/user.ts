@@ -1,4 +1,4 @@
-import { Model } from './model' 
+import { Model } from './model';
 import { User } from '../entities/User';
 
 export class UserModel extends Model {
@@ -7,9 +7,9 @@ export class UserModel extends Model {
       const userRepo = this.ctx.connection.getRepository(User);
       const newUser = userRepo.create(user);
       await userRepo.save(newUser);
-      return newUser
+      return newUser;
     } catch (e) {
-      return e
+      return e;
     }
   }
 
@@ -17,21 +17,20 @@ export class UserModel extends Model {
     try {
       const userRepo = this.ctx.connection.getRepository(User);
       const _user = await userRepo.findOne(uuid);
-      return _user
+      return _user;
     } catch (e) {
-      return e
-    } 
+      return e;
+    }
   }
 
   // TODO: unique name
   userGetByName = async (username: String) => {
     try {
       const userRepo = this.ctx.connection.getRepository(User);
-      const _user = await userRepo.findOne({username});
-      return _user
+      const _user = await userRepo.findOne({ username });
+      return _user;
     } catch (e) {
-      return e
+      return e;
     }
   }
 }
-

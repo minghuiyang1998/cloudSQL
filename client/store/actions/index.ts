@@ -1,10 +1,8 @@
-import ConnectionAction from './ConnectionAction';
 import SchemaAction from './SchemaAction';
 import UserAction from './UserAction';
 import AppAction from './AppAction';
 
-export default {
-  ConnectionAction,
+export {
   SchemaAction,
   UserAction,
   AppAction,

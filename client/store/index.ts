@@ -1,12 +1,10 @@
 import {
-  ConnectionStore,
   SchemaStore,
   UserStore,
   AppStore,
 } from './stores';
 
 import {
-  ConnectionAction,
   SchemaAction,
   UserAction,
   AppAction,
@@ -18,14 +16,12 @@ let actions = {};
 
 export const initStore = () => {
   stores = {
-    connection: new ConnectionStore(),
     schema: new SchemaStore(),
     user: new UserStore(),
     app: new AppStore(),
   };
 
   actions = {
-    connection: new ConnectionAction(stores),
     schema: new SchemaAction(stores),
     user: new UserAction(stores),
     app: new AppAction(stores),

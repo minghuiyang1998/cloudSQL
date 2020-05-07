@@ -1,6 +1,6 @@
 import React from 'react';
-import Resize from '../../Resize';
-import Chart from '../Chart';
+// import Resize from '../../Resize';
+// import Chart from '../Chart';
 import Console from './Console';
 import Toolbar from './Toolbar';
 

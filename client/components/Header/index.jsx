@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Dropdown from '../Dropdown';
 import style from './index.scss';
 
@@ -10,7 +9,7 @@ export default function Header() {
   return (
     <header className="header">
       <style jsx>{style}</style>
-      <Link to="/" className="title">Cloud SQL</Link>
+      <a to="/" className="title">Cloud SQL</a>
       <div className="right-items">
         <Dropdown icon={avatar} menu={menu} />
       </div>

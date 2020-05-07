@@ -3,25 +3,27 @@ import json from 'koa-json';
 import logger from 'koa-logger';
 import bodyParser from 'koa-bodyparser';
 import Koa from 'koa';
-import router from './router'
+import cors from '@koa/cors';
+import router from './router';
 import { typeorm } from './utils/typeorm';
 import { initModel } from './models';
 
-async function init () {
-  const connection = await typeorm()
+async function init() {
+  const connection = await typeorm();
   const app = new Koa();
   app.use(json());
   app.use(logger());
   app.use(bodyParser());
+  app.use(cors());
 
   app.use(async (ctx, next) => {
-    ctx.connection = connection
-    return next()
-  })
-  app.use(async (ctx, next) => initModel(ctx, next))
+    ctx.connection = connection;
+    return next();
+  });
+  app.use(async (ctx, next) => initModel(ctx, next));
   app.use(router.routes());
   app.use(router.allowedMethods());
   app.listen(3000);
 }
 
-init()
+init();
