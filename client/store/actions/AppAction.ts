@@ -15,6 +15,12 @@ class AppAction {
       component,
     });
   }
+
+  @action async changeTab(id = 0) {
+    const { list } = this.app || {};
+    const component = list.find((i) => i.id === id);
+    this.app.currentTab = component;
+  }
 }
 
 export default AppAction;
