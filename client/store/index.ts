@@ -11,22 +11,22 @@ import {
 } from './actions';
 
 
-let mobxStates = {};
+let stores = {};
 let actions = {};
 
 export const initStore = () => {
-  mobxStates = {
-    home: new ConnectionStore(),
-    details: new SchemaStore(),
-    recommends: new UserStore(),
+  stores = {
+    connection: new ConnectionStore(),
+    schema: new SchemaStore(),
+    user: new UserStore(),
   };
 
   actions = {
-    home: new ConnectionAction(mobxStates),
-    detail: new SchemaAction(mobxStates),
-    recommend: new UserAction(mobxStates),
+    connection: new ConnectionAction(stores),
+    schema: new SchemaAction(stores),
+    user: new UserAction(stores),
   };
 };
 
-export const getStore = () => mobxStates;
+export const getStore = () => stores;
 export const getAction = () => actions;

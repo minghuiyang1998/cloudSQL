@@ -1,0 +1,17 @@
+@import "../../stylesheets/variables.scss";
+
+.error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+}
+
+.msg {
+  margin: auto;
+  color: $red;
+}
