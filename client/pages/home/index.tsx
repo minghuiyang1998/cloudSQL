@@ -12,7 +12,7 @@ export default function Home() {
       <Header />
       <div className="main">
         <Resizer>
-          <Sidebar darkTheme />
+          <Sidebar />
           <Panel />
         </Resizer>
       </div>

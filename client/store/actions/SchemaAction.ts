@@ -39,8 +39,8 @@ const formatSchemaData = (data) => {
 class SchemaAction {
   private schema: SchemaStore
 
-  constructor({ data }) {
-    this.schema = data;
+  constructor({ schema }) {
+    this.schema = schema;
   }
 
   @action async refreshSchema(data = []) {
