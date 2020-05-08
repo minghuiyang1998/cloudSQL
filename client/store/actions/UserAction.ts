@@ -7,7 +7,7 @@ import {
 
 
 class UserAction {
-  private user: SchemaStore
+  private user: UserStore
 
   constructor({ user }) {
     this.user = user;
@@ -15,20 +15,25 @@ class UserAction {
 
   @action checkUser = async () => {
     const result = await getUserInfo();
-    console.log('@actioncheckUser -> data', result);
-    console.log(this.user);
+    const { code = 0 } = result || {};
+    switch (code) {
+      case 200:
+        this.user.isLogin = true;
+        break;
+      default:
+        this.user.isLogin = false;
+        break;
+    }
   }
 
   @action signIn = async (data) => {
     const result = await goSignIn(data);
-    console.log('@actionsignIn -> result', result);
-    console.log(this.user);
+    console.log('@actionsignIn -> signin', result);
   }
 
   @action signUp = async (data) => {
     const signUp = await goSignUp(data);
     console.log('@actionsignUp -> signUp', signUp);
-    console.log(this.user);
   }
 }
 

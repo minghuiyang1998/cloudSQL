@@ -4,12 +4,22 @@ import { v4 } from 'uuid';
 import moment from 'moment';
 import { getPasshash, comparePassword } from '../utils/passhash';
 import { COOKIE_NAME, checkToken, newToken } from '../utils/token';
+import { StatusCode, StatusMsg } from '../constant/status';
 
 export const newUser = async (ctx: Context) => {
   const { body = {} } = ctx.request || {};
   const { username = '', password = '' } = body || {};
+  if (!username.trim() || !password.trim()) {
+    ctx.body = {
+      code: StatusCode.INFO_ERROR,
+      msg: StatusMsg.INFO_ERROR,
+    };
+    return;
+  }
   let passhash = '';
-  password.length && (passhash = await getPasshash(password));
+  if (password) {
+    passhash = await getPasshash(password);
+  }
   const _user = {
     uuid: v4(),
     username,
@@ -18,17 +28,25 @@ export const newUser = async (ctx: Context) => {
   };
   const newu = await ctx.models.user.userSave(_user);
   if (!newu) {
-    ctx.response.status = 500;
     ctx.body = {
-      msg: 'Busy, please try later',
+      code: StatusCode.DB_ERROR,
+      msg: StatusMsg.DB_ERROR,
     };
+    return;
   }
-  ctx.body = newu;
+  ctx.body = {
+    code: StatusCode.SUCCESS,
+    msg: StatusMsg.SUCCESS,
+    data: newu,
+  };
 };
 
 export const signOut = (ctx: Context) => {
   ctx.cookies.set(COOKIE_NAME, null);
-  ctx.response.status = 200;
+  ctx.body = {
+    code: StatusCode.SUCCESS,
+    msg: StatusMsg.SUCCESS,
+  };
 };
 
 export const signIn = async (ctx: Context) => {
@@ -38,7 +56,10 @@ export const signIn = async (ctx: Context) => {
 
   // account doesn't exist
   if (!_user) {
-    ctx.response.status = 401;
+    ctx.body = {
+      code: StatusCode.INEXIST_USER,
+      msg: StatusMsg.INEXIST_USER,
+    };
   }
 
   const { passhash: _hash = '' } = _user || {};
@@ -47,12 +68,18 @@ export const signIn = async (ctx: Context) => {
 
   // password incorrect
   if (!isValid) {
-    ctx.response.status = 401;
+    ctx.body = {
+      code: StatusCode.INFO_ERROR,
+      msg: StatusMsg.INFO_ERROR,
+    };
   }
 
   const token = newToken(_user);
   ctx.cookies.set(COOKIE_NAME, token);
-  ctx.response.status = 200;
+  ctx.body = {
+    code: StatusCode.SUCCESS,
+    msg: StatusMsg.SUCCESS,
+  };
 };
 
 export const getUserInfo = async (ctx: Context) => {
@@ -62,9 +89,15 @@ export const getUserInfo = async (ctx: Context) => {
 
   // account doesn't exist
   if (!_user) {
-    ctx.response.status = 401;
+    ctx.body = {
+      code: StatusCode.INEXIST_USER,
+      msg: StatusMsg.INEXIST_USER,
+    };
   }
 
-  ctx.response.status = 200;
-  ctx.response.body = _user;
+  ctx.body = {
+    code: StatusCode.SUCCESS,
+    msg: StatusMsg.SUCCESS,
+    data: _user,
+  };
 };

@@ -27,7 +27,6 @@ const renderMain = () => (
 @observer
 class App extends PureComponent {
   componentDidMount() {
-    // TODO: fetch user info check isAuthenticated
     const { action } = this.props || {};
     console.log('App -> componentDidMount -> this.props', this.props);
     action.user.checkUser();
@@ -35,10 +34,10 @@ class App extends PureComponent {
 
   render() {
     const { store } = this.props || {};
-    const { status } = store.user || {};
+    const { isLogin = false } = store.user || {};
     return (
       <>
-        {status === 'logout' ? <Authorization /> : null}
+        {!isLogin ? <Authorization /> : null}
         {renderMain()}
       </>
     );

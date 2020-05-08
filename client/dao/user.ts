@@ -1,13 +1,28 @@
 import fetch from '../utils/request';
 
 export const getUserInfo = async () => {
-  await fetch('GET', '/node/userinfo');
+  const request = {
+    method: 'GET',
+    url: '/node/userinfo',
+  };
+  const data = await fetch(request);
+  return data;
 };
 
 export const goSignIn = async () => {
-  await fetch();
+  const request = {
+    method: 'POST',
+    url: '/node/signin',
+  };
+  const data = await fetch(request);
+  return data;
 };
 
 export const goSignUp = async () => {
-  await fetch();
+  const request = {
+    method: 'POST',
+    url: '/node/signup',
+  };
+  const data = await fetch(request);
+  return data;
 };

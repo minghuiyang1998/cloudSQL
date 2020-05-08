@@ -7,36 +7,28 @@ async function fetch({ method = '', url = '', body = {} }) {
   const opts = {
     method: method.toUpperCase(),
     url: `${BASE_URL}${url}`,
-    credentials: 'same-origin',
+    // TODO: cors header Access-Control-Allow-Origin: *
     headers: {
-      Accept: 'application/json',
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
-      Pragma: 'no-cache',
     },
-    body,
   };
 
-  Axios(opts)
+  if (Object.keys(body)) {
+    opts.body = body;
+  }
+
+  const result = await Axios(opts)
     .then((response) => {
-      if (response.redirected) {
-        window.location = response.url;
-      }
-
-      if (response.status === 200) {
-        return response.json();
-      }
-
-      if (response.status === 401) {
-        window.location = '/signIn';
-      }
-
-      console.error(response);
-      throw new Error('Server responded not ok');
+      console.log("fetch -> response.", response)
+      const { data = {} } = response || {};
+      return data;
     })
     .catch((error) => {
       console.log(error);
     });
+
+  return result;
 }
 
 export default fetch;

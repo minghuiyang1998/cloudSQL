@@ -2,7 +2,7 @@
 import { observable } from 'mobx';
 
 class UserStore {
-  @observable status = '';
+  @observable isLogin = false;
 
   @observable user = {};
 

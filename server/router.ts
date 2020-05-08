@@ -9,7 +9,7 @@ const router = new Router();
  */
 router.post('/node/signup', controller.auth.newUser);
 router.post('/node/signin', controller.auth.signIn);
-router.post('/node/userinfo', authenticate, controller.auth.getUserInfo);
+router.get('/node/userinfo', authenticate, controller.auth.getUserInfo);
 router.get('/node/signout', authenticate, controller.auth.signOut);
 /**
  * @name app-basic
