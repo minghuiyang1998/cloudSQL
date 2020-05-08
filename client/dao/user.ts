@@ -9,19 +9,21 @@ export const getUserInfo = async () => {
   return data;
 };
 
-export const goSignIn = async () => {
+export const goSignIn = async (body) => {
   const request = {
     method: 'POST',
     url: '/node/signin',
+    body,
   };
   const data = await fetch(request);
   return data;
 };
 
-export const goSignUp = async () => {
+export const goSignUp = async (body) => {
   const request = {
     method: 'POST',
     url: '/node/signup',
+    body,
   };
   const data = await fetch(request);
   return data;

@@ -78,7 +78,6 @@
     "bcrypt": "^4.0.1",
     "classnames": "^2.2.6",
     "core-js": "^3.6.5",
-    "form-serialize": "^0.7.2",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.3.0",
@@ -89,6 +88,7 @@
     "mitt": "^1.2.0",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
+    "moment": "^2.24.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
     "prop-types": "^15.7.2",
@@ -102,7 +102,6 @@
     "sequelize": "^5.21.7",
     "styled-jsx": "^3.2.5",
     "typeorm": "^0.2.24",
-    "uuid": "^7.0.3",
-    "moment": "^2.24.0"
+    "uuid": "^7.0.3"
   }
 }

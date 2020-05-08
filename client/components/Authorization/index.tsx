@@ -5,6 +5,10 @@ import style from './index.scss';
 import Form from './Form';
 
 
+function genHashID() {
+  return Math.round(Math.random() * 10e16);
+}
+
 @withAppStore
 @observer
 class Authorization extends PureComponent {
@@ -18,17 +22,17 @@ class Authorization extends PureComponent {
   renderSignIn = () => {
     const inputList = [
       {
-        name: 'Usename',
+        name: 'username',
         required: true,
       },
       {
-        name: 'Password',
+        name: 'password',
         required: true,
       }];
     const { action } = this.props || {};
     const onSubmit = (data) => action.user.signIn(data);
     return (
-      <Form inputList={inputList} submitBtn="Login" onSubmit={onSubmit}>
+      <Form inputList={inputList} submitBtn="Login" onSubmit={onSubmit} formId={genHashID()}>
         <div className="link-wrapper">
           Don&apos;t have an account?
           <span
@@ -49,17 +53,17 @@ class Authorization extends PureComponent {
   renderSignUp = () => {
     const inputList = [
       {
-        name: 'Usename',
+        name: 'username',
         required: true,
       },
       {
-        name: 'Password',
+        name: 'password',
         required: true,
       }];
     const { action } = this.props || {};
     const onSubmit = (data) => action.user.signUp(data);
     return (
-      <Form inputList={inputList} submitBtn="Sign up" onSubmit={onSubmit}>
+      <Form inputList={inputList} submitBtn="Sign up" onSubmit={onSubmit} formId={genHashID()}>
         <div className="link-wrapper">
           Go back to
           <span

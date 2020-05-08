@@ -17,21 +17,23 @@ class UserAction {
     const result = await getUserInfo();
     const { code = 0 } = result || {};
     switch (code) {
-      case 200:
-        this.user.isLogin = true;
-        break;
-      default:
-        this.user.isLogin = false;
-        break;
+    case 200:
+      this.user.isLogin = true;
+      break;
+    default:
+      this.user.isLogin = false;
+      break;
     }
   }
 
   @action signIn = async (data) => {
+    console.log("@actionsignIn -> data", data)
     const result = await goSignIn(data);
     console.log('@actionsignIn -> signin', result);
   }
 
   @action signUp = async (data) => {
+    console.log("@actionsignIn -> data", data)
     const signUp = await goSignUp(data);
     console.log('@actionsignUp -> signUp', signUp);
   }

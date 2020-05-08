@@ -12,15 +12,11 @@ async function fetch({ method = '', url = '', body = {} }) {
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
     },
+    data: body,
   };
-
-  if (Object.keys(body)) {
-    opts.body = body;
-  }
 
   const result = await Axios(opts)
     .then((response) => {
-      console.log("fetch -> response.", response)
       const { data = {} } = response || {};
       return data;
     })

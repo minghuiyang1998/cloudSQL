@@ -34,6 +34,7 @@ export const newUser = async (ctx: Context) => {
     };
     return;
   }
+
   ctx.body = {
     code: StatusCode.SUCCESS,
     msg: StatusMsg.SUCCESS,
@@ -52,14 +53,22 @@ export const signOut = (ctx: Context) => {
 export const signIn = async (ctx: Context) => {
   const { body = {} } = ctx.request || {};
   const { username = '', password = '' } = body || {};
-  const _user = await ctx.models.user.userGetByName(username);
+  if (!username.trim() || !password.trim()) {
+    ctx.body = {
+      code: StatusCode.INFO_ERROR,
+      msg: StatusMsg.INFO_ERROR,
+    };
+    return;
+  }
 
+  const _user = await ctx.models.user.userGetByName(username);
   // account doesn't exist
   if (!_user) {
     ctx.body = {
       code: StatusCode.INEXIST_USER,
       msg: StatusMsg.INEXIST_USER,
     };
+    return;
   }
 
   const { passhash: _hash = '' } = _user || {};
@@ -72,6 +81,7 @@ export const signIn = async (ctx: Context) => {
       code: StatusCode.INFO_ERROR,
       msg: StatusMsg.INFO_ERROR,
     };
+    return;
   }
 
   const token = newToken(_user);
@@ -93,6 +103,7 @@ export const getUserInfo = async (ctx: Context) => {
       code: StatusCode.INEXIST_USER,
       msg: StatusMsg.INEXIST_USER,
     };
+    return;
   }
 
   ctx.body = {
