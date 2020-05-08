@@ -14,7 +14,9 @@ async function init() {
   app.use(json());
   app.use(logger());
   app.use(bodyParser());
-  app.use(cors());
+  app.use(cors({
+    credentials: true,
+  }));
 
   app.use(async (ctx, next) => {
     ctx.connection = connection;

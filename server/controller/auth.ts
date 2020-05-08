@@ -71,9 +71,9 @@ export const signIn = async (ctx: Context) => {
     return;
   }
 
-  const { passhash: _hash = '' } = _user || {};
+  const { passhash: _hash = '', salt = '' } = _user || {};
   const _temp = await getPasshash(password);
-  const isValid = comparePassword(_temp, _hash);
+  const isValid = await comparePassword(password, _hash);
 
   // password incorrect
   if (!isValid) {

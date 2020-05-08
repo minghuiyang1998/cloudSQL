@@ -12,6 +12,7 @@ async function fetch({ method = '', url = '', body = {} }) {
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
     },
+    withCredentials: true,
     data: body,
   };
 

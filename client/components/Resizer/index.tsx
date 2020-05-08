@@ -7,6 +7,15 @@ const DEFAULT_RESIZER = {
   cursor: 'col-resize',
 };
 
+const DEFAULT_STYLE = {
+  height: 'auto',
+  position: 'absolute',
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+};
+
 export default function Resizer({
   children,
   direction = 'vertical',
@@ -14,6 +23,7 @@ export default function Resizer({
   defaultSize = 200,
   maxSize = 250,
   resizerStyle = DEFAULT_RESIZER,
+  style = DEFAULT_STYLE,
 }) {
   return (
     <SplitPane
@@ -22,6 +32,7 @@ export default function Resizer({
       defaultSize={defaultSize}
       maxSize={maxSize}
       resizerStyle={resizerStyle}
+      style={style}
     >
       {children}
     </SplitPane>

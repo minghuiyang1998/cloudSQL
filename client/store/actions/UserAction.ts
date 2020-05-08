@@ -15,6 +15,7 @@ class UserAction {
 
   @action checkUser = async () => {
     const result = await getUserInfo();
+    console.log("@actioncheckUser -> result", result)
     const { code = 0 } = result || {};
     switch (code) {
     case 200:
@@ -27,15 +28,19 @@ class UserAction {
   }
 
   @action signIn = async (data) => {
-    console.log("@actionsignIn -> data", data)
     const result = await goSignIn(data);
-    console.log('@actionsignIn -> signin', result);
+    const { code = 0, msg = '' } = result || {};
+    if (code !== 200) {
+      console.log(code, msg);
+    } else {
+      this.user.isLogin = true;
+    }
   }
 
   @action signUp = async (data) => {
-    console.log("@actionsignIn -> data", data)
-    const signUp = await goSignUp(data);
-    console.log('@actionsignUp -> signUp', signUp);
+    const result = await goSignUp(data);
+    const { code = 0, msg = '' } = result || {};
+    console.log(code, msg);
   }
 }
 

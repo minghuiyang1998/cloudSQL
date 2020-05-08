@@ -16,7 +16,7 @@ export class UserModel extends Model {
   userGetById = async (uuid: String) => {
     try {
       const userRepo = this.ctx.connection.getRepository(User);
-      const _user = await userRepo.findOne(uuid);
+      const _user = await userRepo.findOne({ uuid });
       return _user;
     } catch (e) {
       return e;
