@@ -8,10 +8,10 @@ import style from './index.scss';
 @observer
 class Header extends PureComponent {
   render() {
-    const { store } = this.props || {};
+    const { store, action } = this.props || {};
     const { user = {} } = store.user || {};
     const { username = '' } = user || {};
-    const menu = <div className="dropdown-item">Sign out</div>;
+    const menu = <div className="dropdown-item" onClick={action.user.signOut}>Sign out</div>;
     return (
       <header className="header">
         <style jsx>{style}</style>

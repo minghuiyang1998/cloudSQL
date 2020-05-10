@@ -3,6 +3,7 @@ import {
   getUserInfo,
   goSignIn,
   goSignUp,
+  goSignOut,
 } from '../../dao/user';
 
 
@@ -40,6 +41,12 @@ class UserAction {
 
   @action signUp = async (data) => {
     const result = await goSignUp(data);
+    const { code = 0, msg = '' } = result || {};
+    console.log(code, msg);
+  }
+
+  @action signOut = async (data) => {
+    const result = await goSignOut(data);
     const { code = 0, msg = '' } = result || {};
     console.log(code, msg);
   }

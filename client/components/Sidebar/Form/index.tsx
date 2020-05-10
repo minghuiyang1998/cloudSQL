@@ -69,8 +69,8 @@ class Form extends PureComponent {
           ))
         }
         <div className="btn-group">
-          <div className="btn-primary" onClick={() => { }}>Test Connection</div>
-          <div className="btn-primary" onClick={() => { }}>Coonnect</div>
+          <div className="btn-primary" onClick={() => { }}>Test</div>
+          <div className="btn-primary" onClick={() => { }}>Connect</div>
         </div>
       </form>
     );

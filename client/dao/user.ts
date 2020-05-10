@@ -28,3 +28,12 @@ export const goSignUp = async (body) => {
   const data = await fetch(request);
   return data;
 };
+
+export const goSignOut = async () => {
+  const request = {
+    method: 'GET',
+    url: '/node/signout',
+  };
+  const data = await fetch(request);
+  return data;
+};
