@@ -17,7 +17,7 @@ export class HistoryModel extends Model {
   connectionCreate = async (uuid: String, connection: Connection) => {
     try {
       const historyRepo = this.ctx.connection.getRepository(History);
-      const history = await historyRepo.findOne(uuid);
+      const history = await historyRepo.findOne({ uuid });
       if (!history) {
         const _new = historyRepo.create({
           uuid,
@@ -32,7 +32,7 @@ export class HistoryModel extends Model {
         await historyRepo.persist(history);
       }
 
-      const _history = await historyRepo.findOne(uuid);
+      const _history = await historyRepo.findOne({ uuid });
       const { data = '' } = _history;
       let result = [];
       if (data) {
@@ -47,7 +47,7 @@ export class HistoryModel extends Model {
   connectionUpdate = async (uuid: string, cid: String, connection: Connection) => {
     try {
       const historyRepo = this.ctx.connection.getRepository(History);
-      const history = await historyRepo.findOne(uuid);
+      const history = await historyRepo.findOne({ uuid });
       const { data = '' } = history || {};
       const _data = JSON.parse(data);
       for (let c of _data) {
@@ -62,7 +62,7 @@ export class HistoryModel extends Model {
       history.data = JSON.stringify(_data);
       await historyRepo.persist(history);
 
-      const newHistory = await historyRepo.findOne(uuid);
+      const newHistory = await historyRepo.findOne({ uuid });
       const { data: newStr = '' } = newHistory;
       let result = [];
       if (data) {
@@ -77,7 +77,7 @@ export class HistoryModel extends Model {
   connectionDelete = async (uuid: string, cid: string) => {
     try {
       const historyRepo = this.ctx.connection.getRepository(History);
-      const history = await historyRepo.findOne(uuid);
+      const history = await historyRepo.findOne({ uuid });
       const { data = '' } = history || {};
       const _data = JSON.parse(data);
       const _index = _data.findIndex((c) => c.cid === cid);
@@ -85,7 +85,7 @@ export class HistoryModel extends Model {
       history.data = JSON.stringify(_data);
       await historyRepo.persist(history);
 
-      const newHistory = await historyRepo.findOne(uuid);
+      const newHistory = await historyRepo.findOne({ uuid });
       const { data: newStr = '' } = newHistory;
       let result = [];
       if (data) {
@@ -100,7 +100,7 @@ export class HistoryModel extends Model {
   historyGetByUser = async (uuid: String) => {
     try {
       const historyRepo = this.ctx.connection.getRepository(History);
-      const _history = await historyRepo.findOne(uuid);
+      const _history = await historyRepo.findOne({ uuid });
       const { data = '' } = _history;
       let result = [];
       if (data) {

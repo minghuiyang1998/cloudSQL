@@ -47,7 +47,7 @@ class Form extends PureComponent {
   }
 
   setLoading = (value) => {
-    this.setState({
+    this.setState = ({
       isLoading: value,
     });
   }
@@ -124,7 +124,7 @@ class Form extends PureComponent {
                 <div key={name} className="row">
                   <label htmlFor={name} required>{name}</label>
                   <input
-                    type="text"
+                    type={name}
                     name={name}
                     id={name}
                     autoCapitalize="off"

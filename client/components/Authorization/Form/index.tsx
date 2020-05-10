@@ -41,7 +41,7 @@ class Form extends PureComponent {
               <div key={name} className="row">
                 <label htmlFor={name} required={required}>{name}</label>
                 <input
-                  type="text"
+                  type={name}
                   name={name}
                   id={name}
                   autoCapitalize="off"
