@@ -19,6 +19,13 @@
     }
 
     .right-items {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         margin-left: auto;
+
+        span {
+            margin-right: 10px;
+        }
     }
 }

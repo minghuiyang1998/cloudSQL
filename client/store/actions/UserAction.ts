@@ -15,11 +15,11 @@ class UserAction {
 
   @action checkUser = async () => {
     const result = await getUserInfo();
-    console.log("@actioncheckUser -> result", result)
-    const { code = 0 } = result || {};
+    const { code = 0, data = {} } = result || {};
     switch (code) {
     case 200:
       this.user.isLogin = true;
+      this.user.user = data;
       break;
     default:
       this.user.isLogin = false;
@@ -29,11 +29,12 @@ class UserAction {
 
   @action signIn = async (data) => {
     const result = await goSignIn(data);
-    const { code = 0, msg = '' } = result || {};
+    const { code = 0, msg = '', data: userdata = {} } = result || {};
     if (code !== 200) {
       console.log(code, msg);
     } else {
       this.user.isLogin = true;
+      this.user.user = userdata;
     }
   }
 

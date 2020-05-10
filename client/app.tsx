@@ -9,20 +9,6 @@ import Authorization from './components/Authorization';
 import style from './app.scss';
 import globalStyle from './stylesheets/global.scss';
 
-const renderMain = () => (
-  <div className="container">
-    <style jsx>{globalStyle}</style>
-    <style jsx>{style}</style>
-    <Header />
-    <div className="main">
-      <Resizer>
-        <Sidebar />
-        <Panel />
-      </Resizer>
-    </div>
-  </div>
-);
-
 @withAppStore
 @observer
 class App extends PureComponent {
@@ -38,7 +24,17 @@ class App extends PureComponent {
     return (
       <>
         {!isLogin ? <Authorization /> : null}
-        {renderMain()}
+        <div className="container">
+          <style jsx>{globalStyle}</style>
+          <style jsx>{style}</style>
+          <Header />
+          <div className="main">
+            <Resizer>
+              <Sidebar />
+              <Panel />
+            </Resizer>
+          </div>
+        </div>
       </>
     );
   }
