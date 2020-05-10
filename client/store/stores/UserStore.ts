@@ -6,7 +6,7 @@ class UserStore {
 
   @observable user = {};
 
-  @observable history = {};
+  @observable history = [];
 }
 
 export default UserStore;

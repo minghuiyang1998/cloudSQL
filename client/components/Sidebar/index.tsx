@@ -1,10 +1,14 @@
 import React, { PureComponent } from 'react';
 import clsn from 'classnames';
+import { observer } from 'mobx-react';
+import withAppStore from '../HOC/withAppStore';
 import style from './index.scss';
-import Tree from './Tree';
+import Tree from '../Tree';
 import Modal from '../Modal';
 import Form from '../Form';
 
+@withAppStore
+@observer
 class Sidebar extends PureComponent {
   constructor(props) {
     super(props);
@@ -38,6 +42,19 @@ class Sidebar extends PureComponent {
   render() {
     const { darkTheme = true } = this.props || {};
     const { search = '', isModalVisible = false } = this.state || {};
+    const { store = {} } = this.props || {};
+    const { history = [] } = store.user || {};
+    const notLoggedIn = history.map((i) => {
+      const { host = '', type = '', port = '' } = i || {};
+      return { name: `${type}: ${host}:${port}` };
+    });
+    const content = [{
+      name: 'Instance not logged in',
+      children: notLoggedIn,
+    }, {
+      name: 'logged in instance',
+      children: [],
+    }];
     return (
       <>
         <Modal width="400" visible={isModalVisible} onClose={this.closeModal}>
@@ -64,7 +81,7 @@ class Sidebar extends PureComponent {
               </svg>
             </div>
           </div>
-          <Tree data={[]} />
+          <Tree data={content} />
         </div>
       </>
     );

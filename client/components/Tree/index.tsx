@@ -1,21 +1,28 @@
 import React from 'react';
+import style from './index.scss';
 
 const Tree = ({ data = [] }) => {
   const renderBranch = (array) => {
-    array.forEach((e) => {
-      const { children, name } = e || {};
+    return array.map((e) => {
+      const { children = [], name = '' } = e || {};
       if (children.length > 0) {
         return (
-          <ul>
+          <ul key={name}>
             {name}
             {renderBranch(children)}
           </ul>
         );
       }
-      return <li>{name}</li>;
+      return <li key={name}>{name}</li>;
     });
   };
-  return (<ul style={{ paddingLeft: 0 }}>{renderBranch(data)}</ul>);
+
+  return (
+    <ul className="tree">
+      <style jsx>{style}</style>
+      {renderBranch(data)}
+    </ul>
+  );
 };
 
 export default Tree;
