@@ -15,12 +15,14 @@ class App extends PureComponent {
   componentDidMount() {
     const { action } = this.props || {};
     action.user.checkUser();
-    action.user.getHistory();
   }
 
   render() {
-    const { store } = this.props || {};
+    const { store, action } = this.props || {};
     const { isLogin = false } = store.user || {};
+    if (isLogin) {
+      action.user.getHistory();
+    }
     return (
       <>
         {!isLogin ? <Authorization /> : null}

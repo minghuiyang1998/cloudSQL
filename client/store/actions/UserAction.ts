@@ -121,6 +121,10 @@ class UserAction {
   @action signOut = async (data) => {
     const result = await goSignOut(data);
     const { code = 0, msg = '' } = result || {};
+    if (code === 200) {
+      this.user.isLogin = false;
+      this.user.user = {};
+    }
     console.log(code, msg);
   }
 }

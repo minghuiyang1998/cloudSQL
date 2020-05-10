@@ -14,6 +14,10 @@ async function fetch({ method = '', url = '', body = {} }) {
     },
     withCredentials: true,
     data: body,
+    transformResponse: [].concat(
+      Axios.defaults.transformResponse,
+      // (data) => { console.log(data); },
+    ),
   };
 
   try {

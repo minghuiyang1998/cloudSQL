@@ -89,6 +89,7 @@ export const signIn = async (ctx: Context) => {
   ctx.body = {
     code: StatusCode.SUCCESS,
     msg: StatusMsg.SUCCESS,
+    data: _user,
   };
 };
 
