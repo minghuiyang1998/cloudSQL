@@ -3,6 +3,7 @@ import clsn from 'classnames';
 import style from './index.scss';
 import Tree from './Tree';
 import Modal from '../Modal';
+import Form from './Form';
 
 class Sidebar extends PureComponent {
   constructor(props) {
@@ -40,8 +41,8 @@ class Sidebar extends PureComponent {
     const { search = '', isModalVisible = false } = this.state || {};
     return (
       <>
-        <Modal visible={isModalVisible} onClose={this.closeModal}>
-          111
+        <Modal width="400" visible={isModalVisible} onClose={this.closeModal}>
+          <Form />
         </Modal>
         <div className={clsn('sidebar', darkTheme ? 'dark' : 'light')}>
           <style jsx>{style}</style>

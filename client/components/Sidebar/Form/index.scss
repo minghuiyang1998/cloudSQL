@@ -1,0 +1,75 @@
+@import '../../../stylesheets/variables.scss';
+
+.form {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+
+    font-size: 16px;
+
+    .row {
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    label {
+        margin-right: 10px;
+        text-transform: capitalize;
+
+       &[required]::before {
+            display: inline-block;
+            margin-right: 4px;
+            color: #ff4d4f;
+            font-size: 14px;
+            font-family: SimSun,sans-serif;
+            line-height: 1;
+            content: '*';
+        }
+
+       &::after {
+            content: ':';
+            position: relative;
+            top: -.5px;
+            margin: 0 8px 0 2px;
+        }
+    }
+
+
+    input {
+        width: 200px;
+        outline: none;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        padding: 4px 11px;
+        color: rgba(0,0,0,.65);
+        font-size: 14px;
+        line-height: 1.5715;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #d9d9d9;
+        border-radius: 2px;
+    }
+
+    .btn-primary {
+        line-height: 1.6;
+        font-weight: 400;
+        text-align: center;
+        box-shadow: 0 2px 0 rgba(0,0,0,.015);
+        cursor: pointer;
+        margin: 10px;
+        padding: 0;
+        padding: 4px 30px;
+        font-size: 14px;
+        border-radius: 2px;
+        color: #fff;
+        background-color:  $blue;
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: center;
+    }
+}
