@@ -5,9 +5,9 @@
     background-color: $black;
     padding-top: 10px;
     padding: 10px;
+    color: #fff;
 
     .new {
-        color: #fff;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -36,7 +36,6 @@
         .refresh-btn {
             text-align: center;
             line-height: 0;
-            color: #fff;
             padding: 0 5px 0 8px;
             cursor: pointer;
         }
