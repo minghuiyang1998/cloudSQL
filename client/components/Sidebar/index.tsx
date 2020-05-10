@@ -15,6 +15,7 @@ class Sidebar extends PureComponent {
     this.state = {
       search: '',
       isModalVisible: false,
+      config: {},
     };
   }
 
@@ -27,6 +28,7 @@ class Sidebar extends PureComponent {
   closeModal = () => {
     this.setState({
       isModalVisible: false,
+      config: {},
     });
   }
 
@@ -36,22 +38,26 @@ class Sidebar extends PureComponent {
     });
   }
 
-  handleRefreshClick = () => {
+  instanceHandle = (config) => {
+    this.setState({
+      isModalVisible: true,
+      config,
+    });
   }
 
   render() {
     const { darkTheme = true } = this.props || {};
-    const { search = '', isModalVisible = false } = this.state || {};
+    const { search = '', isModalVisible = false, config = {} } = this.state || {};
     const { store = {} } = this.props || {};
     const { history = [] } = store.user || {};
     const notLoggedIn = history.map((i) => {
       const { host = '', type = '', port = '' } = i || {};
-      return { name: `${type}: ${host}:${port}` };
+      return { name: <span onClick={() => { this.instanceHandle(i); }}>{`${type}: ${host}:${port}`}</span> };
     });
 
     const { connection = {} } = store.app || {};
     const { host = '', type = '', port = '' } = connection || {};
-    const loggedIn = { name: `${type}: ${host}:${port}` };
+    const loggedIn = { name: <span onClick={() => { this.instanceHandle(connection); }}>{`${type}: ${host}:${port}`}</span> };
 
     const content = [{
       name: 'Instance not logged in',
@@ -63,7 +69,7 @@ class Sidebar extends PureComponent {
     return (
       <>
         <Modal width="400" visible={isModalVisible} onClose={this.closeModal}>
-          <Form />
+          <Form config={config} />
         </Modal>
         <div className={clsn('sidebar', darkTheme ? 'dark' : 'light')}>
           <style jsx>{style}</style>

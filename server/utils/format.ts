@@ -1,11 +1,11 @@
-const _ = require('lodash');
+import lodash from 'lodash';
 
 /**
  * Formats schema query results into
  * a nested map of objects representing schema tree
  * @param {object} queryResult
  */
-function formatSchemaQueryResults(queryResult) {
+export function formatSchemaQueryResults(queryResult) {
   if (!queryResult || !queryResult.rows || !queryResult.rows.length) {
     return {};
   }
@@ -22,11 +22,11 @@ function formatSchemaQueryResults(queryResult) {
   });
 
   const tree = {};
-  const bySchema = _.groupBy(rows, 'table_schema');
+  const bySchema = lodash.groupBy(rows, 'table_schema');
   for (const schema in bySchema) {
     if (bySchema.hasOwnProperty(schema)) {
       tree[schema] = {};
-      const byTableName = _.groupBy(bySchema[schema], 'table_name');
+      const byTableName = lodash.groupBy(bySchema[schema], 'table_name');
       for (const tableName in byTableName) {
         if (byTableName.hasOwnProperty(tableName)) {
           tree[schema][tableName] = byTableName[tableName];
@@ -49,7 +49,3 @@ function formatSchemaQueryResults(queryResult) {
   */
   return tree;
 }
-
-module.exports = {
-  formatSchemaQueryResults,
-};

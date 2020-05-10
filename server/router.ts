@@ -26,8 +26,8 @@ router.delete('/node/connection/:cid', authenticate, controller.connection.delet
  * @output redult
  */
 router.post('/node/test-connect', authenticate, controller.sql.connectDB);
-router.post('/node/schemainfos', controller.sql.getUserInfo);
-router.post('/node/sql', controller.sql.runSQL);
-router.get('/node/drivers', controller.sql.getDrivers);
+router.post('/node/schema', authenticate, controller.sql.getSchemaInfos);
+router.post('/node/sql', authenticate, controller.sql.runSQL);
+router.get('/node/drivers', authenticate, controller.sql.getDrivers);
 
 export default router;

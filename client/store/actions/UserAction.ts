@@ -28,7 +28,7 @@ class UserAction {
     const { data = [] } = result || {};
     const { connection = {} } = this.app || {};
 
-    const index = data.findIndexOf((i) => i.cid === connection.cid);
+    const index = data.findIndex((i) => i.cid === connection.cid);
     data.slice(index, 1);
 
     this.user.history = data;
@@ -36,9 +36,11 @@ class UserAction {
 
   @action newConnection = async (body) => {
     const test = await testConnection(body);
+    console.log("@actionnewConnection -> test", test)
     const { code: testCode = 0, msg: testMsg = '' } = test || {};
     if (testCode !== 200) {
       return {
+        code: testCode,
         msg: testMsg,
       };
     }
@@ -50,6 +52,7 @@ class UserAction {
       this.app.connection = body;
     }
     return {
+      code,
       msg,
     };
   }
@@ -62,20 +65,24 @@ class UserAction {
     };
 
     const test = await testConnection(body);
+    console.log("@actionnewConnection -> test", test)
     const { code: testCode = 0, msg: testMsg = '' } = test || {};
     if (testCode !== 200) {
       return {
+        code: testCode,
         msg: testMsg,
       };
     }
 
     const result = await putRevisedConnection(body);
+    console.log("@actionreviseConnection ->  result",  result)
     const { code = 0, msg = '', data: newHistory = [] } = result || {};
     if (code === 200) {
       this.user.history = newHistory;
       this.app.connection = body;
     }
     return {
+      code,
       msg,
     };
   }

@@ -12,20 +12,21 @@ import { testConnection } from '../../dao/connection';
 class Form extends PureComponent {
   constructor(props) {
     super(props);
+    const { config = {} } = this.props || {};
     const {
-      id = null,
+      cid = null,
       type = 'MySQL',
       host = '',
       port = '',
       database = '',
       user = '',
       password = '',
-    } = this.props || {};
+    } = config || {};
 
     this.state = {
       isLoading: false,
       status: '',
-      id,
+      cid,
       type,
       host,
       port,
@@ -47,7 +48,7 @@ class Form extends PureComponent {
   }
 
   setLoading = (value) => {
-    this.setState = ({
+    this.setState({
       isLoading: value,
     });
   }
@@ -78,7 +79,7 @@ class Form extends PureComponent {
     const result = await testConnection(data);
     const { msg = '' } = result || {};
     this.setLoading(false);
-    this.setState = ({
+    this.setState({
       status: msg,
     });
   };
@@ -86,20 +87,20 @@ class Form extends PureComponent {
   saveConnection = async () => {
     this.setLoading(true);
     const data = this.getData();
-    const { id = null } = this.state || {};
+    const { cid = null } = this.state || {};
     const { action } = this.props || {};
-    if (id) {
-      const { msg = '' } = await action.user.reviseConnection(data);
-      this.setState = ({
+    if (cid) {
+      const { code = 0, msg = '' } = await action.user.reviseConnection(data);
+      this.setState({
         status: msg,
       });
     } else {
-      const { msg = '' } = await action.user.newConnection(data);
-      this.setState = ({
+      const { code = 0, msg = '' } = await action.user.newConnection(data);
+      this.setState({
         status: msg,
       });
     }
-    this.setLoading(true);
+    this.setLoading(false);
   };
 
   render() {
@@ -111,47 +112,44 @@ class Form extends PureComponent {
     const driver = drivers.find((i) => i.type === type);
     const { config = [] } = driver || {};
     return (
-      <>
-        {isLoading ? <Loading /> : (
-          <form className="form">
-            <style jsx>{style}</style>
-            <div className="row">
-              <label htmlFor="" required>Type</label>
-              <Dropdown icon={<span>{type}</span>} menu={menu} onSelect={this.selectHandle} />
-            </div>
-            {
-              config.map((i) => {
-                const { key = '', formType = '', label = '' } = i || {};
-                return (
-                  <div key={key} className="row">
-                    <label htmlFor={key} required>{label}</label>
-                    <input
-                      type={formType}
-                      name={key}
-                      id={key}
-                      autoCapitalize="off"
-                      autoCorrect="off"
-                      autoComplete="off"
-                      value={state[key] || ''}
-                      onChange={(event) => {
-                        const { value = '' } = event.target;
-                        this.setState({
-                          [key]: value,
-                        });
-                      }}
-                    />
-                  </div>
-                );
-              })
-            }
-            <div className="btn-group">
-              <div className="btn-primary" onClick={this.testConnection}>Test</div>
-              <div className="btn-primary" onClick={this.saveConnection}>Connect</div>
-            </div>
-            { status ? <div>{state}</div> : null }
-          </form>
-        )}
-      </>
+      <form className="form">
+        { isLoading ? <Loading /> : null }
+        <style jsx>{style}</style>
+        <div className="row">
+          <label htmlFor="" required>Type</label>
+          <Dropdown icon={<span>{type}</span>} menu={menu} onSelect={this.selectHandle} />
+        </div>
+        {
+          config.map((i) => {
+            const { key = '', formType = '', label = '' } = i || {};
+            return (
+              <div key={key} className="row">
+                <label htmlFor={key} required>{key}</label>
+                <input
+                  type={formType}
+                  name={key}
+                  id={key}
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  autoComplete="off"
+                  value={state[key] || ''}
+                  onChange={(event) => {
+                    const { value = '' } = event.target;
+                    this.setState({
+                      [key]: value,
+                    });
+                  }}
+                />
+              </div>
+            );
+          })
+        }
+        { status ? <div className="error">{status}</div> : null }
+        <div className="btn-group">
+          <div className="btn-primary" onClick={this.testConnection}>Test</div>
+          <div className="btn-primary" onClick={this.saveConnection}>Connect</div>
+        </div>
+      </form>
     );
   }
 }

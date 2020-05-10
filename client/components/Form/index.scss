@@ -1,6 +1,7 @@
 @import '../../stylesheets/variables.scss';
 
 .form {
+    position: relative;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;

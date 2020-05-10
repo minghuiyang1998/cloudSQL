@@ -56,12 +56,12 @@ class MySQL extends Driver {
     };
   }
 
-  static const testConnection = async (dbConfig) => {
+  static testConnection = async (dbConfig) => {
     const sql = 'SELECT \'success\' AS TestQuery;';
     return this.runSQL(sql, dbConfig);
   }
 
-  static const runSQL = async (sql, dbConfig) => {
+  static runSQL = async (sql, dbConfig) => {
     const {
       host = '',
       port = 3306,
@@ -93,12 +93,13 @@ class MySQL extends Driver {
     });
   };
 
-  static const getSchema = async (connection) => {
+  static getSchema = async (connection) => {
     const { database = '' } = connection || {};
     const schemaSql = getSchemaSql(database);
     const rows = await this.runSQL(schemaSql, connection);
-    const formatedResult = formatSchemaQueryResults(rows);
-    return formatedResult;
+    console.log("MySQL -> staticgetSchema -> rows", rows)
+    // const formatedResult = formatSchemaQueryResults(rows);
+    return rows;
   };
 }
 

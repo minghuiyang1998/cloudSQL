@@ -13,7 +13,7 @@ export const getDrivers = async () => {
 export const getSchema = async (body) => {
   const request = {
     method: 'POST',
-    url: '/node/schemainfos',
+    url: '/node/schema',
     body,
   };
   const data = await fetch(request);

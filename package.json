@@ -85,6 +85,7 @@
     "koa-logger": "^3.2.1",
     "koa-router": "^8.0.8",
     "localforage": "^1.7.3",
+    "lodash": "^4.17.15",
     "mitt": "^1.2.0",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
