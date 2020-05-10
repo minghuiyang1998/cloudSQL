@@ -16,7 +16,7 @@ router.get('/node/signout', authenticate, controller.auth.signOut);
  * @description update userinfos and connect history
  * @output use cookie info return user + history
  */
-router.get('/node/app', authenticate, controller.connection.getHistory);
+router.get('/node/history', authenticate, controller.connection.getHistory);
 /**
  * @name connect-test
  */

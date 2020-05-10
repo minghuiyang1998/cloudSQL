@@ -1,32 +1,43 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { PureComponent } from 'react';
 import { observer } from 'mobx-react';
-import withAppStore from '../../HOC/withAppStore';
+import withAppStore from '../HOC/withAppStore';
 import style from './index.scss';
-import Dropdown from '../../Dropdown';
-import Loading from '../../Loading';
-import { testConnection } from '../../../dao/connection';
+import Dropdown from '../Dropdown';
+import Loading from '../Loading';
+import { testConnection } from '../../dao/connection';
 
 @withAppStore
 @observer
 class Form extends PureComponent {
   constructor(props) {
     super(props);
+    const {
+      id = null,
+      type = 'MySQL',
+      host = '',
+      port = '',
+      database = '',
+      account = '',
+      password = '',
+    } = this.props || {};
+
     this.state = {
       isLoading: false,
-      type: 'MySQL',
-      host: '',
-      port: '',
-      database: '',
-      account: '',
-      password: '',
       status: '',
+      id,
+      type,
+      host,
+      port,
+      database,
+      account,
+      password,
     };
   }
 
   componentDidMount() {
     const { action } = this.props || {};
-    action.app.getDrivers();
+    action.app.drivers();
   }
 
   selectHandle = (value) => {
@@ -73,26 +84,22 @@ class Form extends PureComponent {
   };
 
   saveConnection = async () => {
-    const { isLoading = false } = this.state || {};
-    if (isLoading) {
-      return;
-    }
     this.setLoading(true);
-    let result;
     const data = this.getData();
-    const { store, action } = this.props || {};
-    const { connection = [] } = store.app || {};
-    if (connection.id) {
-      result = await action.app.reviseConnection(data);
+    const { id = null } = this.state || {};
+    const { action } = this.props || {};
+    if (id) {
+      const { msg = '' } = await action.user.reviseConnection(data);
+      this.setState = ({
+        status: msg,
+      });
     } else {
-      result = await action.app.newConnection(data);
+      const { msg = '' } = await action.user.newConnection(data);
+      this.setState = ({
+        status: msg,
+      });
     }
-
-    const { msg = '' } = result || {};
     this.setLoading(true);
-    this.setState = ({
-      status: msg,
-    });
   };
 
   render() {

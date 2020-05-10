@@ -1,17 +1,78 @@
 import { action } from 'mobx';
 import {
   getUserInfo,
+  getHistory,
   goSignIn,
   goSignUp,
   goSignOut,
 } from '../../dao/user';
+import {
+  testConnection,
+  postNewConnection,
+  putRevisedConnection,
+} from '../../dao/connection';
 
 
 class UserAction {
   private user: UserStore
 
-  constructor({ user }) {
+  private app: AppStore
+
+  constructor({ user, app }) {
     this.user = user;
+    this.app = app;
+  }
+
+  @action getHistory = async () => {
+    const result = await getHistory();
+    const { data = [] } = result || {};
+    this.user.history = data;
+  }
+
+  @action newConnection = async (body) => {
+    const test = await testConnection(body);
+    const { code: testCode = 0, msg: testMsg = '' } = test || {};
+    if (testCode !== 200) {
+      return {
+        msg: testMsg,
+      };
+    }
+
+    const result = await postNewConnection(body);
+    const { code = 0, msg = '', data: newHistory = [] } = result || {};
+    if (code === 200) {
+      this.user.history = newHistory;
+      this.app.connection = body;
+    }
+    return {
+      msg,
+    };
+  }
+
+  @action reviseConnection = async (data) => {
+    const { connection = {} } = this.app || {};
+    const body = {
+      ...connection,
+      data,
+    };
+
+    const test = await testConnection(body);
+    const { code: testCode = 0, msg: testMsg = '' } = test || {};
+    if (testCode !== 200) {
+      return {
+        msg: testMsg,
+      };
+    }
+
+    const result = await putRevisedConnection(body);
+    const { code = 0, msg = '', data: newHistory = [] } = result || {};
+    if (code === 200) {
+      this.user.history = newHistory;
+      this.app.connection = body;
+    }
+    return {
+      msg,
+    };
   }
 
   @action checkUser = async () => {

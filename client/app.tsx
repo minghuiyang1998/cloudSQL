@@ -14,8 +14,8 @@ import globalStyle from './stylesheets/global.scss';
 class App extends PureComponent {
   componentDidMount() {
     const { action } = this.props || {};
-    console.log('App -> componentDidMount -> this.props', this.props);
     action.user.checkUser();
+    action.user.getHistory();
   }
 
   render() {

@@ -10,7 +10,7 @@ export const testConnection = async (body) => {
   return data;
 };
 
-export const newConnection = async (body) => {
+export const postNewConnection = async (body) => {
   const request = {
     method: 'POST',
     url: '/node/connection',
@@ -20,7 +20,7 @@ export const newConnection = async (body) => {
   return data;
 };
 
-export const reviseConnection = async (connectionId, body) => {
+export const putRevisedConnection = async (connectionId, body) => {
   const request = {
     method: 'PUT',
     url: `/node/connection/${connectionId}`,

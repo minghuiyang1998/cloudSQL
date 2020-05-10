@@ -1,5 +1,14 @@
 import fetch from '../utils/request';
 
+export const getHistory = async () => {
+  const request = {
+    method: 'GET',
+    url: '/node/history',
+  };
+  const data = await fetch(request);
+  return data;
+};
+
 export const getUserInfo = async () => {
   const request = {
     method: 'GET',
