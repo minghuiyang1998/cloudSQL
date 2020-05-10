@@ -9,14 +9,14 @@ import Error from '../../Error';
 export default class Tree extends PureComponent<any> {
   render() {
     const { store } = this.props || {};
-    const { error = '', loading = true, data = [] } = store.schema || {};
+    const { schema = [] } = store.app || {};
     let content = null;
-    if (error) {
-      content = <Error msg={error} />;
-    }
-    if (loading) {
-      content = <Loading />;
-    }
+    // if (error) {
+    //   content = <Error msg={error} />;
+    // }
+    // if (loading) {
+    //   content = <Loading />;
+    // }
 
     // 递归把tree render出来
     const render = (array) => {
@@ -34,7 +34,7 @@ export default class Tree extends PureComponent<any> {
       });
     };
 
-    content = <ul style={{ paddingLeft: 0 }}>{render(data)}</ul>;
+    content = <ul style={{ paddingLeft: 0 }}>{render(schema)}</ul>;
     return (
       <>
         <button onClick={() => { store.changeURL(`${store.baseURL}2`); }}>change url</button>

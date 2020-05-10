@@ -1,6 +1,4 @@
-import { action } from 'mobx';
-
-const formatSchemaData = (data) => {
+export const formatSchemaData = (data) => {
   const schemas = [];
   const tables = [];
   const columns = [];
@@ -35,20 +33,3 @@ const formatSchemaData = (data) => {
   });
   return schemas;
 };
-
-class SchemaAction {
-  private schema: SchemaStore
-
-  constructor({ schema }) {
-    this.schema = schema;
-  }
-
-  @action async refreshSchema(data = []) {
-    // set loading
-    // TODO: request in dao
-    // TODO: result set into the state, set error
-    this.schema = data;
-  }
-}
-
-export default SchemaAction;

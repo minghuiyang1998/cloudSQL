@@ -8,3 +8,13 @@ export const getDrivers = async () => {
   const data = await fetch(request);
   return data;
 };
+
+
+export const getSchema = async () => {
+  const request = {
+    method: 'GET',
+    url: '/node/sql',
+  };
+  const data = await fetch(request);
+  return data;
+};

@@ -1,15 +1,24 @@
-import { action } from 'mobx';
-import { getDrivers } from '../../dao/app';
+import { action, reaction } from 'mobx';
+import { getDrivers, getSchema } from '../../dao/app';
 
 class AppAction {
   private app: SchemaStore
 
   constructor({ app }) {
     this.app = app;
+    const { connection = {} } = this.app || {};
+    reaction(() => connection, () => { this.refreshSchema(); });
   }
 
   @action async drivers() {
     const result = await getDrivers();
+    const { data = {} } = result || {};
+    this.app.drivers = data;
+  }
+
+  @action async refreshSchema() {
+    const { connection = {} } = this.app || {};
+    const result = await getSchema(connection);
     const { data = {} } = result || {};
     this.app.drivers = data;
   }
@@ -32,6 +41,7 @@ class AppAction {
     const component = list.find((i) => i.id === id);
     this.app.currentTab = component;
   }
+
 }
 
 export default AppAction;

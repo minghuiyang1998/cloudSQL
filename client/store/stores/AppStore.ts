@@ -6,9 +6,11 @@ class AppStore extends Store {
 
   @observable current = null;
 
+  @observable drivers = [];
+
   @observable connection = {};
 
-  @observable drivers = [];
+  @observable schema = [];
 }
 
 export default AppStore;

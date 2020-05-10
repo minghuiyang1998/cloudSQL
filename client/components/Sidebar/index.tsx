@@ -33,7 +33,6 @@ class Sidebar extends PureComponent {
   }
 
   handleRefreshClick = () => {
-    // TODO: this.store.schema.refresh()
   }
 
   render() {
