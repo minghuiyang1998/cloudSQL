@@ -26,6 +26,11 @@ class UserAction {
   @action getHistory = async () => {
     const result = await getHistory();
     const { data = [] } = result || {};
+    const { connection = {} } = this.app || {};
+
+    const index = data.findIndexOf((i) => i.cid === connection.cid);
+    data.slice(index, 1);
+
     this.user.history = data;
   }
 

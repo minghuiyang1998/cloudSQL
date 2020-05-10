@@ -48,12 +48,17 @@ class Sidebar extends PureComponent {
       const { host = '', type = '', port = '' } = i || {};
       return { name: `${type}: ${host}:${port}` };
     });
+
+    const { connection = {} } = store.app || {};
+    const { host = '', type = '', port = '' } = connection || {};
+    const loggedIn = { name: `${type}: ${host}:${port}` };
+
     const content = [{
       name: 'Instance not logged in',
       children: notLoggedIn,
     }, {
       name: 'logged in instance',
-      children: [],
+      children: loggedIn,
     }];
     return (
       <>
