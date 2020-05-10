@@ -64,7 +64,7 @@ class Sidebar extends PureComponent {
               </svg>
             </div>
           </div>
-          <Tree />
+          <Tree data={[]} />
         </div>
       </>
     );
