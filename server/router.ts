@@ -20,7 +20,7 @@ router.get('/node/app', authenticate, controller.connection.getHistory);
 /**
  * @name connect-test
  */
-router.post('/node/test-connect', controller.sql.connectDB);
+router.post('/node/test-connect', authenticate, controller.sql.connectDB);
 /**
  * @name DBconnections
  * @description only modify connection in history
@@ -35,5 +35,6 @@ router.delete('/node/connection/:cid', authenticate, controller.connection.delet
  * @output redult
  */
 router.post('/node/sql', controller.sql.runSQL);
+router.get('/node/drivers', controller.sql.getDrivers);
 
 export default router;

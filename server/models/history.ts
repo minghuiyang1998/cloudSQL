@@ -1,4 +1,5 @@
-import { Model } from './model' 
+/* eslint-disable no-restricted-syntax */
+import { Model } from './model';
 import { History } from '../entities/History';
 
 type Connection = {
@@ -6,7 +7,7 @@ type Connection = {
   dialect: String,
   host: String,
   port: Number,
-  database?: String, 
+  database?: String,
   sid?: String,
   user?: String,
   password?: String,
@@ -20,26 +21,26 @@ export class HistoryModel extends Model {
       if (!history) {
         const _new = historyRepo.create({
           uuid,
-          data: JSON.stringify([connection])
+          data: JSON.stringify([connection]),
         });
         await historyRepo.save(_new);
       } else {
-        const { data = '' } = history || {}
-        const _data = JSON.parse(data)
-        _data.push(connection)
-        history.data = JSON.stringify(_data)
-        await historyRepo.persist(history)
+        const { data = '' } = history || {};
+        const _data = JSON.parse(data);
+        _data.push(connection);
+        history.data = JSON.stringify(_data);
+        await historyRepo.persist(history);
       }
 
       const _history = await historyRepo.findOne(uuid);
-      const { data = ''} = _history
-      let result = []
+      const { data = '' } = _history;
+      let result = [];
       if (data) {
-        result = JSON.parse(data)
+        result = JSON.parse(data);
       }
-      return result
+      return result;
     } catch (e) {
-      return e
+      return e;
     }
   }
 
@@ -47,29 +48,29 @@ export class HistoryModel extends Model {
     try {
       const historyRepo = this.ctx.connection.getRepository(History);
       const history = await historyRepo.findOne(uuid);
-      const { data = '' } = history || {}
-      const _data = JSON.parse(data)
-      for ( let c of _data) {
+      const { data = '' } = history || {};
+      const _data = JSON.parse(data);
+      for (let c of _data) {
         if (c.cid === cid) {
           c = {
             ...c,
-            connection
-          }
+            connection,
+          };
           break;
         }
       }
-      history.data = JSON.stringify(_data)
-      await historyRepo.persist(history)
+      history.data = JSON.stringify(_data);
+      await historyRepo.persist(history);
 
       const newHistory = await historyRepo.findOne(uuid);
-      const { data: newStr = ''} = newHistory
-      let result = []
+      const { data: newStr = '' } = newHistory;
+      let result = [];
       if (data) {
-        result = JSON.parse(newStr)
+        result = JSON.parse(newStr);
       }
-      return result
+      return result;
     } catch (e) {
-      return e
+      return e;
     }
   }
 
@@ -77,22 +78,22 @@ export class HistoryModel extends Model {
     try {
       const historyRepo = this.ctx.connection.getRepository(History);
       const history = await historyRepo.findOne(uuid);
-      const { data = '' } = history || {}
-      const _data = JSON.parse(data)
-      const _index = _data.findIndex( c  => c.cid = cid )
-      _data.slice(_index, 1)
-      history.data = JSON.stringify(_data)
-      await historyRepo.persist(history)
-      
+      const { data = '' } = history || {};
+      const _data = JSON.parse(data);
+      const _index = _data.findIndex((c) => c.cid === cid);
+      _data.slice(_index, 1);
+      history.data = JSON.stringify(_data);
+      await historyRepo.persist(history);
+
       const newHistory = await historyRepo.findOne(uuid);
-      const { data: newStr = ''} = newHistory
-      let result = []
+      const { data: newStr = '' } = newHistory;
+      let result = [];
       if (data) {
-        result = JSON.parse(newStr)
+        result = JSON.parse(newStr);
       }
-      return result
-    } catch(e) {
-      return  e
+      return result;
+    } catch (e) {
+      return e;
     }
   }
 
@@ -100,15 +101,14 @@ export class HistoryModel extends Model {
     try {
       const historyRepo = this.ctx.connection.getRepository(History);
       const _history = await historyRepo.findOne(uuid);
-      const { data = ''} = _history
-      let result = []
+      const { data = '' } = _history;
+      let result = [];
       if (data) {
-        result = JSON.parse(data)
+        result = JSON.parse(data);
       }
-      return result
+      return result;
     } catch (e) {
-      return e
+      return e;
     }
   }
 }
-

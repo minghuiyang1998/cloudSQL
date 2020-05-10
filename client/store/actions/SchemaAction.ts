@@ -7,22 +7,22 @@ const formatSchemaData = (data) => {
   data.forEach((i) => {
     const { type } = i || {};
     switch (type) {
-      case 'schema':
-        schemas.push({
-          ...i,
-          children: [],
-        });
-        break;
-      case 'table':
-        tables.push({
-          ...i,
-          children: [],
-        });
-        break;
-      case 'column':
-        columns.push(i);
-        break;
-      default: break;
+    case 'schema':
+      schemas.push({
+        ...i,
+        children: [],
+      });
+      break;
+    case 'table':
+      tables.push({
+        ...i,
+        children: [],
+      });
+      break;
+    case 'column':
+      columns.push(i);
+      break;
+    default: break;
     }
   });
   tables.forEach((t, index) => {

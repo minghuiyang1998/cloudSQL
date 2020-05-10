@@ -3,7 +3,7 @@ import clsn from 'classnames';
 import style from './index.scss';
 import Tree from './Tree';
 import Modal from '../Modal';
-import Form from './Form';
+import Form from '../Form';
 
 class Sidebar extends PureComponent {
   constructor(props) {

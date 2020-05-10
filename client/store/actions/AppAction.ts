@@ -1,4 +1,9 @@
 import { action } from 'mobx';
+import { getDrivers } from '../../dao/app';
+import {
+  newConnection,
+  reviseConnection,
+} from '../../dao/connection';
 
 class AppAction {
   private app: SchemaStore
@@ -24,6 +29,24 @@ class AppAction {
 
   @action async storeConnection(connection = {}) {
     this.app.connection = connection;
+  }
+
+  @action async getDrivers() {
+    const result = await getDrivers();
+    const { data = {} } = result || {};
+    this.app.drivers = data;
+  }
+
+  @action async newConnection() {
+    const result = await newConnection();
+    const { data = {} } = result || {};
+    this.app.drivers = data;
+  }
+
+  @action async reviseConnection() {
+    const result = await reviseConnection();
+    const { data = {} } = result || {};
+    this.app.drivers = data;
   }
 }
 
