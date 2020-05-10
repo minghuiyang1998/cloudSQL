@@ -16,16 +16,15 @@ async function fetch({ method = '', url = '', body = {} }) {
     data: body,
   };
 
-  const result = await Axios(opts)
-    .then((response) => {
-      const { data = {} } = response || {};
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  return result;
+  try {
+    const response = await Axios(opts);
+    console.log('fetch -> response', response);
+    const { data = {} } = response || {};
+    return data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
 }
 
 export default fetch;

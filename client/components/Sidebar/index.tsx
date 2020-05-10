@@ -52,11 +52,13 @@ class Sidebar extends PureComponent {
     const { history = [] } = store.user || {};
     const notLoggedIn = history.map((i) => {
       const { host = '', type = '', port = '' } = i || {};
+      console.log("not ", host, type, port)
       return { name: <span onClick={() => { this.instanceHandle(i); }}>{`${type}: ${host}:${port}`}</span> };
     });
 
     const { connection = {} } = store.app || {};
     const { host = '', type = '', port = '' } = connection || {};
+    console.log("login", host, type, port)
     const loggedIn = { name: <span onClick={() => { this.instanceHandle(connection); }}>{`${type}: ${host}:${port}`}</span> };
 
     const content = [{
@@ -69,7 +71,7 @@ class Sidebar extends PureComponent {
     return (
       <>
         <Modal width="400" visible={isModalVisible} onClose={this.closeModal}>
-          <Form config={config} />
+          <Form config={config} onClose={this.closeModal} />
         </Modal>
         <div className={clsn('sidebar', darkTheme ? 'dark' : 'light')}>
           <style jsx>{style}</style>

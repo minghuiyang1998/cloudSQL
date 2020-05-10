@@ -2,16 +2,16 @@
 // import enum database  connection package in here
 import { Context } from 'koa';
 import { StatusCode, StatusMsg } from '../constant/status';
-import { config, drivers } from '../drivers';
+import { driversConfig, drivers } from '../drivers';
 
 export async function getSchemaInfos(ctx: Context) {
   const { body: connection = {} } = ctx.request || {};
   const { type = '' } = connection;
-  const driver = config[type] || null;
+  const driver = driversConfig[type] || null;
 
   if (!driver) {
     ctx.body = {
-      code: StatusCode.INFO_ERROR,
+      code: StatusCode.DB_INVALID,
       msg: 'database is not supported',
     };
     return;
@@ -36,11 +36,11 @@ export async function runSQL(ctx: Context) {
   const { body = {} } = ctx.request || {};
   const { sql = '', connection = {} } = body || {};
   const { type = '' } = connection;
-  const driver = config[type] || null;
+  const driver = driversConfig[type] || null;
 
   if (!driver) {
     ctx.body = {
-      code: StatusCode.INFO_ERROR,
+      code: StatusCode.IDB_INVALID,
       msg: 'database is not supported',
     };
     return;
@@ -64,11 +64,11 @@ export async function runSQL(ctx: Context) {
 export async function connectDB(ctx: Context) {
   const { body: connection = {} } = ctx.request || {};
   const { type = '' } = connection;
-  const driver = config[type] || null;
+  const driver = driversConfig[type] || null;
 
   if (!driver) {
     ctx.body = {
-      code: StatusCode.INFO_ERROR,
+      code: StatusCode.DB_INVALID,
       msg: 'database is not supported',
     };
     return;

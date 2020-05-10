@@ -19,10 +19,11 @@ export async function createConnection(ctx:Context) {
 }
 
 export async function modifyConnectionInfos(ctx:Context) {
-  const { params = {}, body: connection = {} } = ctx.request || {};
-  const { cid = '' } = params || {};
+  const { body: connection = {} } = ctx.request || {};
+  const { cid = '' } = ctx.params || {};
   const { uuid = '' } = ctx.user || {};
   const newHistory = await ctx.models.history.connectionUpdate(uuid, cid, connection);
+  console.log("modifyConnectionInfos -> newHistory", newHistory)
   ctx.body = {
     code: StatusCode.SUCCESS,
     msg: StatusMsg.SUCCESS,
@@ -31,7 +32,7 @@ export async function modifyConnectionInfos(ctx:Context) {
 }
 
 export async function deleteConnection(ctx:Context) {
-  const { params = {} } = ctx.request || {};
+  const { params = {} } = ctx || {};
   const { cid = '' } = params || {};
   const { uuid = '' } = ctx.user || {};
   const newHistory = await ctx.models.history.connectionDelete(uuid, cid);

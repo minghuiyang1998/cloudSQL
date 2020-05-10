@@ -55,20 +55,22 @@ class Form extends PureComponent {
 
   getData = () => {
     const {
+      cid = '',
       type = 'MySQL',
       host = '',
       port = '',
       database = '',
-      account = '',
+      user = '',
       password = '',
     } = this.state || {};
 
     return {
+      cid,
       type,
       host,
       port,
       database,
-      account,
+      user,
       password,
     };
   }
@@ -88,19 +90,26 @@ class Form extends PureComponent {
     this.setLoading(true);
     const data = this.getData();
     const { cid = null } = this.state || {};
-    const { action } = this.props || {};
+    const { action, onClose = () => {} } = this.props || {};
     if (cid) {
       const { code = 0, msg = '' } = await action.user.reviseConnection(data);
       this.setState({
         status: msg,
       });
+      this.setLoading(false);
+      if (code === 200) {
+        onClose();
+      }
     } else {
       const { code = 0, msg = '' } = await action.user.newConnection(data);
       this.setState({
         status: msg,
       });
+      this.setLoading(false);
+      if (code === 200) {
+        onClose();
+      }
     }
-    this.setLoading(false);
   };
 
   render() {

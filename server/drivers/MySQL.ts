@@ -80,16 +80,16 @@ class MySQL extends Driver {
       supportBigNumbers: true,
     };
 
-    const connection = mysql.createConnection(connectConfig);
+    const dbConnection = mysql.createConnection(connectConfig);
     return new Promise((resolve, reject) => {
-      connection.query(sql, (err, rows) => {
+      dbConnection.query(sql, (err, rows) => {
         if (err) {
           reject(err);
         } else {
           resolve(rows);
         }
-        connection.release();
       });
+      dbConnection.end();
     });
   };
 

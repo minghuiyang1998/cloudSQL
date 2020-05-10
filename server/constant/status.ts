@@ -4,6 +4,7 @@ export const StatusCode = {
   INEXIST_USER: 4011,
   INFO_ERROR: 4012,
   DB_ERROR: 5000,
+  DB_INVALID: 5001,
 };
 
 export const StatusMsg = {

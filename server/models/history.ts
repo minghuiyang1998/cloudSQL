@@ -29,7 +29,7 @@ export class HistoryModel extends Model {
         const _data = JSON.parse(data);
         _data.push(connection);
         history.data = JSON.stringify(_data);
-        await historyRepo.persist(history);
+        await historyRepo.save(history);
       }
 
       const _history = await historyRepo.findOne({ uuid });
@@ -60,9 +60,7 @@ export class HistoryModel extends Model {
         }
       }
       history.data = JSON.stringify(_data);
-      await historyRepo.persist(history);
-
-      const newHistory = await historyRepo.findOne({ uuid });
+      const newHistory = await historyRepo.save(history);
       const { data: newStr = '' } = newHistory;
       let result = [];
       if (data) {
@@ -83,9 +81,7 @@ export class HistoryModel extends Model {
       const _index = _data.findIndex((c) => c.cid === cid);
       _data.slice(_index, 1);
       history.data = JSON.stringify(_data);
-      await historyRepo.persist(history);
-
-      const newHistory = await historyRepo.findOne({ uuid });
+      const newHistory = await historyRepo.save(history);
       const { data: newStr = '' } = newHistory;
       let result = [];
       if (data) {
