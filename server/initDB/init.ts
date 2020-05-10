@@ -1,5 +1,6 @@
-import { config } from '../constant/db';
 import mysql from 'mysql2';
+import { config } from '../constant/db';
+
 const { database = '', host = '', user = '', password = '', dialect = '', port = 0, charset = '' } = config;
 
 // mysql origin used to initDB
@@ -13,23 +14,21 @@ export const pool = mysql.createPool({
   connectionLimit: 10,
 });
 
-export const query = function (sql, values = 0) {
-  return new Promise<result>((resolve, reject) => {
-    pool.getConnection(function (err, connection) {
-      if (err) {
-        reject(err);
-      } else {
-        connection.query(sql, values, (err, rows) => {
-          // console.log("query -> err, rows",sql, values, err, rows)
-          // TODO: output incorrect
-          if (err) {
-            reject(err);
-          } else {
-            resolve(rows);
-          }
-          connection.release();
-        });
-      }
-    });
+export const query = (sql, values = 0) => new Promise<result>((resolve, reject) => {
+  pool.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+    } else {
+      connection.query(sql, values, (err, rows) => {
+        // console.log("query -> err, rows",sql, values, err, rows)
+        // TODO: output incorrect
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+        connection.release();
+      });
+    }
   });
-};
+});

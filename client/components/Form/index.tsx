@@ -18,7 +18,7 @@ class Form extends PureComponent {
       host = '',
       port = '',
       database = '',
-      account = '',
+      user = '',
       password = '',
     } = this.props || {};
 
@@ -30,7 +30,7 @@ class Form extends PureComponent {
       host,
       port,
       database,
-      account,
+      user,
       password,
     };
   }
@@ -108,8 +108,8 @@ class Form extends PureComponent {
     const menu = drivers.map((i) => <div key={`dropdown-item-${i.type}`} className="dropdown-item" onClick={() => { this.selectHandle(i.type); }}>{i.type}</div>);
     const { state = {} } = this || {};
     const { type = '', isLoading = false, status = '' } = state || {};
-    const config = drivers.find((i) => i.type === type);
-    const { list = [] } = config || {};
+    const driver = drivers.find((i) => i.type === type);
+    const { config = [] } = driver || {};
     return (
       <>
         {isLoading ? <Loading /> : (
@@ -120,26 +120,29 @@ class Form extends PureComponent {
               <Dropdown icon={<span>{type}</span>} menu={menu} onSelect={this.selectHandle} />
             </div>
             {
-              list.map((name) => (
-                <div key={name} className="row">
-                  <label htmlFor={name} required>{name}</label>
-                  <input
-                    type={name}
-                    name={name}
-                    id={name}
-                    autoCapitalize="off"
-                    autoCorrect="off"
-                    autoComplete="off"
-                    value={state[name] || ''}
-                    onChange={(event) => {
-                      const { value = '' } = event.target;
-                      this.setState({
-                        [name]: value,
-                      });
-                    }}
-                  />
-                </div>
-              ))
+              config.map((i) => {
+                const { key = '', formType = '', label = '' } = i || {};
+                return (
+                  <div key={key} className="row">
+                    <label htmlFor={key} required>{label}</label>
+                    <input
+                      type={formType}
+                      name={key}
+                      id={key}
+                      autoCapitalize="off"
+                      autoCorrect="off"
+                      autoComplete="off"
+                      value={state[key] || ''}
+                      onChange={(event) => {
+                        const { value = '' } = event.target;
+                        this.setState({
+                          [key]: value,
+                        });
+                      }}
+                    />
+                  </div>
+                );
+              })
             }
             <div className="btn-group">
               <div className="btn-primary" onClick={this.testConnection}>Test</div>

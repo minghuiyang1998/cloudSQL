@@ -10,10 +10,11 @@ export const getDrivers = async () => {
 };
 
 
-export const getSchema = async () => {
+export const getSchema = async (body) => {
   const request = {
-    method: 'GET',
-    url: '/node/sql',
+    method: 'POST',
+    url: '/node/schemainfos',
+    body,
   };
   const data = await fetch(request);
   return data;

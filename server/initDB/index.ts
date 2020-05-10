@@ -8,7 +8,7 @@ import { query } from './init';
  * @param  {string} mime         遍历文件的后缀名
  * @return {object}              返回遍历后的目录结果
  */
-const walkFile = function (pathResolve, mime) {
+const walkFile = (pathResolve, mime) => {
   const files = fs.readdirSync(pathResolve);
   const fileList = {};
   for (const [i, item] of files.entries()) {
@@ -35,7 +35,7 @@ function getSqlMap() {
  * 封装所有sql文件脚本内容
  * @return {object}
  */
-function getSqlContentMap() {
+const getSqlContentMap = () => {
   const sqlContentMap = {};
   const sqlMap = getSqlMap();
   for (const key in sqlMap) {
@@ -45,7 +45,7 @@ function getSqlContentMap() {
   return sqlContentMap;
 }
 
-const eventLog = function (err, sqlFile, index) {
+const eventLog = (err, sqlFile, index) => {
   if (err) {
     console.log(`[ERROR] sql脚本文件: ${sqlFile} 第${index + 1}条脚本 执行失败 o(╯□╰)o ！`);
   } else {
