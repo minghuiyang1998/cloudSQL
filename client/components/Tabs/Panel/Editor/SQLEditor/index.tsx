@@ -2,6 +2,8 @@
 import React, { PureComponent } from 'react';
 import AceEditor from 'react-ace';
 import Measure from 'react-measure';
+import { observer } from 'mobx-react';
+import withAppStore from '../../../../HOC/withAppStore';
 import style from './index.scss';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/ext-language_tools'; // avoid warning in develop tool
@@ -9,14 +11,17 @@ import 'ace-builds/src-noconflict/mode-sql';
 // import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/theme-twilight';
+import { updateCompletions } from '../../../../../utils/updateCompletions';
 
+@withAppStore
+@observer
 class SQLEditor extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       dimensions: { width: -1, height: -1 },
       value: '',
-      editor: {},
+      editor: null,
     };
   }
 
@@ -36,8 +41,14 @@ class SQLEditor extends PureComponent {
   }
 
   render() {
-    const { dimensions = {}, value = '' } = this.state || {};
+    const { dimensions = {}, value = '', editor = null } = this.state || {};
     const { width = -1, height = -1 } = dimensions;
+    if (editor) {
+      const { store } = this.props || {};
+      const { schema } = store.app || {};
+      const obj = updateCompletions(schema);
+      editor.completers.push(obj);
+    }
     return (
       <div className="sql-editor">
         <style jsx>{style}</style>

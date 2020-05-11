@@ -1,4 +1,4 @@
-import { action, reaction } from 'mobx';
+import { action, autorun } from 'mobx';
 import { getDrivers, getSchema } from '../../dao/app';
 
 class AppAction {
@@ -6,11 +6,6 @@ class AppAction {
 
   constructor({ app }) {
     this.app = app;
-    const { connection = {} } = this.app || {};
-    reaction(() => connection, () => {
-      console.log('111');
-      this.refreshSchema();
-    });
   }
 
   @action async drivers() {

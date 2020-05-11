@@ -1,3 +1,6 @@
+import { autorun } from 'mobx';
+import { updateCompletions } from '../utils/updateCompletions';
+
 import {
   UserStore,
   AppStore,
@@ -22,7 +25,19 @@ export const initStore = () => {
     user: new UserAction(stores),
     app: new AppAction(stores),
   };
+
+  autorun(() => {
+    // eslint-disable-next-line no-unused-vars
+    const a = stores.app.connection;
+    actions.app.refreshSchema();
+  });
+
+  // autorun(() => {
+  //   const { schema } = stores.app;
+  //   updateCompletions(schema);
+  // });
 };
+
 
 export const getStore = () => stores;
 export const getAction = () => actions;
