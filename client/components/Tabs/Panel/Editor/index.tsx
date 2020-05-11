@@ -35,12 +35,22 @@ class Editor extends PureComponent {
         <style jsx>{style}</style>
         <Resizer
           minSize={10}
+          maxSize={250}
+          defaultSize={150}
           resizerStyle={{ width: '3px', backgroundColor: '#ddd', cursor: 'col-resize' }}
         >
           <Tree data={list} />
           <div className="main">
-            <Toolbar />
-            <Console />
+            <Resizer
+              direction="horizontal"
+              minSize={10}
+              maxSize={700}
+              defaultSize={600}
+              resizerStyle={{ height: '3px', backgroundColor: '#ddd', cursor: 'row-resize' }}
+            >
+              <Toolbar />
+              <Console />
+            </Resizer>
           </div>
         </Resizer>
       </div>
