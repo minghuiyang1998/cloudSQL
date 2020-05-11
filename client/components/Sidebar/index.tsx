@@ -6,6 +6,7 @@ import style from './index.scss';
 import Tree from '../Tree';
 import Modal from '../Modal';
 import Form from '../Form';
+import { emitTabEvent } from '../../utils/event';
 
 @withAppStore
 @observer
@@ -52,7 +53,8 @@ class Sidebar extends PureComponent {
 
   schemaHandle = (value) => {
     const { action = {} } = this.props || {};
-    action.app.changeSelectedSchema(value);
+    action.app.addSelectedSchemas(value);
+    emitTabEvent({ schema: value });
   }
 
   render() {

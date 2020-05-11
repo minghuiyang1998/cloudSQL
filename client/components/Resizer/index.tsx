@@ -21,7 +21,7 @@ export default function Resizer({
   direction = 'vertical',
   minSize = 250,
   defaultSize = 250,
-  maxSize = 350,
+  maxSize = 300,
   resizerStyle = DEFAULT_RESIZER,
   style = DEFAULT_STYLE,
 }) {

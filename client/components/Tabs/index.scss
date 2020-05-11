@@ -1,0 +1,51 @@
+@import '../../stylesheets/variables.scss';
+
+.tabs-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+
+    .tabs {
+        $height: 36px;
+        position: relative;
+        height: $height;
+        display: flex;
+        align-items: flex-end;
+        background-color: #444;
+        color: #ffffff;
+        box-shadow: 0 1px 2px rgba(0,0,0,.05),0 1px 4px rgba(0,0,0,.05),0 2px 8px rgba(0,0,0,.05);
+        flex: none;
+        
+        .tab {
+            width: 100px;
+            height: 28px;
+            font-size: 14px;
+            text-transform: capitalize;
+            line-height: 28px;
+            border-radius: 3px 3px 0 0;
+            border-left: 1px solid #eee;
+            display: flex;
+            padding: 0 10px;
+            align-items: center;
+
+            .close-btn {
+                margin-left: auto;
+                line-height: 0;
+            }
+            
+            &.active {
+                background-color: #ffffff;
+                color: #000000;
+            }
+        }
+    }
+
+    .fill {
+        flex: 1 1 auto;
+        position: relative;
+    }
+}

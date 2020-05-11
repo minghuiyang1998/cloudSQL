@@ -2,8 +2,8 @@ $height: 30px;
 .message-wrapper {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 9001 !important;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@ $height: 30px;
     .message {
         background-color: #ffffff;
         width: 250px;
-        margin: 10px 0;
+        margin: 10px auto;
         box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
         border-radius: 2px; /* Rounded borders */
         padding: 0 10px;

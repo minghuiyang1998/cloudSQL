@@ -8,7 +8,7 @@ class AppAction {
     this.app = app;
     const { connection = {} } = this.app || {};
     reaction(() => connection, () => {
-      console.log('111')
+      console.log('111');
       this.refreshSchema();
     });
   }
@@ -29,31 +29,15 @@ class AppAction {
     const schemas = Object.keys(data);
     this.app.connection.children = schemas;
     this.app.schema = data;
+    console.log("@actionrefreshSchema -> data", data)
   }
 
-  @action changeSelectedSchema(value) {
-    this.app.selectedSchema = value;
+  @action addSelectedSchemas(value) {
+    const { selectedSchemas = [] } = this.app || {};
+    const _set = new Set(selectedSchemas);
+    _set.add(value);
+    this.app.selectedSchemas = [..._set];
   }
-
-  @action async storeConnection(connection = {}) {
-    this.app.connection = connection;
-  }
-
-  @action async addTab(component = null) {
-    // TODO: create a id
-    const { list } = this.app || {};
-    list.push({
-      id: 0,
-      component,
-    });
-  }
-
-  @action async changeTab(id = 0) {
-    const { list } = this.app || {};
-    const component = list.find((i) => i.id === id);
-    this.app.currentTab = component;
-  }
-
 }
 
 export default AppAction;

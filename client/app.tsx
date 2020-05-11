@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import withAppStore from './components/HOC/withAppStore';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
-import Panel from './components/Panel';
+import Tabs from './components/Tabs';
 import Resizer from './components/Resizer';
 import Authorization from './components/Authorization';
 import style from './app.scss';
@@ -35,7 +35,7 @@ class App extends PureComponent {
           <div className="main">
             <Resizer>
               <Sidebar />
-              <Panel />
+              <Tabs />
             </Resizer>
           </div>
         </div>
