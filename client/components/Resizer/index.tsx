@@ -3,7 +3,7 @@ import SplitPane from 'react-split-pane';
 
 const DEFAULT_RESIZER = {
   width: '3px',
-  backgroundColor: '#333',
+  backgroundColor: '#252526',
   cursor: 'col-resize',
 };
 

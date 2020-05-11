@@ -29,7 +29,6 @@ class AppAction {
     const schemas = Object.keys(data);
     this.app.connection.children = schemas;
     this.app.schema = data;
-    console.log("@actionrefreshSchema -> data", data)
   }
 
   @action addSelectedSchemas(value) {

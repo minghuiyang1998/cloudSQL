@@ -1,3 +1,5 @@
+@import '../../../stylesheets/variables.scss';
+
 .panel {
     position: absolute;
     top: 0;
@@ -6,6 +8,7 @@
     right: 0;
     display: flex;
     flex-direction: column;
+    color: $light-grey;
 
     > * {
         flex: 1 1 auto;
@@ -18,9 +21,9 @@
         line-height: $height;
         display: flex;
         align-items: center;
-        background-color: #ffffff;
-        color: #000000;
-        border-bottom: 2px solid #ddd;
+        background-color: $black;
+        color: $light-grey;
+        border-bottom: 2px solid $black;
         padding: 0 20px;
         flex: none;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,.12);
