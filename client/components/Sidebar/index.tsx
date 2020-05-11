@@ -45,6 +45,16 @@ class Sidebar extends PureComponent {
     });
   }
 
+  refreshHandle = () => {
+    const { action = {} } = this.props || {};
+    action.app.refreshSchema();
+  }
+
+  schemaHandle = (value) => {
+    const { action = {} } = this.props || {};
+    action.app.changeSelectedSchema(value);
+  }
+
   render() {
     const { darkTheme = true } = this.props || {};
     const { search = '', isModalVisible = false, config = {} } = this.state || {};
@@ -54,17 +64,20 @@ class Sidebar extends PureComponent {
       const { cid = '', host = '', type = '', port = '' } = i || {};
       return {
         key: cid,
-        name: <span onClick={() => { this.instanceHandle(i); }}>{`${type}: ${host}:${port}`}</span>,
+        name: `${type}: ${host}:${port}`,
+        clickHandle: () => { this.instanceHandle(i); },
       };
     });
 
     const { connection = {} } = store.app || {};
-    const { cid = '', host = '', type = '', port = '' } = connection || {};
+    const { cid = '', host = '', type = '', port = '', children = [] } = connection || {};
     let loggedIn = [];
     if (cid) {
       loggedIn = [{
         key: cid,
-        name: <span onClick={() => { this.instanceHandle(connection); }}>{`${type}: ${host}:${port}`}</span>,
+        name: `${type}: ${host}:${port}`,
+        clickHandle: () => { this.instanceHandle(connection); },
+        children: children.map((i) => ({ key: i, name: i, clickHandle: () => { this.schemaHandle(i); } })),
       }];
     }
 
@@ -97,7 +110,7 @@ class Sidebar extends PureComponent {
                 </svg>
               </div>
             </div>
-            <div className="refresh-btn">
+            <div className="refresh-btn" onClick={this.refreshHandle}>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.7558 4.08789L16.6542 4.94922C15.1522 3.0293 12.8163 1.79688 10.1933 1.79688C5.66396 1.79688 1.99795 5.45898 1.99209 9.99023C1.98623 14.5254 5.66006 18.2031 10.1933 18.2031C13.7343 18.2031 16.7519 15.957 17.9003 12.8105C17.9296 12.7285 17.8866 12.6367 17.8046 12.6094L16.6972 12.2285C16.6586 12.2153 16.6163 12.2177 16.5794 12.2352C16.5426 12.2527 16.514 12.284 16.4999 12.3223C16.4647 12.4199 16.4257 12.5176 16.3847 12.6133C16.0468 13.4141 15.5624 14.1328 14.9452 14.75C14.333 15.3634 13.6082 15.8528 12.8104 16.1914C11.9843 16.541 11.1034 16.7188 10.1972 16.7188C9.28896 16.7188 8.41006 16.541 7.58388 16.1914C6.7854 15.8542 6.06029 15.3646 5.44912 14.75C4.83525 14.1379 4.34635 13.4121 4.00967 12.6133C3.66006 11.7852 3.48232 10.9062 3.48232 9.99805C3.48232 9.08984 3.66006 8.21094 4.00967 7.38281C4.34756 6.58203 4.83193 5.86328 5.44912 5.24609C6.06631 4.62891 6.78506 4.14453 7.58388 3.80469C8.41006 3.45508 9.29091 3.27734 10.1972 3.27734C11.1054 3.27734 11.9843 3.45508 12.8104 3.80469C13.6089 4.14188 14.334 4.63148 14.9452 5.24609C15.1386 5.43945 15.3202 5.64453 15.4882 5.85938L14.3124 6.77734C14.2891 6.79534 14.2714 6.81954 14.2613 6.84715C14.2512 6.87477 14.2491 6.90468 14.2552 6.93345C14.2613 6.96222 14.2754 6.98867 14.2959 7.00977C14.3164 7.03088 14.3424 7.04577 14.371 7.05273L17.8007 7.89258C17.8983 7.91602 17.994 7.8418 17.994 7.74219L18.0097 4.20898C18.0077 4.08008 17.8573 4.00781 17.7558 4.08789Z" fill="currentColor" />
               </svg>

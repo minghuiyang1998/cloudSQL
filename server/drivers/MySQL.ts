@@ -8,7 +8,8 @@ const getSchemaSql = (database) => {
     : `WHERE t.table_schema NOT IN (
         'mysql', 
         'performance_schema', 
-        'information_schema'
+        'information_schema',
+        'sys'
       )`;
   return `
     SELECT 
@@ -97,9 +98,8 @@ class MySQL extends Driver {
     const { database = '' } = connection || {};
     const schemaSql = getSchemaSql(database);
     const rows = await this.runSQL(schemaSql, connection);
-    console.log("MySQL -> staticgetSchema -> rows", rows)
-    // const formatedResult = formatSchemaQueryResults(rows);
-    return rows;
+    const formatedResult = formatSchemaQueryResults(rows);
+    return formatedResult;
   };
 }
 

@@ -23,7 +23,6 @@ export async function modifyConnectionInfos(ctx:Context) {
   const { cid = '' } = ctx.params || {};
   const { uuid = '' } = ctx.user || {};
   const newHistory = await ctx.models.history.connectionUpdate(uuid, cid, connection);
-  console.log("modifyConnectionInfos -> newHistory", newHistory)
   ctx.body = {
     code: StatusCode.SUCCESS,
     msg: StatusMsg.SUCCESS,

@@ -10,7 +10,9 @@ class AppStore extends Store {
 
   @observable connection = {};
 
-  @observable schema = [];
+  @observable schema = {};
+
+  @observable selectedSchema = '';
 }
 
 export default AppStore;

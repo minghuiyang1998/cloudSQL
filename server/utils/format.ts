@@ -6,14 +6,10 @@ import lodash from 'lodash';
  * @param {object} queryResult
  */
 export function formatSchemaQueryResults(queryResult) {
-  if (!queryResult || !queryResult.rows || !queryResult.rows.length) {
-    return {};
-  }
-
   // queryResult row casing may not always be consistent with what is specified in query
   // HANA is always uppercase despire aliasing as lower case for example
   // To account for this loop through rows and normalize the case
-  const rows = queryResult.rows.map((row) => {
+  const rows = queryResult.map((row) => {
     const cleanRow = {};
     Object.keys(row).forEach((key) => {
       cleanRow[key.toLowerCase()] = row[key];

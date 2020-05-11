@@ -21,9 +21,18 @@ class AppAction {
 
   @action async refreshSchema() {
     const { connection = {} } = this.app || {};
+    if (!Object.keys(connection).length) {
+      return;
+    }
     const result = await getSchema(connection);
     const { data = {} } = result || {};
-    this.app.drivers = data;
+    const schemas = Object.keys(data);
+    this.app.connection.children = schemas;
+    this.app.schema = data;
+  }
+
+  @action changeSelectedSchema(value) {
+    this.app.selectedSchema = value;
   }
 
   @action async storeConnection(connection = {}) {

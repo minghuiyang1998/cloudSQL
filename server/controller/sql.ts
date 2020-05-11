@@ -21,12 +21,13 @@ export async function getSchemaInfos(ctx: Context) {
     const result = await driver.getSchema(connection);
     ctx.body = {
       code: StatusCode.SUCCESS,
-      msg: `test connection ${StatusMsg.SUCCESS}`,
+      msg: StatusMsg.SUCCESS,
+      data: result,
     };
   } catch (e) {
     ctx.body = {
       code: StatusCode.DB_ERROR,
-      msg: `test connection fail, ${e}`,
+      msg: e,
     };
   }
 }
