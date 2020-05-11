@@ -14,17 +14,21 @@ async function fetch({ method = '', url = '', body = {} }) {
     },
     withCredentials: true,
     data: body,
-    transformResponse: [].concat(
-      Axios.defaults.transformResponse,
-      // (data) => { console.log(data); },
-    ),
+    responseType: 'json',
+    validateStatus: false,
+    // transformResponse: [].concat(
+    //   Axios.defaults.transformResponse,
+    //   (data) => { console.log(data);  },
+    // ),
   };
 
   try {
     const response = await Axios(opts);
     console.log('fetch -> response', response);
-    const { data = {} } = response || {};
-    return data;
+    const { request = {} } = response || {};
+    const { response: real = {} } = request || {};
+    // const { data = {} } = real || {};
+    return real;
   } catch (error) {
     console.log(error);
     return {};

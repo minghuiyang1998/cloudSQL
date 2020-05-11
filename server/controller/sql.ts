@@ -29,7 +29,6 @@ export async function getSchemaInfos(ctx: Context) {
       msg: `test connection fail, ${e}`,
     };
   }
-
 }
 
 export async function runSQL(ctx: Context) {

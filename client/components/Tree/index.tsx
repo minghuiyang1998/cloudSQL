@@ -3,16 +3,16 @@ import style from './index.scss';
 
 const Tree = ({ data = [] }) => {
   const renderBranch = (array) => array.map((e) => {
-    const { children = [], name = '' } = e || {};
+    const { children = [], name = '', key = '' } = e || {};
     if (children.length > 0) {
       return (
-        <ul key={name}>
+        <ul key={key}>
           {name}
           {renderBranch(children)}
         </ul>
       );
     }
-    return <li key={name}>{name}</li>;
+    return <li key={key}>{name}</li>;
   });
 
   return (

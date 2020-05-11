@@ -23,20 +23,16 @@ class UserAction {
     this.app = app;
   }
 
-  removeConnection = (history, cid) => {
-    const index = history.findIndex((i) => i.cid === cid);
-    const _history = history.splice(index, 1);
-    return _history;
-  }
-
   @action getHistory = async () => {
     const result = await getHistory();
     const { data = [] } = result || {};
     const { connection = {} } = this.app || {};
-
-    const { cid: connectedId = '' } = connection || {};
-    const history = this.removeConnection(data, connectedId);
-    this.user.history = history;
+    const { cid = '' } = connection || {};
+    const index = data.findIndex((i) => i.cid === cid);
+    if (index !== -1) {
+      data.splice(index, 1);
+    }
+    this.user.history = data;
   }
 
   @action newConnection = async (body) => {
@@ -52,9 +48,10 @@ class UserAction {
     const result = await postNewConnection(body);
     const { code = 0, msg = '', data: newHistory = [] } = result || {};
     if (code === 200) {
-      const { cid: connectedId = '' } = body || {};
-      const _history = this.removeConnection(newHistory, connectedId);
-      this.user.history = _history;
+      const { cid = '' } = body || {};
+      const index = newHistory.findIndex((i) => i.cid === cid);
+      newHistory.splice(index, 1);
+      this.user.history = newHistory;
       this.app.connection = body;
     }
     return {
@@ -76,9 +73,9 @@ class UserAction {
     const result = await putRevisedConnection(cid, body);
     const { code = 0, msg = '', data: newHistory = [] } = result || {};
     if (code === 200) {
-      const { cid: connectedId = '' } = body || {};
-      const _history = this.removeConnection(newHistory, connectedId);
-      this.user.history = _history;
+      const index = newHistory.findIndex((i) => i.cid === cid);
+      newHistory.splice(index, 1);
+      this.user.history = newHistory;
       this.app.connection = body;
     }
     return {

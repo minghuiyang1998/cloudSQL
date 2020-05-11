@@ -51,20 +51,29 @@ class Sidebar extends PureComponent {
     const { store = {} } = this.props || {};
     const { history = [] } = store.user || {};
     const notLoggedIn = history.map((i) => {
-      const { host = '', type = '', port = '' } = i || {};
-      console.log("not ", host, type, port)
-      return { name: <span onClick={() => { this.instanceHandle(i); }}>{`${type}: ${host}:${port}`}</span> };
+      const { cid = '', host = '', type = '', port = '' } = i || {};
+      return {
+        key: cid,
+        name: <span onClick={() => { this.instanceHandle(i); }}>{`${type}: ${host}:${port}`}</span>,
+      };
     });
 
     const { connection = {} } = store.app || {};
-    const { host = '', type = '', port = '' } = connection || {};
-    console.log("login", host, type, port)
-    const loggedIn = { name: <span onClick={() => { this.instanceHandle(connection); }}>{`${type}: ${host}:${port}`}</span> };
+    const { cid = '', host = '', type = '', port = '' } = connection || {};
+    let loggedIn = [];
+    if (cid) {
+      loggedIn = [{
+        key: cid,
+        name: <span onClick={() => { this.instanceHandle(connection); }}>{`${type}: ${host}:${port}`}</span>,
+      }];
+    }
 
     const content = [{
+      key: 'Instance not logged in',
       name: 'Instance not logged in',
       children: notLoggedIn,
     }, {
+      key: 'logged in instance',
       name: 'logged in instance',
       children: loggedIn,
     }];
