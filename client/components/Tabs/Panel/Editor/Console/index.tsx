@@ -1,5 +1,16 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
+import Loading from '../../../../Loading';
+// error
 
-const Console = () => <div />;
+class Console extends PureComponent {
+  render() {
+    return (
+      <div>
+        <div>header</div>
+        <div className="main" />
+      </div>
+    );
+  }
+}
 
 export default Console;

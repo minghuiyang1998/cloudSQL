@@ -4,12 +4,16 @@ import withAppStore from '../../../HOC/withAppStore';
 import Resizer from '../../../Resizer';
 import Tree from '../../../Tree';
 import Console from './Console';
-import Toolbar from './Toolbar';
+import SQLEditor from './SQLEditor';
 import style from './index.scss';
 
 @withAppStore
 @observer
 class Editor extends PureComponent {
+  onChange = (e) => {
+    console.log('Editor -> onChange -> e)', e);
+  }
+
   render() {
     const { store, current = '' } = this.props || {};
     const { schema } = store.app || {};
@@ -48,7 +52,7 @@ class Editor extends PureComponent {
               defaultSize={600}
               resizerStyle={{ height: '3px', backgroundColor: '#ddd', cursor: 'row-resize' }}
             >
-              <Toolbar />
+              <SQLEditor />
               <Console />
             </Resizer>
           </div>
