@@ -19,9 +19,9 @@ const DEFAULT_STYLE = {
 export default function Resizer({
   children,
   direction = 'vertical',
-  minSize = 200,
+  minSize = 250,
   defaultSize = 250,
-  maxSize = 300,
+  maxSize = 350,
   resizerStyle = DEFAULT_RESIZER,
   style = DEFAULT_STYLE,
 }) {

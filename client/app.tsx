@@ -8,6 +8,7 @@ import Resizer from './components/Resizer';
 import Authorization from './components/Authorization';
 import style from './app.scss';
 import globalStyle from './stylesheets/global.scss';
+import { Message } from './components/Message';
 
 @withAppStore
 @observer
@@ -29,6 +30,7 @@ class App extends PureComponent {
         <div className="container">
           <style jsx>{globalStyle}</style>
           <style jsx>{style}</style>
+          <Message />
           <Header />
           <div className="main">
             <Resizer>

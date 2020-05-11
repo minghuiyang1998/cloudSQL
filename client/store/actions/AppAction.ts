@@ -7,7 +7,10 @@ class AppAction {
   constructor({ app }) {
     this.app = app;
     const { connection = {} } = this.app || {};
-    reaction(() => connection, () => { this.refreshSchema(); });
+    reaction(() => connection, () => {
+      console.log('111')
+      this.refreshSchema();
+    });
   }
 
   @action async drivers() {

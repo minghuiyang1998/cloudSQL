@@ -1,5 +1,5 @@
 import Axios from 'axios';
-// import Message from './message';
+import * as Message from '../components/Message';
 
 const BASE_URL = 'http://127.0.0.1:3000';
 
@@ -24,13 +24,15 @@ async function fetch({ method = '', url = '', body = {} }) {
 
   try {
     const response = await Axios(opts);
-    console.log('fetch -> response', response);
-    const { request = {} } = response || {};
-    const { response: real = {} } = request || {};
-    // const { data = {} } = real || {};
-    return real;
-  } catch (error) {
-    console.log(error);
+    const { data = {} } = response || {};
+    const { code = 0, msg = '' } = data || {};
+    Message.error({ type: 'error', content: msg });
+    if (code !== 200) {
+      Message.error({ type: 'error', content: msg });
+    }
+    return data;
+  } catch (err) {
+    Message.error({ type: 'error', content: err });
     return {};
   }
 }
