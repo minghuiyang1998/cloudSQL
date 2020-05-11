@@ -8,6 +8,7 @@ import 'ace-builds/src-noconflict/ext-language_tools'; // avoid warning in devel
 import 'ace-builds/src-noconflict/mode-sql';
 // import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/theme-twilight';
 
 class SQLEditor extends PureComponent {
   constructor(props) {
@@ -55,7 +56,7 @@ class SQLEditor extends PureComponent {
                 editorProps={{ $blockScrolling: Infinity }}
                 highlightActiveLine={false}
                 mode="sql"
-                theme="monokai"
+                theme="twilight"
                 onChange={this.onChange}
                 name="query-ace-editor"
                 editorProps={{ $blockScrolling: true }}

@@ -1,19 +1,24 @@
 @import '../../../../../stylesheets/variables.scss';
+
+$toolbar-height: 30px;
+
 .sql-editor {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    display: flex;
-    flex-direction: column;;
 
     .toolbar {
-        height: 30px;
+        height: $toolbar-height;
         background-color: $dark-black;
     }
 
     .fill {
-        flex: 1 1 auto;
+        position: absolute;
+        top: $toolbar-height;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 }

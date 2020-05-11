@@ -26,7 +26,7 @@ class Dropdown extends PureComponent {
 
   render() {
     const { isHover = false } = this.state || {};
-    const { icon = DEFAULT_ICON, menu, withArrow = true } = this.props || {};
+    const { icon = '', menu, withArrow = true } = this.props || {};
     return (
       <div
         className={clsn('dropdown')}
