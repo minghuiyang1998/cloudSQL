@@ -52,9 +52,7 @@ class SQLEditor extends PureComponent {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { add = '' } = nextProps || {};
-    console.log('SQLEditor -> getDerivedStateFromProps -> add', add);
     const { value = '', prevAdd = '' } = prevState || {};
-    console.log('SQLEditor -> getDerivedStateFromProps -> prevAdd', prevAdd);
     let line = value;
     const valid = add && (add !== prevAdd || !prevAdd);
     if (valid) {
@@ -96,9 +94,9 @@ class SQLEditor extends PureComponent {
     );
   }
 
-  handleSelection = (selection) => {
-    // console.log(selection.getRange());
-  }
+  // handleSelection = (selection) => {
+  //   // console.log(selection.getRange());
+  // }
 
   loadEditor = (editor) => {
     this.setState({ editor });
@@ -159,7 +157,7 @@ class SQLEditor extends PureComponent {
                   showLineNumbers: true,
                   tabSize: 2,
                 }}
-                onLoad={(editor) => { this.loadEditor(editor); }}
+                onLoad={(e) => { this.loadEditor(e); }}
                 showPrintMargin={false}
                 value={value}
                 onSelectionChange={this.handleSelection}
