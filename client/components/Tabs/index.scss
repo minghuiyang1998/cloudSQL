@@ -8,7 +8,7 @@
     right: 0;
     display: flex;
     flex-direction: column;
-    background-color: $black;
+    background-color: $white;
 
     .tabs {
         $height: 36px;
@@ -38,13 +38,13 @@
             }
             
             &.active {
-                background-color: $black;
-                color: $light-grey;
+                background-color: $white;
+                color: $black;
             }
 
             &:hover {
-                background-color: $black;
-                color: $light-grey;
+                background-color: $white;
+                color: $black;
             }
         }
     }

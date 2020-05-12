@@ -17,7 +17,7 @@ class Editor extends PureComponent {
   render() {
     const { store, current = '' } = this.props || {};
     const { schema } = store.app || {};
-    const data = schema[current];
+    const data = schema[current] || {};
     const tables = Object.keys(data);
     const list = tables.map((t) => {
       const children = data[t];
@@ -41,7 +41,7 @@ class Editor extends PureComponent {
           minSize={10}
           maxSize={250}
           defaultSize={150}
-          resizerStyle={{ width: '3px', backgroundColor: '#252526', cursor: 'col-resize' }}
+          resizerStyle={{ width: '3px', backgroundColor: '#ccc', cursor: 'col-resize' }}
         >
           <Tree data={list} />
           <div className="main">
@@ -50,7 +50,7 @@ class Editor extends PureComponent {
               minSize={10}
               maxSize={700}
               defaultSize={600}
-              resizerStyle={{ height: '3px', backgroundColor: '#252526', cursor: 'row-resize' }}
+              resizerStyle={{ height: '3px', backgroundColor: '#ccc', cursor: 'row-resize' }}
             >
               <SQLEditor />
               <Console />

@@ -1,9 +1,8 @@
 /* eslint-disable consistent-return */
-import * as ace from 'ace-builds/src-noconflict/ace';
+// import * as ace from 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-min-noconflict/ext-language_tools';
 
 export function updateCompletions(schemaInfo) {
-  console.log("updateCompletions -> schemaInfo", schemaInfo)
   if (schemaInfo === null || schemaInfo === undefined) {
     return;
   }

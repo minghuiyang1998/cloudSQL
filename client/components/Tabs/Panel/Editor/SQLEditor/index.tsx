@@ -8,9 +8,9 @@ import style from './index.scss';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/ext-language_tools'; // avoid warning in develop tool
 import 'ace-builds/src-noconflict/mode-sql';
-// import 'ace-builds/src-noconflict/theme-github';
-import 'ace-builds/src-noconflict/theme-monokai';
-import 'ace-builds/src-noconflict/theme-twilight';
+import 'ace-builds/src-noconflict/theme-github';
+// import 'ace-builds/src-noconflict/theme-monokai';
+// import 'ace-builds/src-noconflict/theme-twilight';
 import { updateCompletions } from '../../../../../utils/updateCompletions';
 
 @withAppStore
@@ -21,7 +21,7 @@ class SQLEditor extends PureComponent {
     this.state = {
       dimensions: { width: -1, height: -1 },
       value: '',
-      editor: null,
+      editor: {},
     };
   }
 
@@ -41,9 +41,9 @@ class SQLEditor extends PureComponent {
   }
 
   render() {
-    const { dimensions = {}, value = '', editor = null } = this.state || {};
+    const { dimensions = {}, value = '', editor = {} } = this.state || {};
     const { width = -1, height = -1 } = dimensions;
-    if (editor) {
+    if (Object.keys(editor).length) {
       const { store } = this.props || {};
       const { schema } = store.app || {};
       const obj = updateCompletions(schema);
@@ -67,7 +67,7 @@ class SQLEditor extends PureComponent {
                 editorProps={{ $blockScrolling: Infinity }}
                 highlightActiveLine={false}
                 mode="sql"
-                theme="twilight"
+                theme="github"
                 onChange={this.onChange}
                 name="query-ace-editor"
                 editorProps={{ $blockScrolling: true }}
