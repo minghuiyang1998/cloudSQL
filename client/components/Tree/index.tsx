@@ -4,15 +4,15 @@ import Branch from './Branch';
 
 const Tree = ({ data = [] }) => {
   const renderBranch = (array) => array.map((e) => {
-    const { children = [], name = '', key = '', type = '', clickHandle = () => {} } = e || {};
+    const { children = [], name = '', key = '', type = '', clickHandle = () => {}, doubleClickEvent = null } = e || {};
     if (children.length > 0) {
       return (
-        <Branch key={key} name={name} iconType={type} clickHandle={clickHandle}>
+        <Branch key={key} name={name} iconType={type} clickHandle={clickHandle} doubleClickEvent={doubleClickEvent}>
           {renderBranch(children)}
         </Branch>
       );
     }
-    return <Branch key={key} name={name} iconType={type} clickHandle={clickHandle} />;
+    return <Branch key={key} name={name} iconType={type} clickHandle={clickHandle} doubleClickEvent={doubleClickEvent} />;
   });
 
   return (

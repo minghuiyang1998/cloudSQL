@@ -10,7 +10,10 @@ import {
   TYPE_SCHEMA,
 } from './config';
 
+
 class Branch extends PureComponent {
+  count = 0;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -54,12 +57,28 @@ class Branch extends PureComponent {
 
   // ondoubleclick: 生成sql， 有children单击spread， 无使用传入instance， 右键打开菜单
   render() {
-    const { name = '', children = null, iconType = '', clickHandle = () => {} } = this.props || {};
+    const { name = '', children = null, iconType = '', clickHandle = () => {}, doubleClickEvent = null } = this.props || {};
     const { isSpread = false } = this.state || {};
-    const clickEvent = children ? this.spreadHandle : clickHandle;
+    let clickEvent = children ? this.spreadHandle : clickHandle;
+    const handleClick = (single = () => {}, double = () => {}) => () => {
+      this.count += 1;
+      setTimeout(() => {
+        if (this.count === 1) {
+          single();
+          this.count = 0;
+        } else if (this.count > 1) {
+          double();
+          this.count = 0;
+        }
+        this.count = 0;
+      }, 150);
+    };
+    if (doubleClickEvent) {
+      clickEvent = handleClick(clickEvent, doubleClickEvent);
+    }
     return (
       <div className="branch">
-        <div onClick={clickEvent} className={`branch-title ${iconType}`}>
+        <div onClick={clickEvent} onDoubleClick={doubleClickEvent ? clickEvent : null} className={`branch-title ${iconType}`}>
           {!iconType ? this.renderStateIcon() : null}
           {this.renderTypeIcon(iconType)}
           <div className="name-wrapper">

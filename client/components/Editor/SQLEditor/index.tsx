@@ -37,6 +37,7 @@ const FONTSIZE = [14, 16, 18, 20, 22, 24, 28, 32, 40];
 class SQLEditor extends PureComponent {
   constructor(props) {
     super(props);
+    const { add = '' } = this.props || {};
     this.state = {
       dimensions: { width: -1, height: -1 },
       value: '',
@@ -45,6 +46,22 @@ class SQLEditor extends PureComponent {
       fontSize: FONTSIZE[0],
       isGutterShow: true,
       isActiveLineHighlighted: false,
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { add = '' } = nextProps || {};
+    const { value = '' } = prevState || {};
+    let line = '';
+    if (value) {
+      line += `${value}\n`;
+    }
+    if (add) {
+      line += add;
+    }
+    return {
+      ...prevState,
+      value: line,
     };
   }
 

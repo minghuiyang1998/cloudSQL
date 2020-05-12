@@ -10,10 +10,18 @@ import {
   TYPE_COL,
   TYPE_TABLE,
 } from '../Tree/config';
+import { selectAll, selectColumn } from '../../utils/sqls';
 
 @withAppStore
 @observer
 class Editor extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      editorValue: '',
+    }
+  }
+
   onChange = (e) => {
     console.log('Editor -> onChange -> e)', e);
   }
@@ -36,6 +44,11 @@ class Editor extends PureComponent {
               <span>{dataType}</span>
             </div>
           ),
+          doubleClickEvent: () => {
+            this.setState({
+              editorValue: selectColumn(t, columnName),
+            });
+          },
         };
       });
       return {
@@ -43,8 +56,14 @@ class Editor extends PureComponent {
         name: <div className="sheet">{t}</div>,
         type: TYPE_TABLE,
         children: formatedChildren,
+        doubleClickEvent: () => {
+          this.setState({
+            editorValue: selectAll(t),
+          });
+        },
       };
     });
+    const { editorValue = '' } = this.state || {};
     return (
       <div className="editor">
         <style jsx>{style}</style>
@@ -63,7 +82,7 @@ class Editor extends PureComponent {
               defaultSize={600}
               resizerStyle={{ padding: '1px', backgroundColor: '#ccc', cursor: 'row-resize' }}
             >
-              <SQLEditor />
+              <SQLEditor add={editorValue} />
               <Console />
             </Resizer>
           </div>
