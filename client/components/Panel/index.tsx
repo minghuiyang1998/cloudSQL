@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { observer } from 'mobx-react';
-import withAppStore from '../../HOC/withAppStore';
+import withAppStore from '../HOC/withAppStore';
 import style from './index.scss';
-import Editor from './Editor';
+import Editor from '../Editor';
 
 @withAppStore
 @observer

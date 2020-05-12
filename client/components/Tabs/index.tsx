@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import clsn from 'classnames';
 import withAppStore from '../HOC/withAppStore';
 import style from './index.scss';
-import Panel from './Panel';
+import Panel from '../Panel';
 import { TAB_EVENT } from '../../utils/event';
 
 @withAppStore

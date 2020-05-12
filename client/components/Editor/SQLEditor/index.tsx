@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import AceEditor from 'react-ace';
 import Measure from 'react-measure';
 import { observer } from 'mobx-react';
-import withAppStore from '../../../../HOC/withAppStore';
+import withAppStore from '../../HOC/withAppStore';
 import style from './index.scss';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/ext-language_tools'; // avoid warning in develop tool
@@ -11,7 +11,7 @@ import 'ace-builds/src-noconflict/mode-sql';
 import 'ace-builds/src-noconflict/theme-github';
 // import 'ace-builds/src-noconflict/theme-monokai';
 // import 'ace-builds/src-noconflict/theme-twilight';
-import { updateCompletions } from '../../../../../utils/updateCompletions';
+import { updateCompletions } from '../../../utils/updateCompletions';
 
 @withAppStore
 @observer

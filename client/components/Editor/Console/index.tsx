@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import Loading from '../../../../Loading';
 import Table from './Table';
+import style from './index.scss';
 // error
 
 const columns = [
@@ -49,8 +50,9 @@ const data = [];
 class Console extends PureComponent {
   render() {
     return (
-      <div>
-        <div>header</div>
+      <div className="console">
+        <style jsx>{style}</style>
+        <div className="toolbar">header</div>
         <div className="main" />
         <Table columns={columns} data={data} />
       </div>

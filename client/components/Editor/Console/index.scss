@@ -1,0 +1,18 @@
+@import '../../../stylesheets/variables.scss';
+.console {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    .toolbar {
+        height: 28px;
+        background-color: $medium-grey;
+        color: $black;
+    }
+
+    .button {
+        
+    }
+}
