@@ -6,6 +6,10 @@ import Tree from '../Tree';
 import Console from './Console';
 import SQLEditor from './SQLEditor';
 import style from './index.scss';
+import {
+  TYPE_COL,
+  TYPE_TABLE,
+} from '../Tree/config';
 
 @withAppStore
 @observer
@@ -25,12 +29,19 @@ class Editor extends PureComponent {
         const { column_name: columnName = '', data_type: dataType = '' } = c || {};
         return {
           key: columnName,
-          name: `${columnName} ${dataType}`,
+          type: TYPE_COL,
+          name: (
+            <div className="column">
+              {columnName}
+              <span>{dataType}</span>
+            </div>
+          ),
         };
       });
       return {
         key: t,
-        name: t,
+        name: <div className="table">{t}</div>,
+        type: TYPE_TABLE,
         children: formatedChildren,
       };
     });

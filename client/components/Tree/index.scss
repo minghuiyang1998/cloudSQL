@@ -3,6 +3,28 @@
     .branch {
         cursor: pointer;
     }
+
+    .schema {
+
+    }
+
+    .table {
+
+    }
+
+    .columns {
+
+    }
+
+    .datetype {
+        
+    }
+
+    .children {
+        height: 0;
+        overflow: hidden;
+        transition: height linear 1s;
+    }
 }
 
 // TODO: 给不同类型的比如说database用一个字体颜色，table一个颜色

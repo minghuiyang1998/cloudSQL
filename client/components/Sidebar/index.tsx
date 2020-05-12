@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import clsn from 'classnames';
 import { observer } from 'mobx-react';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
 import withAppStore from '../HOC/withAppStore';
 import style from './index.scss';
 import Tree from '../Tree';
@@ -9,6 +10,11 @@ import Form from '../Form';
 import { emitTabEvent } from '../../utils/event';
 import RefreshIcon from '../../assets/refresh.svg';
 import SearchIcon from '../../assets/search.svg';
+import {
+  TYPE_INS,
+  TYPE_SCHEMA,
+} from '../Tree/config';
+
 
 @withAppStore
 @observer
@@ -41,10 +47,10 @@ class Sidebar extends PureComponent {
     });
   }
 
-  instanceHandle = (config) => {
+  instanceHandle = ({ connection = {} }) => {
     this.setState({
       isModalVisible: true,
-      config,
+      connection,
     });
   }
 
@@ -68,8 +74,19 @@ class Sidebar extends PureComponent {
       const { cid = '', host = '', type = '', port = '' } = i || {};
       return {
         key: cid,
-        name: `${type}: ${host}:${port}`,
-        clickHandle: () => { this.instanceHandle(i); },
+        name: (
+          <div>
+            <ContextMenuTrigger id={cid}>
+              <div className="instance">{`${type}: ${host}:${port}`}</div>
+            </ContextMenuTrigger>
+            <ContextMenu id={cid}>
+              <MenuItem data={{ connection: i }} onClick={() => { }}>
+                Delete Connection
+              </MenuItem>
+            </ContextMenu>
+          </div>
+        ),
+        clickHandle: () => { this.instanceHandle({ connection: i }); },
       };
     });
 
@@ -79,9 +96,30 @@ class Sidebar extends PureComponent {
     if (cid) {
       loggedIn = [{
         key: cid,
-        name: `${type}: ${host}:${port}`,
-        clickHandle: () => { this.instanceHandle(connection); },
-        children: children.map((i) => ({ key: i, name: i, clickHandle: () => { this.schemaHandle(i); } })),
+        name: (
+          <div>
+            <ContextMenuTrigger id={cid}>
+              <div className="instance">{`${type}: ${host}:${port}`}</div>
+            </ContextMenuTrigger>
+            <ContextMenu id={cid}>
+              <MenuItem data={{ connection }} onClick={this.instanceHandle}>
+                Edit Connection
+              </MenuItem>
+              <MenuItem data={{ connection }} onClick={() => {}}>
+                Delete Connection
+              </MenuItem>
+            </ContextMenu>
+          </div>
+        ),
+        type: TYPE_INS,
+        children: children.map((i) => ({
+          key: i,
+          type: TYPE_SCHEMA,
+          name: <div className="schema">{i}</div>,
+          clickHandle: () => {
+            this.schemaHandle(i);
+          },
+        })),
       }];
     }
 
