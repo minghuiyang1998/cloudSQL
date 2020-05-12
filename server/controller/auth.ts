@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Context } from 'koa';
 import { v4 } from 'uuid';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { getPasshash, comparePassword } from '../utils/passhash';
 import { COOKIE_NAME, checkToken, newToken } from '../utils/token';
 import { StatusCode, StatusMsg } from '../constant/status';
@@ -24,7 +24,7 @@ export const newUser = async (ctx: Context) => {
     uuid: v4(),
     username,
     passhash,
-    createdDate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+    createdDate: dayjs(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
   };
   const newu = await ctx.models.user.userSave(_user);
   if (!newu) {

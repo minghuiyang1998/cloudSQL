@@ -2,6 +2,8 @@
 import React, { PureComponent } from 'react';
 import AceEditor from 'react-ace';
 import Measure from 'react-measure';
+import sqlFormatter from 'sql-formatter';
+import clsn from 'classnames';
 import { observer } from 'mobx-react';
 import withAppStore from '../../HOC/withAppStore';
 import style from './index.scss';
@@ -109,8 +111,29 @@ class SQLEditor extends PureComponent {
     });
   }
 
+  formatSQL = () => {
+    const { value = '' } = this.state || {};
+    if (!value) return;
+    const _formated = sqlFormatter.format(value);
+    this.setState({
+      value: _formated,
+    });
+  }
+
+  executeSQL = () => {
+    const { value = '' } = this.state || {};
+    const { setRunning = () => {} } = this.props || {};
+    if (!value) return;
+    const sqlList = value.split(';');
+    setRunning({
+      isRunning: true,
+      runningList: sqlList,
+    });
+  }
+
   render() {
     const { dimensions = {}, value = '', editor = {} } = this.state || {};
+    const { isRunning = false } = this.props || {};
     const { width = -1, height = -1 } = dimensions;
     const { theme = THEMES[0], fontSize = FONTSIZE[0], isActiveLineHighlighted = false, isGutterShow = true } = this.state || {};
     if (Object.keys(editor).length) {
@@ -123,9 +146,9 @@ class SQLEditor extends PureComponent {
       <div className="sql-editor">
         <style jsx>{style}</style>
         <div className="toolbar">
-          <div className="btn-primary">Execute</div>
-          <div className="btn-outline">Format</div>
-          <div className="btn-outline">SQL Diagnostics</div>
+          <div className={clsn('btn-primary', { disable: isRunning })}>Execute</div>
+          <div className="btn-outline" onClick={this.formatSQL}>Format</div>
+          {/* <div className="btn-outline">SQL Diagnostics</div> */}
           <div className="mg-l-auto">
             <Dropdown icon={<SettingIcon />} components={this.renderSetting()} withArrow={false} />
           </div>

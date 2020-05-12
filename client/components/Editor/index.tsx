@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import withAppStore from '../HOC/withAppStore';
 import Resizer from '../Resizer';
 import Tree from '../Tree';
-import Console from './Console';
+import Console from '../Console';
 import SQLEditor from './SQLEditor';
 import style from './index.scss';
 import {
@@ -19,11 +19,20 @@ class Editor extends PureComponent {
     super(props);
     this.state = {
       editorValue: '',
-    }
+      isRunning: false,
+      runningList: [],
+    };
   }
 
   onChange = (e) => {
     console.log('Editor -> onChange -> e)', e);
+  }
+
+  setRunning = ({ isRunning = true, runningList = [] }) => {
+    this.setState({
+      isRunning,
+      runningList,
+    });
   }
 
   render() {
@@ -63,7 +72,7 @@ class Editor extends PureComponent {
         },
       };
     });
-    const { editorValue = '' } = this.state || {};
+    const { editorValue = '', isRunning = false, runningList = [] } = this.state || {};
     return (
       <div className="editor">
         <style jsx>{style}</style>
@@ -82,8 +91,8 @@ class Editor extends PureComponent {
               defaultSize={600}
               resizerStyle={{ padding: '1px', backgroundColor: '#ccc', cursor: 'row-resize' }}
             >
-              <SQLEditor add={editorValue} />
-              <Console />
+              <SQLEditor add={editorValue} isRunning={isRunning} setRunning={this.setRunning} />
+              <Console database={current} setRunning={this.setRunning} runningList={runningList} />
             </Resizer>
           </div>
         </Resizer>

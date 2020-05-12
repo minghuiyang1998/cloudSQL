@@ -3,11 +3,7 @@ import { observer } from 'mobx-react';
 import withAppStore from '../HOC/withAppStore';
 import style from './index.scss';
 import Form from './Form';
-
-
-function genHashID() {
-  return Math.round(Math.random() * 10e16);
-}
+import { genHashID } from '../../utils/common';
 
 @withAppStore
 @observer

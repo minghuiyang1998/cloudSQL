@@ -45,8 +45,8 @@ class Tabs extends PureComponent {
           <div className="tabs">
             {
               selectedSchemas.map((i) => (
-                <div key={i} className={clsn('tab', { active: i === current })}>
-                  {i}
+                <div key={i} className={clsn('tab', { active: i === current })} onClick={() => { this.tabHandle(i); }}>
+                  <span className="tab-name">{i}</span>
                   <span onClick={() => {}} className="close-btn">
                     <CloseIcon />
                   </span>

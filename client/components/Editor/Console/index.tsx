@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
-import Loading from '../../../../Loading';
+import dayjs from 'dayjs';
 import Table from './Table';
 import style from './index.scss';
-// error
+import { genHashID } from '../../../utils/common';
+import Execution from './Execution';
 
 const columns = [
   {
@@ -47,14 +48,82 @@ const columns = [
 
 const data = [];
 
+const TAB_DEFAULT = 'default';
 class Console extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      current: TAB_DEFAULT,
+      history: [{
+        time: '',
+        sql: '',
+        status: '',
+        rows: 0,
+        timeCount: 0,
+      }],
+      statusList: {},
+    };
+  }
+
+  formatList = () => {
+    const { databse = '', runningList = [] } = this.props || {};
+    const _list = runningList.map((sql) => {
+      const execId = genHashID();
+      return {
+        [execId]: {
+          execId,
+          time: dayjs(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+          databse,
+          sql,
+          status: 'loading',
+          rows: 0,
+          timeCount: 0,
+          result: [],
+        },
+      };
+    });
+    let status = {};
+    _list.forEach((e) => {
+      status = {
+        ...status,
+        ...e,
+      };
+    });
+    const keys = Object.keys(status);
+    this.setStatus({
+      statusList: status,
+      current: keys[keys.length - 1],
+    });
+  }
+
+  refreshStatus = () => {
+
+  }
+
+  renderDefault = () => {
+    const { history = [] } = this.state || {};
+    console.log('Console -> renderDefault -> history', history);
+    return (
+      <div>
+        <Table columns={columns} data={data} />
+      </div>
+    );
+  }
+
   render() {
+    const { runningList = [] } = this.props || {};
+    if (runningList.length) {
+      this.formatList();
+    }
+    const { current = '', statusList = {} } = this.state || {};
+    const isDefault = current === TAB_DEFAULT;
     return (
       <div className="console">
         <style jsx>{style}</style>
         <div className="toolbar">header</div>
-        <div className="main" />
-        <Table columns={columns} data={data} />
+        <div className="fill">
+          { isDefault ? this.renderDefault() : (<Execution info={statusList[current]} refreshStatus={this.refreshStatus} />) }
+        </div>
       </div>
     );
   }
