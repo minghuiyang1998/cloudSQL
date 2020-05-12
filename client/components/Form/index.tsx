@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { PureComponent } from 'react';
 import { observer } from 'mobx-react';
+import Select from '../Select';
 import withAppStore from '../HOC/withAppStore';
 import style from './index.scss';
-import Dropdown from '../Dropdown';
 import Loading from '../Loading';
 import { testConnection } from '../../dao/connection';
 
@@ -113,9 +113,9 @@ class Form extends PureComponent {
   };
 
   render() {
-    const { store } = this.props || {};
+    const { store, onClose = () => {} } = this.props || {};
     const { drivers = [] } = store.app || {};
-    const menu = drivers.map((i) => <div key={`dropdown-item-${i.type}`} className="dropdown-item" onClick={() => { this.selectHandle(i.type); }}>{i.type}</div>);
+    const menu = drivers.map((i) => i.type);
     const { state = {} } = this || {};
     const { type = '', isLoading = false, status = '' } = state || {};
     const driver = drivers.find((i) => i.type === type);
@@ -126,7 +126,7 @@ class Form extends PureComponent {
         <style jsx>{style}</style>
         <div className="row">
           <label htmlFor="" required>Type</label>
-          <Dropdown icon={<span>{type}</span>} menu={menu} onSelect={this.selectHandle} />
+          <Select defaultValue={type} options={menu} onChange={this.selectHandle} />
         </div>
         {
           config.map((i) => {
@@ -155,8 +155,9 @@ class Form extends PureComponent {
         }
         { status ? <div className="error">{status}</div> : null }
         <div className="btn-group">
-          <div className="btn-primary" onClick={this.testConnection}>Test</div>
-          <div className="btn-primary" onClick={this.saveConnection}>Connect</div>
+          <div className="btn-outline" onClick={this.testConnection}>Test</div>
+          <div className="btn-primary mg-l-auto" onClick={this.saveConnection}>Connect</div>
+          <div className="btn-outline" onClick={onClose}>Cancel</div>
         </div>
       </form>
     );

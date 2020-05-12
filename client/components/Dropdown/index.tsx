@@ -27,7 +27,7 @@ class Dropdown extends PureComponent {
 
   render() {
     const { isHover = false } = this.state || {};
-    const { icon = '', menu, withArrow = true } = this.props || {};
+    const { icon = '', components = [], withArrow = true } = this.props || {};
     return (
       <div
         className={clsn('dropdown')}
@@ -42,13 +42,13 @@ class Dropdown extends PureComponent {
           {withArrow ? <ArrowDown /> : null}
         </div>
         <div
-          className={clsn('main', { spread: isHover })}
+          className={clsn('details', { spread: isHover })}
           onMouseOver={this.onHover}
           onFocus={this.onHover}
           onMouseOut={this.onOut}
           onBlur={this.onOut}
         >
-          {menu}
+          {components}
         </div>
       </div>
     );

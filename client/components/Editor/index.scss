@@ -1,5 +1,8 @@
+@import '../../stylesheets/variables.scss';
 .editor {
     position: relative;
+    background-color: $beige;
+    color: $black;
 
     .main {
         position: absolute;

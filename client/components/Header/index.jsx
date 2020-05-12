@@ -17,7 +17,7 @@ class Header extends PureComponent {
         <style jsx>{style}</style>
         <a to="/" className="title">Cloud SQL</a>
         <div className="right-items">
-          <Dropdown icon={username} menu={menu} />
+          <Dropdown icon={username} components={menu} />
         </div>
       </header>
     );

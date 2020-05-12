@@ -1,6 +1,6 @@
 @import '../../../stylesheets/variables.scss';
 
-$toolbar-height: 30px;
+$toolbar-height: 46px;
 
 .sql-editor {
     position: absolute;
@@ -13,6 +13,10 @@ $toolbar-height: 30px;
         height: $toolbar-height;
         background-color: $medium-grey;
         color: $black;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 20px 0 5px;
     }
 
     .fill {
@@ -21,5 +25,18 @@ $toolbar-height: 30px;
         left: 0;
         right: 0;
         bottom: 0;
+    }
+
+    .setting-box {
+        padding: 0 20px;
+        width: 200px;
+
+        .row {
+            margin: 10px 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
     }
 }

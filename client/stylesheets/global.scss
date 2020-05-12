@@ -1,3 +1,4 @@
+@import './variables.scss';
 html,
 body {
   padding: 0;
@@ -12,3 +13,45 @@ body {
   box-sizing: content-box;
 }
 
+.btn-primary {
+  line-height: 1.6;
+  font-weight: 400;
+  text-align: center;
+  box-shadow: 0 2px 0 rgba(0,0,0,.015);
+  cursor: pointer;
+  margin: 4px;
+  padding: 0;
+  padding: 4px 12px;
+  font-size: 14px;
+  border-radius: 2px;
+  color: #fff;
+  background-color:  $blue;
+
+  &:hover {
+    background-color: $dark-blue !important;
+  }
+}
+
+.btn-outline {
+  line-height: 1.6;
+  font-weight: 400;
+  text-align: center;
+  box-shadow: 0 2px 0 rgba(0,0,0,.015);
+  cursor: pointer;
+  margin: 4px;
+  padding: 0;
+  padding: 4px 6px;
+  font-size: 14px;
+  border-radius: 2px;
+  color: $grey;
+  background-color: $white;
+  border: 1px solid $light-grey;
+
+  &:hover {
+    border: 1px solid $grey;
+  }
+}
+
+.mg-l-auto {
+  margin-left: auto !important;
+}
