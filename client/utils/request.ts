@@ -26,6 +26,7 @@ async function fetch({ method = '', url = '', body = {} }) {
     const response = await Axios(opts);
     const { data = {} } = response || {};
     const { code = 0, msg = '' } = data || {};
+    Message.error({ type: 'error', content: msg });
     if (code !== 200) {
       Message.error({ type: 'error', content: msg });
     }

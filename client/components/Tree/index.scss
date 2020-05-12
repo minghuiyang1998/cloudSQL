@@ -1,23 +1,69 @@
+@import '../../stylesheets/variables.scss';
+
 .tree {
 
     .branch {
         cursor: pointer;
+        margin: 5px;
+        font-size: 14px;
     }
 
-    .schema {
+    $base: 16px;
+    $height: 20px;
+    .branch-title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: $height;
 
+        .name-wrapper {
+            position: relative;
+            flex: 1 1 auto;
+            height: $height;
+            line-height: 20px;
+        }
+
+        svg {
+            flex: none;
+            height: auto;
+            margin-right: 4px;
+        }
     }
 
-    .table {
-
+    .instance-type {
+        padding-left: $base;
     }
 
-    .columns {
-
+    .schema-type {
+        padding-left: $base * 2;
     }
 
-    .datetype {
-        
+    .column-type {
+        padding-left: $base;
+    }
+
+    .instance, 
+    .schema,
+    .sheet,
+    .column {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .sheet,
+    .column {
+        color: $grey;
+    }
+
+    .column span {
+        margin-left: 4px;
+        color: $blue;
     }
 
     .children {

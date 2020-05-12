@@ -15,7 +15,6 @@ import {
   TYPE_SCHEMA,
 } from '../Tree/config';
 
-
 @withAppStore
 @observer
 class Sidebar extends PureComponent {
@@ -50,7 +49,7 @@ class Sidebar extends PureComponent {
   instanceHandle = ({ connection = {} }) => {
     this.setState({
       isModalVisible: true,
-      connection,
+      config: connection,
     });
   }
 
@@ -75,7 +74,7 @@ class Sidebar extends PureComponent {
       return {
         key: cid,
         name: (
-          <div>
+          <>
             <ContextMenuTrigger id={cid}>
               <div className="instance">{`${type}: ${host}:${port}`}</div>
             </ContextMenuTrigger>
@@ -84,8 +83,9 @@ class Sidebar extends PureComponent {
                 Delete Connection
               </MenuItem>
             </ContextMenu>
-          </div>
+          </>
         ),
+        type: TYPE_INS,
         clickHandle: () => { this.instanceHandle({ connection: i }); },
       };
     });
@@ -96,8 +96,9 @@ class Sidebar extends PureComponent {
     if (cid) {
       loggedIn = [{
         key: cid,
+        type: TYPE_INS,
         name: (
-          <div>
+          <>
             <ContextMenuTrigger id={cid}>
               <div className="instance">{`${type}: ${host}:${port}`}</div>
             </ContextMenuTrigger>
@@ -109,9 +110,8 @@ class Sidebar extends PureComponent {
                 Delete Connection
               </MenuItem>
             </ContextMenu>
-          </div>
+          </>
         ),
-        type: TYPE_INS,
         children: children.map((i) => ({
           key: i,
           type: TYPE_SCHEMA,
@@ -125,11 +125,11 @@ class Sidebar extends PureComponent {
 
     const content = [{
       key: 'Instance not logged in',
-      name: 'Instance not logged in',
+      name: `Instance not logged in(${notLoggedIn.length})`,
       children: notLoggedIn,
     }, {
       key: 'logged in instance',
-      name: 'logged in instance',
+      name: `logged in instance(${loggedIn.length})`,
       children: loggedIn,
     }];
     return (

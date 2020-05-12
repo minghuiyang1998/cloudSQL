@@ -40,7 +40,7 @@ class Editor extends PureComponent {
       });
       return {
         key: t,
-        name: <div className="table">{t}</div>,
+        name: <div className="sheet">{t}</div>,
         type: TYPE_TABLE,
         children: formatedChildren,
       };

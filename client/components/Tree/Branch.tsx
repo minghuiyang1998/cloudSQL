@@ -18,7 +18,7 @@ class Branch extends PureComponent {
     };
   }
 
-  renderTypeIcon = ({ type }) => {
+  renderTypeIcon = (type) => {
     let icon = null;
     switch (type) {
     case TYPE_SCHEMA:
@@ -59,10 +59,12 @@ class Branch extends PureComponent {
     const clickEvent = children ? this.spreadHandle : clickHandle;
     return (
       <div className="branch">
-        <div onClick={clickEvent}>
-          {children ? this.renderStateIcon() : null}
+        <div onClick={clickEvent} className={`branch-title ${iconType}`}>
+          {!iconType ? this.renderStateIcon() : null}
           {this.renderTypeIcon(iconType)}
-          {name}
+          <div className="name-wrapper">
+            {name}
+          </div>
         </div>
         {
           children ? (
