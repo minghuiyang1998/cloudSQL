@@ -46,22 +46,24 @@ class SQLEditor extends PureComponent {
       fontSize: FONTSIZE[0],
       isGutterShow: true,
       isActiveLineHighlighted: false,
+      prevAdd: add,
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { add = '' } = nextProps || {};
-    const { value = '' } = prevState || {};
-    let line = '';
-    if (value) {
-      line += `${value}\n`;
-    }
-    if (add) {
-      line += add;
+    console.log('SQLEditor -> getDerivedStateFromProps -> add', add);
+    const { value = '', prevAdd = '' } = prevState || {};
+    console.log('SQLEditor -> getDerivedStateFromProps -> prevAdd', prevAdd);
+    let line = value;
+    const valid = add && (add !== prevAdd || !prevAdd);
+    if (valid) {
+      line = value ? `${value}\n${add}` : add;
     }
     return {
       ...prevState,
       value: line,
+      prevAdd: add,
     };
   }
 
@@ -142,7 +144,7 @@ class SQLEditor extends PureComponent {
                 highlightActiveLine={isActiveLineHighlighted}
                 mode="sql"
                 theme={theme}
-                onChange={this.onChange}
+                onChange={(newValue) => { console.log(newValue); this.setState({ value: newValue }); }}
                 name="query-ace-editor"
                 editorProps={{ $blockScrolling: true }}
                 height={`${height}px`}
