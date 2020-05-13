@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react';
+import clsn from 'classnames';
 import withAppStore from '../../HOC/withAppStore';
 import Table from './Table';
 import style from './index.scss';
@@ -149,11 +150,9 @@ class Console extends PureComponent {
 
   renderDefault = () => {
     const { history = [] } = this.state || {};
-    return (
-      <div>
-        {/* <Table columns={columns} data={data} /> */}
-      </div>
-    );
+    const { columns = [], data = [] } = formatTableData(history) || {};
+    if (!history.length) return null;
+    return (<Table columns={columns} data={data} />);
   }
 
   tabHandle = (id = '') => {
@@ -179,7 +178,10 @@ class Console extends PureComponent {
         <style jsx>{style}</style>
         <div className="executions">
           {
-            [{ label: 'Execution History', id: TAB_DEFAULT }, ...tabs].map((i) => <div key={i.id} className="tab" onClick={() => { this.tabHandle(i.id); }}>{i.label}</div>)
+            [{ label: 'Execution History', id: TAB_DEFAULT }, ...tabs].map((i) => {
+              console.log(i.id);
+              return <div key={i.id} className={clsn('tab', { active: current === i.id })} onClick={() => { this.tabHandle(i.id); }}>{i.label}</div>;
+            })
           }
         </div>
         <div className="fill">

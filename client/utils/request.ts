@@ -28,7 +28,7 @@ async function fetch({ method = '', url = '', body = {} }) {
     const response = await Axios(opts);
     const _receiveDate = (new Date()).getTime();
     Message.endLoading(_loadingItem);
-    const _responseTimeMs = _receiveDate - _sendDate;
+    const _responseTimeMs = (_receiveDate - _sendDate) / 1000;
     const { data = {} } = response || {};
     const { code = 0, msg = '' } = data || {};
     if (code !== 200) {

@@ -23,6 +23,8 @@ export default function Resizer({
   defaultSize = 250,
   maxSize = 300,
   resizerStyle = DEFAULT_RESIZER,
+  pane1Style = {},
+  pane2Style = {},
   style = DEFAULT_STYLE,
 }) {
   return (
@@ -32,6 +34,8 @@ export default function Resizer({
       defaultSize={defaultSize}
       maxSize={maxSize}
       resizerStyle={resizerStyle}
+      pane1Style={pane1Style}
+      pane2Style={pane2Style}
       style={style}
     >
       {children}

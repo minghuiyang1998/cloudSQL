@@ -102,13 +102,6 @@ class SQLEditor extends PureComponent {
 
   loadEditor = (editor) => {
     this.setState({ editor });
-    editor.commands.on('afterExec', (e) => {
-      if (e.command.name === 'insertstring' && /^[\w.]$/.test(e.args)) {
-        if (e.args === '.') {
-          editor.execCommand('startAutocomplete');
-        }
-      }
-    });
   }
 
   formatSQL = () => {
@@ -166,7 +159,7 @@ class SQLEditor extends PureComponent {
                 highlightActiveLine={isActiveLineHighlighted}
                 mode="sql"
                 theme={theme}
-                onChange={(newValue) => { console.log(newValue); this.setState({ value: newValue }); }}
+                onChange={(newValue) => { this.setState({ value: newValue }); }}
                 name="query-ace-editor"
                 editorProps={{ $blockScrolling: true }}
                 height={`${height}px`}

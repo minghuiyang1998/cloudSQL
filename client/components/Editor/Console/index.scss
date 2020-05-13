@@ -6,13 +6,46 @@
     right: 0;
     bottom: 0;
 
-    .toolbar {
-        height: 28px;
-        background-color: $medium-grey;
-        color: $black;
+    $height: 28px;
+    .executions {
+        height: $height;
+        display: flex;
+        flex-direction: row;
+        background-color: $white;
+
+        .tab {
+            height: 28px;
+            font-size: 14px;
+            border-radius: 3px 3px 0 0;
+            display: flex;
+            padding: 0 10px;
+            align-items: center;
+            color: $black;
+
+            .tab-name {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            .close-btn {
+                margin-left: auto;
+                line-height: 0;
+            }
+            
+            &.active,
+            &:hover {
+                color: $blue;
+                border-bottom: 2px solid currentColor;
+            }
+        }
     }
 
-    .button {
-        
+    .fill{
+        position: absolute;
+        top: $height;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 }

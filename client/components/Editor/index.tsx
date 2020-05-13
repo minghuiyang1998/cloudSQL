@@ -81,7 +81,8 @@ class Editor extends PureComponent {
           minSize={10}
           maxSize={250}
           defaultSize={150}
-          resizerStyle={{ width: '2px', backgroundColor: '#ccc', cursor: 'col-resize' }}
+          pane1Style={{ backgroundColor: '#fafafa' }}
+          resizerStyle={{ width: '6px', backgroundColor: 'transparent', cursor: 'col-resize' }}
         >
           <Tree data={list} />
           <div className="main">
@@ -90,7 +91,8 @@ class Editor extends PureComponent {
               minSize={10}
               maxSize={700}
               defaultSize={600}
-              resizerStyle={{ padding: '1px', backgroundColor: '#ccc', cursor: 'row-resize' }}
+              pane2Style={{ backgroundColor: '#f2f2f2' }}
+              resizerStyle={{ padding: '3px 0', backgroundColor: 'transparent', cursor: 'row-resize' }}
             >
               <SQLEditor add={editorValue} isRunning={isRunning} setRunning={this.setRunning} />
               <Console database={current} setRunning={this.setRunning} runningList={runningList} />

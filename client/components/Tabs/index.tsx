@@ -54,7 +54,7 @@ class Tabs extends PureComponent {
               ))
             }
           </div>
-          <div className="fill">
+          <div className="flex-fill">
             { current ? <Panel schema={current} func={func} /> : null }
           </div>
         </div>

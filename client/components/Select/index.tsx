@@ -20,8 +20,8 @@ const SelectWrapped = ({ placeHolder = '', defaultValue = '', options = [], onCh
       <style jsx>{style}</style>
       <Select
         className="select"
-        defaultValue={_defaultValue}
-        placeHolder={placeHolder}
+        defaultValue={defaultValue ? _defaultValue : null}
+        placeholder={placeHolder}
         options={_options}
         onChange={({ value }) => { onChange(value); }}
         styles={customStyle}

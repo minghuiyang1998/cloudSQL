@@ -36,48 +36,13 @@ export const formatSchemaData = (data) => {
 
 
 export const formatTableData = (list = []) => {
-  const columns = [
-    {
-      Header: 'Name',
-      columns: [
-        {
-          Header: 'First Name',
-          accessor: 'firstName',
-        },
-        {
-          Header: 'Last Name',
-          accessor: 'lastName',
-        },
-      ],
-    },
-    {
-      Header: 'Info',
-      columns: [
-        {
-          Header: 'Age',
-          accessor: 'age',
-          width: 50,
-          align: 'right',
-        },
-        {
-          Header: 'Visits',
-          accessor: 'visits',
-          width: 50,
-          align: 'right',
-        },
-        {
-          Header: 'Status',
-          accessor: 'status',
-        },
-        {
-          Header: 'Profile Progress',
-          accessor: 'progress',
-        },
-      ],
-    },
-  ];
-  const data = [];
-  console.log('formatTableData -> list', list);
+  if (!list.length) return {};
+  const item = list[0];
+  const columns = Object.keys(item).map((k) => ({
+    Header: k,
+    accessor: k,
+  }));
+  const data = list;
   return {
     columns,
     data,

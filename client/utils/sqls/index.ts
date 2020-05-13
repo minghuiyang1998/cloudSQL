@@ -3,5 +3,5 @@ export function selectAll(tableName = '') {
 }
 
 export function selectColumn(tableName = '', columnName = '') {
-  return `SELECT * FROM \`${tableName}\` WHERE \`${columnName}\` = `;
+  return `SELECT * FROM \`${tableName}\` WHERE \`${columnName}\` = ''`;
 }
