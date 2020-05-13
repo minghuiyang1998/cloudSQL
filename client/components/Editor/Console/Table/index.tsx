@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useTable,
   useResizeColumns,
@@ -42,7 +42,7 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 
-function Table({ columns, data }) {
+function Table({ columns, data, getSelectedColumns = () => {} }) {
   const defaultColumn = React.useMemo(
     () => ({
       // When using the useFlexLayout:
@@ -56,7 +56,7 @@ function Table({ columns, data }) {
   const [isModalVisible, setModalStatus] = useState(false);
   const [current, setCurrent] = useState({});
 
-  const { getTableProps, headerGroups, rows, prepareRow } = useTable(
+  const { getTableProps, headerGroups, rows, prepareRow, selectedFlatRows } = useTable(
     {
       columns,
       data,
@@ -98,6 +98,11 @@ function Table({ columns, data }) {
       });
     },
   );
+
+  useEffect(() => {
+    const all = selectedFlatRows.map((i) => i.original);
+    getSelectedColumns(all);
+  }, [selectedFlatRows]);
 
   return (
     <>

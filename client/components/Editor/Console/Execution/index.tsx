@@ -42,6 +42,12 @@ class Execution extends PureComponent {
     }
   }
 
+  getSelectedColumns = (array = []) => {
+    this.setState({
+      selectedData: array,
+    });
+  }
+
   render() {
     const { info = {} } = this.props || {};
     const { status = '', result = [], timeCount = 0, rows = 0, msg = '' } = info || {};
@@ -49,7 +55,7 @@ class Execution extends PureComponent {
     const { columns = [], data = [] } = formatTableData(result) || {};
     return (
       <>
-        <Modal width="400" visible={isModalVisible} onClose={this.closeModal}>
+        <Modal title="Generate Chart" width="400" visible={isModalVisible} onClose={this.closeModal}>
           {/* <Charts data={} /> */}
         </Modal>
         <div className="execution">
@@ -69,7 +75,7 @@ class Execution extends PureComponent {
             <Select width={150} placeHolder="Export File" options={DOWNLOAD_ALLOWED} onChange={this.downloadHandle} />
           </div>
           <div className="flex-fill">
-            <Table columns={columns} data={data} />
+            { data.length ? <Table columns={columns} data={data} getSelectedColumns={this.getSelectedColumns} /> : null }
           </div>
         </div>
       </>
