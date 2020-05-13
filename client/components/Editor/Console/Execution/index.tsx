@@ -65,7 +65,7 @@ class Execution extends PureComponent {
               {rows}
               <span>rows</span>
             </div>
-            <div className="btn-link mg-l-auto" onClick={this.showModal}>Charts</div>
+            <div className="btn-link mg-l-auto" onClick={this.showModal}>Generate Charts</div>
             <Select width={150} placeHolder="Export File" options={DOWNLOAD_ALLOWED} onChange={this.downloadHandle} />
           </div>
           <div className="flex-fill">

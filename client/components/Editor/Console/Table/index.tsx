@@ -1,11 +1,12 @@
 /* eslint-disable no-shadow */
-import React from 'react';
+import React, { useState } from 'react';
 import {
   useTable,
   useResizeColumns,
   useFlexLayout,
   useRowSelect,
 } from 'react-table';
+import Modal from '../../../Modal';
 import style from './index.scss';
 
 const getStyles = (props, align = 'left') => [
@@ -52,6 +53,9 @@ function Table({ columns, data }) {
     [],
   );
 
+  const [isModalVisible, setModalStatus] = useState(false);
+  const [current, setCurrent] = useState({});
+
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
@@ -96,48 +100,65 @@ function Table({ columns, data }) {
   );
 
   return (
-    <div {...getTableProps()} className="table">
-      <style jsx>{style}</style>
-      <div>
-        {headerGroups.map((headerGroup) => (
-          <div
-            {...headerGroup.getHeaderGroupProps({
-              // style: { paddingRight: '15px' },
-            })}
-            className="tr"
-          >
-            {headerGroup.headers.map((column) => (
-              <div {...column.getHeaderProps(headerProps)} className="th">
-                {column.render('Header')}
-                {/* Use column.getResizerProps to hook up the events correctly */}
-                {column.canResize && (
-                  <div
-                    {...column.getResizerProps()}
-                    className={`resizer ${
-                      column.isResizing ? 'isResizing' : ''
-                    }`}
-                  />
-                )}
+    <>
+      <Modal width="600" visible={isModalVisible} onClose={() => { setModalStatus(false); }}>
+        <div className="details">
+          {
+            Object.keys(current).map((k) => (
+              <div key={k}>
+                <span className="key">
+                  {k}
+                  :
+                </span>
+                <span>{current[k]}</span>
               </div>
-            ))}
-          </div>
-        ))}
-      </div>
-      <div className="tbody">
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <div {...row.getRowProps()} className="tr">
-              {row.cells.map((cell) => (
-                <div {...cell.getCellProps(cellProps)} className="td">
-                  {cell.render('Cell')}
+            ))
+          }
+        </div>
+      </Modal>
+      <div {...getTableProps()} className="table">
+        <style jsx>{style}</style>
+        <div>
+          {headerGroups.map((headerGroup) => (
+            <div
+              {...headerGroup.getHeaderGroupProps({
+                // style: { paddingRight: '15px' },
+              })}
+              className="tr"
+            >
+              {headerGroup.headers.map((column) => (
+                <div {...column.getHeaderProps(headerProps)} className="th">
+                  {column.render('Header')}
+                  {/* Use column.getResizerProps to hook up the events correctly */}
+                  {column.canResize && (
+                    <div
+                      {...column.getResizerProps()}
+                      className={`resizer ${
+                        column.isResizing ? 'isResizing' : ''
+                      }`}
+                    />
+                  )}
                 </div>
               ))}
             </div>
-          );
-        })}
+          ))}
+        </div>
+        <div className="tbody">
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <div {...row.getRowProps()} className="tr" onClick={() => { setModalStatus(true); setCurrent(row.original); }}>
+                {row.cells.map((cell) => (
+                  <div {...cell.getCellProps(cellProps)} className="td">
+                    {cell.render('Cell')}
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

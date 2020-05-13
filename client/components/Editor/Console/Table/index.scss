@@ -13,6 +13,7 @@ $border-color: $light-grey;
     font-size: 12px;
     color: $grey;
     min-width: 0 !important;
+    overflow: hidden;
 
     .thead {
         /* These styles are required for a scrollable body to align with the header properly */
@@ -78,5 +79,24 @@ $border-color: $light-grey;
         background-color: $light-grey;
         position: relative;
         border: none;
+    }
+
+    .td {
+        cursor: pointer;
+    }
+}
+
+.details {
+    padding: 10px;
+    word-break: break-all;
+
+    div {
+        display: flex;
+        margin: 5px 0;
+
+        .key {
+            flex: none;
+            padding-right: 10px;;
+        }
     }
 }
