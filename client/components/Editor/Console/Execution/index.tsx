@@ -1,48 +1,20 @@
 import React, { PureComponent } from 'react';
-import { observer } from 'mobx-react';
-import withAppStore from '../HOC/withAppStore';
 import style from './index.scss';
 import Loading from '../../../Loading';
 import Table from '../Table';
-import { runSQL } from '../../../../dao/sql';
 import Select from '../../../Select';
 import Modal from '../../../Modal';
+import { formatTableData } from '../../../../utils/format';
 
 const Error = ({ msg = '' }) => (<div>{msg}</div>);
 const DOWNLOAD_ALLOWED = ['csv', 'Excel', 'Text'];
-
-@withAppStore
-@observer
 class Execution extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       isModalVisible: false,
-      selectData: [],
+      selectedData: [],
     };
-  }
-
-  componentDidMount() {
-    const { info = {}, refreshStatus = () => {}, store = {} } = this.props || {};
-    const { connection = {} } = store.app || {};
-    const { sql = '', status = '', database = '' } = info || {};
-    if (status !== 'loading') return;
-    const result = await runSQL({ sql, connectionInfo: { ...connection, database } });
-    const { code = '', msg = '', data = [], timeCount = 0 } = result || {};
-    let _status = 'complete';
-    if (code !== 200) {
-      _status = 'error';
-    }
-    refreshStatus({
-      ...info,
-      ...{
-        status: _status,
-        timeCount,
-        rows: data.length,
-        result: data,
-        msg,
-      },
-    });
   }
 
   showModal = () => {
@@ -57,7 +29,7 @@ class Execution extends PureComponent {
     });
   }
 
-  selectHandle = (type) => {
+  downloadHandle = (type) => {
     switch (type) {
     case 'csv':
       break;
@@ -81,15 +53,15 @@ class Execution extends PureComponent {
         </Modal>
         <div className="execution">
           <style jsx>{style}</style>
-          {status === 'loading' ? <Loading /> : null }
+          { status === 'loading' ? <Loading /> : null }
           { status === 'error' ? <Error msg={msg} /> : null }
           <div className="tools">
             <span>{timeCount}</span>
             <span>{rows}</span>
             <div className="btn-outline">Charts</div>
-            <Select placeHolder="Export File" options={DOWNLOAD_ALLOWED} onChange={this.selectHandle} />
+            <Select width={100} placeHolder="Export File" options={DOWNLOAD_ALLOWED} onChange={this.downloadHandle} />
           </div>
-          <Table data={result} />
+          {/* <Table data={result} /> */}
         </div>
       </>
     );

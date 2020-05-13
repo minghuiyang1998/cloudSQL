@@ -33,3 +33,53 @@ export const formatSchemaData = (data) => {
   });
   return schemas;
 };
+
+
+export const formatTableData = (list = []) => {
+  const columns = [
+    {
+      Header: 'Name',
+      columns: [
+        {
+          Header: 'First Name',
+          accessor: 'firstName',
+        },
+        {
+          Header: 'Last Name',
+          accessor: 'lastName',
+        },
+      ],
+    },
+    {
+      Header: 'Info',
+      columns: [
+        {
+          Header: 'Age',
+          accessor: 'age',
+          width: 50,
+          align: 'right',
+        },
+        {
+          Header: 'Visits',
+          accessor: 'visits',
+          width: 50,
+          align: 'right',
+        },
+        {
+          Header: 'Status',
+          accessor: 'status',
+        },
+        {
+          Header: 'Profile Progress',
+          accessor: 'progress',
+        },
+      ],
+    },
+  ];
+  const data = [];
+  console.log('formatTableData -> list', list);
+  return {
+    columns,
+    data,
+  };
+};

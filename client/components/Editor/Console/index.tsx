@@ -1,98 +1,108 @@
 import React, { PureComponent } from 'react';
 import dayjs from 'dayjs';
+import { observer } from 'mobx-react';
+import withAppStore from '../../HOC/withAppStore';
 import Table from './Table';
 import style from './index.scss';
 import { genHashID } from '../../../utils/common';
+import { formatTableData } from '../../../utils/format';
 import Execution from './Execution';
-
-const columns = [
-  {
-    Header: 'Name',
-    columns: [
-      {
-        Header: 'First Name',
-        accessor: 'firstName',
-      },
-      {
-        Header: 'Last Name',
-        accessor: 'lastName',
-      },
-    ],
-  },
-  {
-    Header: 'Info',
-    columns: [
-      {
-        Header: 'Age',
-        accessor: 'age',
-        width: 50,
-        align: 'right',
-      },
-      {
-        Header: 'Visits',
-        accessor: 'visits',
-        width: 50,
-        align: 'right',
-      },
-      {
-        Header: 'Status',
-        accessor: 'status',
-      },
-      {
-        Header: 'Profile Progress',
-        accessor: 'progress',
-      },
-    ],
-  },
-];
-
-const data = [];
+import { runSQL } from '../../../dao/sql';
 
 const TAB_DEFAULT = 'default';
+
+const formatList = ({ database = '', runningList = [] }) => {
+  const _list = runningList.map((sql) => {
+    const execId = genHashID();
+    return {
+      [execId]: {
+        execId,
+        time: dayjs(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+        database,
+        sql,
+        status: 'loading',
+        rows: 0,
+        timeCount: 0,
+        result: [],
+      },
+    };
+  });
+  let status = {};
+  _list.forEach((e) => {
+    status = {
+      ...status,
+      ...e,
+    };
+  });
+  const keys = Object.keys(status);
+  return {
+    statusList: status,
+    current: keys[keys.length - 1],
+  };
+};
+
+let isRuned = true;
+
+@withAppStore
+@observer
 class Console extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       current: TAB_DEFAULT,
-      history: [{
-        time: '',
-        sql: '',
-        status: '',
-        rows: 0,
-        timeCount: 0,
-      }],
+      history: [],
       statusList: {},
     };
   }
 
-  formatList = () => {
-    const { databse = '', runningList = [] } = this.props || {};
-    const _list = runningList.map((sql) => {
-      const execId = genHashID();
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { database = '', runningList = [], setRunning = () => {} } = nextProps || {};
+    if (runningList.length) {
+      const _formated = formatList({ database, runningList }) || [];
+      isRuned = false;
+      setRunning({
+        isRunning: true,
+        runningList: [],
+      });
       return {
-        [execId]: {
-          execId,
-          time: dayjs(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-          databse,
-          sql,
-          status: 'loading',
-          rows: 0,
-          timeCount: 0,
-          result: [],
-        },
+        ...prevState,
+        ..._formated,
       };
-    });
-    let status = {};
-    _list.forEach((e) => {
-      status = {
-        ...status,
-        ...e,
-      };
-    });
-    const keys = Object.keys(status);
-    this.setStatus({
-      statusList: status,
-      current: keys[keys.length - 1],
+    }
+    return {
+      ...prevState,
+    };
+  }
+
+  componentDidUpdate() {
+    if (!isRuned) {
+      const { store = {} } = this.props || {};
+      const { connection = {} } = store.app || {};
+      const { statusList = [] } = this.state || {};
+      Object.keys(statusList).forEach((k) => {
+        const info = statusList[k];
+        const { sql = '', status = '', database = '' } = info || {};
+        if (status !== 'loading') return;
+        this.asyncRunSQL({ sql, connection: { ...connection, database }, info });
+      });
+      isRuned = true;
+    }
+  }
+
+  asyncRunSQL = async ({ sql = '', connection = {}, info = {} }) => {
+    const result = await runSQL({ sql, connection });
+    const { code = '', msg = '', data = [], timeCount = 0 } = result || {};
+    let _status = 'complete';
+    if (code !== 200) {
+      _status = 'error';
+    }
+    this.refreshStatus({
+      ...info,
+      status: _status,
+      timeCount,
+      rows: data.length,
+      result: data,
+      msg,
     });
   }
 
@@ -107,45 +117,73 @@ class Console extends PureComponent {
     } = execution || {};
     this.setState((prevState) => {
       const { statusList = {}, history = [] } = prevState || {};
+      const prev = statusList[execId];
+      history.unshift({ database, sql, status, timeCount, rows });
       return {
         statusList: {
           ...statusList,
-          [execId]: execution,
+          [execId]: {
+            ...prev,
+            ...execution,
+          },
         },
-        history: history.unshift({
-          database,
-          sql,
-          status,
-          timeCount,
-          rows,
-        }),
+        history,
       };
     });
+    const allComplete = this.checkAllStatus();
+    if (allComplete) {
+      const { setRunning = () => {} } = this.props || {};
+      setRunning({
+        isRunning: false,
+        runningList: [],
+      });
+    }
+  }
+
+  checkAllStatus = () => {
+    const { statusList = {} } = this.state || {};
+    const allStatus = Object.keys(statusList).map((k) => k.status);
+    const allComplete = allStatus.every((s) => s !== 'loading');
+    return allComplete;
   }
 
   renderDefault = () => {
     const { history = [] } = this.state || {};
-    console.log('Console -> renderDefault -> history', history);
     return (
       <div>
-        <Table columns={columns} data={data} />
+        {/* <Table columns={columns} data={data} /> */}
       </div>
     );
   }
 
+  tabHandle = (id = '') => {
+    if (!id) return;
+    this.setState({
+      current: id,
+    });
+  }
+
   render() {
-    const { runningList = [] } = this.props || {};
-    if (runningList.length) {
-      this.formatList();
-    }
     const { current = '', statusList = {} } = this.state || {};
     const isDefault = current === TAB_DEFAULT;
+    const tabs = Object.keys(statusList).map((k) => {
+      const info = statusList[k];
+      const { execId = '' } = info || {};
+      return {
+        label: 'execution',
+        id: execId,
+      };
+    });
     return (
       <div className="console">
         <style jsx>{style}</style>
-        <div className="toolbar">header</div>
+        <div className="executions">
+          {
+            [{ label: 'Execution History', id: TAB_DEFAULT }, ...tabs].map((i) => <div key={i.id} className="tab" onClick={() => { this.tabHandle(i.id); }}>{i.label}</div>)
+          }
+        </div>
         <div className="fill">
-          { isDefault ? this.renderDefault() : (<Execution info={statusList[current]} refreshStatus={this.refreshStatus} />) }
+          { isDefault ? this.renderDefault() : (<Execution info={statusList[current]} />) }
         </div>
       </div>
     );

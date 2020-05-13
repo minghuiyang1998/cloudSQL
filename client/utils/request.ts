@@ -23,16 +23,16 @@ async function fetch({ method = '', url = '', body = {} }) {
   };
 
   try {
+    const _loadingItem = Message.startLoading();
     const _sendDate = (new Date()).getTime();
     const response = await Axios(opts);
     const _receiveDate = (new Date()).getTime();
+    Message.endLoading(_loadingItem);
     const _responseTimeMs = _receiveDate - _sendDate;
     const { data = {} } = response || {};
     const { code = 0, msg = '' } = data || {};
-    const loadingItem = Message.startLoading();
     if (code !== 200) {
       Message.error({ content: msg });
-      Message.endLoading(loadingItem);
     }
     return {
       ...data,

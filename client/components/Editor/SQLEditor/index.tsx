@@ -124,10 +124,11 @@ class SQLEditor extends PureComponent {
     const { value = '' } = this.state || {};
     const { setRunning = () => {} } = this.props || {};
     if (!value) return;
-    const sqlList = value.split(';');
+    const sqlList = value.trim().replace(/\r\n/g, '').split(';').filter((sql) => sql);
+    const _formatedSqlList = sqlList.map((sql) => `${sql};`);
     setRunning({
       isRunning: true,
-      runningList: sqlList,
+      runningList: _formatedSqlList,
     });
   }
 
@@ -146,7 +147,7 @@ class SQLEditor extends PureComponent {
       <div className="sql-editor">
         <style jsx>{style}</style>
         <div className="toolbar">
-          <div className={clsn('btn-primary', { disable: isRunning })}>Execute</div>
+          <div className={clsn('btn-primary', { disable: isRunning })} onClick={isRunning ? null : this.executeSQL}>Execute</div>
           <div className="btn-outline" onClick={this.formatSQL}>Format</div>
           {/* <div className="btn-outline">SQL Diagnostics</div> */}
           <div className="mg-l-auto">

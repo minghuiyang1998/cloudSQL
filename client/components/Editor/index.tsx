@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import withAppStore from '../HOC/withAppStore';
 import Resizer from '../Resizer';
 import Tree from '../Tree';
-import Console from '../Console';
+import Console from './Console';
 import SQLEditor from './SQLEditor';
 import style from './index.scss';
 import {
@@ -29,6 +29,7 @@ class Editor extends PureComponent {
   }
 
   setRunning = ({ isRunning = true, runningList = [] }) => {
+    console.log('Editor -> setRunning -> runningList', isRunning, runningList);
     this.setState({
       isRunning,
       runningList,

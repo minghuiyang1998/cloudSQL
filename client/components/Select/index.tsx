@@ -3,7 +3,7 @@ import Select from 'react-select';
 import style from './index.scss';
 
 
-const SelectWrapped = ({ defaultValue = '', options = [], onChange = () => {}, width = 280 }) => {
+const SelectWrapped = ({ placeHolder = '', defaultValue = '', options = [], onChange = () => {}, width = 280 }) => {
   const _defaultValue = { value: defaultValue, label: defaultValue };
   const _options = options.map((o) => ({ value: o, label: o }));
   const customStyle = {
@@ -21,6 +21,7 @@ const SelectWrapped = ({ defaultValue = '', options = [], onChange = () => {}, w
       <Select
         className="select"
         defaultValue={_defaultValue}
+        placeHolder={placeHolder}
         options={_options}
         onChange={({ value }) => { onChange(value); }}
         styles={customStyle}
