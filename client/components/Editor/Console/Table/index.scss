@@ -15,14 +15,21 @@ $border-color: $light-grey;
     min-width: 0 !important;
     overflow: hidden;
 
+    $thead-height: 31px;
     .thead {
         /* These styles are required for a scrollable body to align with the header properly */
+        height: $thead-height;
         overflow-y: auto;
         overflow-x: hidden;
     }
 
     .tbody {
         /* These styles are required for a scrollable table body */
+        position: absolute;
+        top: $thead-height;
+        left: 0;
+        right: 0;
+        bottom: 0;
         overflow-y: scroll;
         overflow-x: hidden;
     }
@@ -86,7 +93,7 @@ $border-color: $light-grey;
     }
 }
 
-.details {
+.col-details {
     padding: 10px;
     word-break: break-all;
     font-size: 14px;
@@ -99,7 +106,7 @@ $border-color: $light-grey;
         .key {
             flex: none;
             padding-right: 10px;
-            width: 40px;
+            width: 100px;
         }
     }
 }

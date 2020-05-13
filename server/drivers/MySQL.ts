@@ -7,8 +7,6 @@ const getSchemaSql = (database) => {
     ? `WHERE t.table_schema = '${database}'`
     : `WHERE t.table_schema NOT IN (
         'mysql', 
-        'performance_schema', 
-        'information_schema',
         'sys'
       )`;
   return `

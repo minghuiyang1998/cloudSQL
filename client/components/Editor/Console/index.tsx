@@ -178,10 +178,7 @@ class Console extends PureComponent {
         <style jsx>{style}</style>
         <div className="executions">
           {
-            [{ label: 'Execution History', id: TAB_DEFAULT }, ...tabs].map((i) => {
-              console.log(i.id);
-              return <div key={i.id} className={clsn('tab', { active: current === i.id })} onClick={() => { this.tabHandle(i.id); }}>{i.label}</div>;
-            })
+            [{ label: 'Execution History', id: TAB_DEFAULT }, ...tabs].map((i) => <div key={i.id} className={clsn('tab', { active: current === i.id })} onClick={() => { this.tabHandle(i.id); }}>{i.label}</div>)
           }
         </div>
         <div className="fill">

@@ -81,7 +81,7 @@ class Editor extends PureComponent {
           minSize={10}
           maxSize={250}
           defaultSize={150}
-          pane1Style={{ backgroundColor: '#fafafa' }}
+          pane1Style={{ backgroundColor: '#fafafa', overflow: 'auto' }}
           resizerStyle={{ width: '6px', backgroundColor: 'transparent', cursor: 'col-resize' }}
         >
           <Tree data={list} />

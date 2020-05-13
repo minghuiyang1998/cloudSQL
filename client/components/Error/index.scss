@@ -1,0 +1,21 @@
+@import "../../stylesheets/variables.scss";
+
+.error-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+}
+
+.error-msg {
+  font-size: 16px;
+  max-width: 600px;
+  word-break: break-all;
+  color: $red;
+  margin: auto;
+}

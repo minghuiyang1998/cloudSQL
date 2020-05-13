@@ -4,16 +4,18 @@ import Loading from '../../../Loading';
 import Table from '../Table';
 import Select from '../../../Select';
 import Modal from '../../../Modal';
+import Chart from '../../../Chart';
 import { formatTableData } from '../../../../utils/format';
+import Error from '../../../Error';
 
-const Error = ({ msg = '' }) => (<div>{msg}</div>);
 const DOWNLOAD_ALLOWED = ['csv', 'Excel', 'Text'];
 class Execution extends PureComponent {
+  selectedData = []
+
   constructor(props) {
     super(props);
     this.state = {
       isModalVisible: false,
-      selectedData: [],
     };
   }
 
@@ -43,9 +45,8 @@ class Execution extends PureComponent {
   }
 
   getSelectedColumns = (array = []) => {
-    this.setState({
-      selectedData: array,
-    });
+    this.selectedData = array;
+    console.log('Execution -> getSelectedColumns -> this.selectedData', this.selectedData);
   }
 
   render() {
@@ -55,8 +56,8 @@ class Execution extends PureComponent {
     const { columns = [], data = [] } = formatTableData(result) || {};
     return (
       <>
-        <Modal title="Generate Chart" width="400" visible={isModalVisible} onClose={this.closeModal}>
-          {/* <Charts data={} /> */}
+        <Modal title="Generate Chart" width="800" visible={isModalVisible} onClose={this.closeModal}>
+          <Chart getData={() => this.selectedData} />
         </Modal>
         <div className="execution">
           <style jsx>{style}</style>
@@ -75,7 +76,7 @@ class Execution extends PureComponent {
             <Select width={150} placeHolder="Export File" options={DOWNLOAD_ALLOWED} onChange={this.downloadHandle} />
           </div>
           <div className="flex-fill">
-            { data.length ? <Table columns={columns} data={data} getSelectedColumns={this.getSelectedColumns} /> : null }
+            { data && data.length ? <Table columns={columns} data={data} getSelectedColumns={this.getSelectedColumns} /> : null }
           </div>
         </div>
       </>

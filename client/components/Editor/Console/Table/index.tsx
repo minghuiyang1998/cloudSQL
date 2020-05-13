@@ -107,7 +107,7 @@ function Table({ columns, data, getSelectedColumns = () => {} }) {
   return (
     <>
       <Modal width="600" visible={isModalVisible} onClose={() => { setModalStatus(false); }}>
-        <div className="details">
+        <div className="col-details">
           {
             Object.keys(current).map((k) => (
               <div key={k}>
@@ -152,12 +152,16 @@ function Table({ columns, data, getSelectedColumns = () => {} }) {
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <div {...row.getRowProps()} className="tr" onClick={() => { setModalStatus(true); setCurrent(row.original); }}>
-                {row.cells.map((cell) => (
-                  <div {...cell.getCellProps(cellProps)} className="td">
-                    {cell.render('Cell')}
-                  </div>
-                ))}
+              <div {...row.getRowProps()} className="tr">
+                {row.cells.map((cell) => {
+                  const { column = {} } = cell || {};
+                  const { id = '' } = column || {};
+                  return (
+                    <div {...cell.getCellProps(cellProps)} className="td" onClick={id === 'selection' ? null : () => { setModalStatus(true); setCurrent(row.original); }}>
+                      {cell.render('Cell')}
+                    </div>
+                  );
+                })}
               </div>
             );
           })}

@@ -103,7 +103,7 @@ class Sidebar extends PureComponent {
               <div className="instance">{`${type}: ${host}:${port}`}</div>
             </ContextMenuTrigger>
             <ContextMenu id={cid}>
-              <MenuItem data={{ connection }} onClick={this.instanceHandle}>
+              <MenuItem data={{ connection }} onClick={() => { this.instanceHandle({ connection }); }}>
                 Edit Connection
               </MenuItem>
               <MenuItem data={{ connection }} onClick={() => {}}>
