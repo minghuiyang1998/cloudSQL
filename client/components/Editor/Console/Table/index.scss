@@ -89,6 +89,8 @@ $border-color: $light-grey;
 .details {
     padding: 10px;
     word-break: break-all;
+    font-size: 14px;
+    color: $grey;
 
     div {
         display: flex;
@@ -96,7 +98,8 @@ $border-color: $light-grey;
 
         .key {
             flex: none;
-            padding-right: 10px;;
+            padding-right: 10px;
+            width: 40px;
         }
     }
 }
