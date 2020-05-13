@@ -23,16 +23,23 @@ async function fetch({ method = '', url = '', body = {} }) {
   };
 
   try {
+    const _sendDate = (new Date()).getTime();
     const response = await Axios(opts);
+    const _receiveDate = (new Date()).getTime();
+    const _responseTimeMs = _receiveDate - _sendDate;
     const { data = {} } = response || {};
     const { code = 0, msg = '' } = data || {};
-    Message.error({ type: 'error', content: msg });
+    const loadingItem = Message.startLoading();
     if (code !== 200) {
-      Message.error({ type: 'error', content: msg });
+      Message.error({ content: msg });
+      Message.endLoading(loadingItem);
     }
-    return data;
+    return {
+      ...data,
+      timeCount: _responseTimeMs,
+    };
   } catch (err) {
-    Message.error({ type: 'error', content: err });
+    Message.error({ content: err });
     return {};
   }
 }

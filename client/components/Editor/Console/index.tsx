@@ -96,8 +96,31 @@ class Console extends PureComponent {
     });
   }
 
-  refreshStatus = () => {
-
+  refreshStatus = (execution) => {
+    const {
+      execId = '',
+      status = '',
+      timeCount = 0,
+      rows = 0,
+      database = '',
+      sql = '',
+    } = execution || {};
+    this.setState((prevState) => {
+      const { statusList = {}, history = [] } = prevState || {};
+      return {
+        statusList: {
+          ...statusList,
+          [execId]: execution,
+        },
+        history: history.unshift({
+          database,
+          sql,
+          status,
+          timeCount,
+          rows,
+        }),
+      };
+    });
   }
 
   renderDefault = () => {
