@@ -16,7 +16,9 @@ const Modal = ({ width = 500, title = '', visible = false, children = null, onCl
               </span>
             ) : null}
           </div>
-          { children }
+          <div className="modal-body">
+            { children }
+          </div>
         </div>
       </div>
     ) : null }

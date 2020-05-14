@@ -36,5 +36,12 @@
         flex: 1 1 auto;
         margin: 10px;
     }
+}
 
+.no-data-error {
+    height: 400px;
+    color: $red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

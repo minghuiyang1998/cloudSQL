@@ -67,15 +67,15 @@ class Charts extends PureComponent {
       const { x = '', y = '', axes = [], series = {}, chartComponent = null } = this.state || {};
       const sample = this.data[0] || {};
       const xaxis = Object.keys(sample);
-      const yaxis = Object.keys(this.data[0]).filter((k) => typeof sample[k] === 'number');
+      const yaxis = Object.keys(sample).filter((k) => typeof sample[k] === 'number');
       const withData = this.data && this.data.length;
       const formated = formatData(x, y, this.data) || [];
       return (
         <>
+          <style jsx>{style}</style>
           {
             withData ? (
               <div className="charts">
-                <style jsx>{style}</style>
                 <div className="left">
                   <div>Select X-axis Column</div>
                   <Select width={150} placeHolder="Select ..." options={xaxis} value={x} onChange={(value) => { this.setState({ x: value }); }} />
@@ -96,7 +96,7 @@ class Charts extends PureComponent {
                   {chartComponent}
                 </div>
               </div>
-            ) : <div style={{ height: '400px' }}>Please select data first !</div>
+            ) : <div className="no-data-error">Please select data first !</div>
           }
         </>
       );

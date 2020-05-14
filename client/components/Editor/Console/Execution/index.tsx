@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import { ExportToCsv } from 'export-to-csv';
+import { saveAs } from 'file-saver';
 import style from './index.scss';
 import Loading from '../../../Loading';
 import Table from '../Table';
@@ -7,8 +9,12 @@ import Modal from '../../../Modal';
 import Chart from '../../../Chart';
 import { formatTableData } from '../../../../utils/format';
 import Error from '../../../Error';
+import * as Message from '../../../Message';
 
-const DOWNLOAD_ALLOWED = ['csv', 'Excel', 'Text'];
+const D_CSV = 'csv';
+const D_JSON = 'json';
+const DOWNLOAD_ALLOWED = [D_CSV, D_JSON];
+
 class Execution extends PureComponent {
   selectedData = []
 
@@ -32,12 +38,31 @@ class Execution extends PureComponent {
   }
 
   downloadHandle = (type) => {
+    const data = this.selectedData || [];
+    if (!data.length) {
+      Message.error({ content: 'Please select data !' });
+      return;
+    }
+    let content = '';
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: false,
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true,
+    };
+    const csvExporter = new ExportToCsv(options);
+    const json = JSON.stringify(data);
     switch (type) {
-    case 'csv':
+    case D_CSV:
+      content = csvExporter.generateCsv(data);
       break;
-    case 'Excel':
-      break;
-    case 'Text':
+    case D_JSON:
+      content = new Blob([json], { type: 'text/plain;charset=utf-8' });
+      saveAs(content, 'data.json');
       break;
     default:
       break;
