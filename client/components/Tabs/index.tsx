@@ -14,17 +14,25 @@ class Tabs extends PureComponent {
     super(props);
     this.state = {
       current: '',
-      func: 'sql',
+      clist: [],
     };
   }
 
   componentDidMount() {
     document.addEventListener(TAB_EVENT, (e) => {
       const { detail = {} } = e || {};
-      const { schema = '', type = 'sql' } = detail || {};
+      const { schema = '' } = detail || {};
+      const { clist = [] } = this.state || {};
+      const index = clist.findIndex((i) => i.name === schema);
+      if (index === -1) {
+        clist.push({
+          name: schema,
+          component: <Panel schema={schema} func="sql" />,
+        });
+      }
       this.setState({
         current: schema,
-        func: type,
+        clist,
       });
     });
   }
@@ -38,11 +46,16 @@ class Tabs extends PureComponent {
     closeTab = (value) => {
       const { store = {}, action = {} } = this.props || {};
       const { selectedSchemas = [] } = store.app || {};
-      const { current = '' } = this.state || {};
+      const { current = '', clist = [] } = this.state || {};
       action.app.deleteSelectedSchemas(value);
+      const index = clist.findIndex((i) => i.name === value);
+      if (index !== -1) {
+        clist.splice(index, 1);
+      }
       if (value === current) {
         this.setState({
           current: selectedSchemas[selectedSchemas.length - 2],
+          clist,
         });
       }
     }
@@ -50,7 +63,7 @@ class Tabs extends PureComponent {
     render() {
       const { store = {} } = this.props || {};
       const { selectedSchemas = [] } = store.app || {};
-      const { current = '', func = '' } = this.state || {};
+      const { current = '', clist = [] } = this.state || {};
       return (
         <div className="tabs-container">
           <style jsx>{style}</style>
@@ -67,7 +80,16 @@ class Tabs extends PureComponent {
             }
           </div>
           <div className="flex-fill">
-            { current ? <Panel schema={current} func={func} /> : null }
+            {
+              clist.map((i) => {
+                const { name = '', component = null } = i || {};
+                return (
+                  <div key={name} className={clsn('panel-wrapper', { active: current === name })}>
+                    {component}
+                  </div>
+                );
+              })
+            }
           </div>
         </div>
       );
