@@ -29,3 +29,12 @@ export const putRevisedConnection = async (connectionId, body) => {
   const data = await fetch(request);
   return data;
 };
+
+export const deleteConnection = async (connectionId) => {
+  const request = {
+    method: 'DELETE',
+    url: `/node/connection/${connectionId}`,
+  };
+  const data = await fetch(request);
+  return data;
+};

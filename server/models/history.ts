@@ -79,7 +79,9 @@ export class HistoryModel extends Model {
       const { data = '' } = history || {};
       const _data = JSON.parse(data);
       const _index = _data.findIndex((c) => c.cid === cid);
-      _data.slice(_index, 1);
+      if (_index !== -1) {
+        _data.splice(_index, 1);
+      }
       history.data = JSON.stringify(_data);
       const newHistory = await historyRepo.save(history);
       const { data: newStr = '' } = newHistory;

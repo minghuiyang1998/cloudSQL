@@ -1,4 +1,4 @@
-import { action, autorun } from 'mobx';
+import { action } from 'mobx';
 import { getDrivers, getSchema } from '../../dao/app';
 
 class AppAction {

@@ -10,6 +10,7 @@ import {
   testConnection,
   postNewConnection,
   putRevisedConnection,
+  deleteConnection,
 } from '../../dao/connection';
 
 
@@ -50,7 +51,9 @@ class UserAction {
     if (code === 200) {
       const { cid = '' } = body || {};
       const index = newHistory.findIndex((i) => i.cid === cid);
-      newHistory.splice(index, 1);
+      if (index !== -1) {
+        newHistory.splice(index, 1);
+      }
       this.user.history = newHistory;
       this.app.connection = body;
     }
@@ -74,9 +77,30 @@ class UserAction {
     const { code = 0, msg = '', data: newHistory = [] } = result || {};
     if (code === 200) {
       const index = newHistory.findIndex((i) => i.cid === cid);
-      newHistory.splice(index, 1);
+      if (index !== -1) {
+        newHistory.splice(index, 1);
+      }
       this.user.history = newHistory;
       this.app.connection = body;
+    }
+    return {
+      code,
+      msg,
+    };
+  }
+
+  @action deleteInstance = async (body) => {
+    const { cid = '' } = body || {};
+    const result = await deleteConnection(cid);
+    const { code = 0, msg = '', data: newHistory = [] } = result || {};
+    if (code === 200) {
+      const { cid: connectionId = '' } = this.app.connection || {};
+      const index = newHistory.findIndex((i) => i.cid === connectionId);
+      if (index !== -1) {
+        newHistory.splice(index, 1);
+      }
+      this.user.history = newHistory;
+      if (connectionId === cid) this.app.connection = {};
     }
     return {
       code,

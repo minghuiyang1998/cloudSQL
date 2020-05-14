@@ -56,6 +56,7 @@ class Sidebar extends PureComponent {
   refreshHandle = () => {
     const { action = {} } = this.props || {};
     action.app.refreshSchema();
+    action.user.getHistory();
   }
 
   schemaHandle = (value) => {
@@ -67,7 +68,7 @@ class Sidebar extends PureComponent {
   render() {
     const { darkTheme = true } = this.props || {};
     const { search = '', isModalVisible = false, config = {} } = this.state || {};
-    const { store = {} } = this.props || {};
+    const { store = {}, action = {} } = this.props || {};
     const { history = [] } = store.user || {};
     const notLoggedIn = history.map((i) => {
       const { cid = '', host = '', type = '', port = '' } = i || {};
@@ -79,7 +80,7 @@ class Sidebar extends PureComponent {
               <div className="instance">{`${type}: ${host}:${port}`}</div>
             </ContextMenuTrigger>
             <ContextMenu id={cid}>
-              <MenuItem data={{ connection: i }} onClick={() => { }}>
+              <MenuItem data={{ connection: i }} onClick={(event) => { event.stopPropagation(); action.user.deleteInstance(i); }}>
                 Delete Connection
               </MenuItem>
             </ContextMenu>
@@ -103,10 +104,10 @@ class Sidebar extends PureComponent {
               <div className="instance">{`${type}: ${host}:${port}`}</div>
             </ContextMenuTrigger>
             <ContextMenu id={cid}>
-              <MenuItem data={{ connection }} onClick={() => { this.instanceHandle({ connection }); }}>
+              <MenuItem data={{ connection }} onClick={(event) => { event.stopPropagation(); this.instanceHandle({ connection }); }}>
                 Edit Connection
               </MenuItem>
-              <MenuItem data={{ connection }} onClick={() => {}}>
+              <MenuItem data={{ connection }} onClick={(event) => { event.stopPropagation(); action.user.deleteInstance(connection); }}>
                 Delete Connection
               </MenuItem>
             </ContextMenu>

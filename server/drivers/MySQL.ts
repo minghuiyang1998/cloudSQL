@@ -61,7 +61,7 @@ class MySQL extends Driver {
   }
 
   static runSQL = async (sql, dbConfig) => {
-    console.log('MySQL -> staticrunSQL -> sql, dbConfig', sql, dbConfig);
+    // console.log('MySQL -> staticrunSQL -> sql, dbConfig', sql, dbConfig);
     const {
       host = '',
       port = 3306,
