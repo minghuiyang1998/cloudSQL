@@ -84,7 +84,7 @@ class Editor extends PureComponent {
           pane1Style={{ backgroundColor: '#fafafa', overflow: 'auto' }}
           resizerStyle={{ width: '6px', backgroundColor: 'transparent', cursor: 'col-resize' }}
         >
-          <Tree data={list} />
+          <Tree data={list} unique={current} />
           <div className="main">
             <Resizer
               direction="horizontal"

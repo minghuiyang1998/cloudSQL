@@ -155,7 +155,7 @@ class Sidebar extends PureComponent {
               <RefreshIcon />
             </div>
           </div>
-          <Tree data={content} />
+          <Tree data={content} unique="sidebar" backgroundColor="#252526" />
         </div>
       </>
     );

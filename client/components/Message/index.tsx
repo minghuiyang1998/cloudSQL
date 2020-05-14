@@ -29,6 +29,7 @@ export const error = ({ content = '', duration = 5000 }) => {
 
 export const startLoading = () => {
   const $main = document.getElementById(MAIN);
+  if (!$main) return { lid: '' };
   const $msg = document.createElement('div');
   const lid = genHashID();
   $msg.textContent = 'Loading';
@@ -45,6 +46,7 @@ export const startLoading = () => {
 
 export const endLoading = ({ lid = '' }) => {
   const $msg = document.getElementById(lid);
+  if (!$msg) return;
   $msg.classList.remove('show');
   setTimeout(() => {
     $msg.parentNode.removeChild($msg);

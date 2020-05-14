@@ -1,26 +1,84 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import style from './index.scss';
 import Branch from './Branch';
+import Loading from '../Loading';
 
-const Tree = ({ data = [] }) => {
-  const renderBranch = (array) => array.map((e) => {
-    const { children = [], name = '', key = '', type = '', clickHandle = () => {}, doubleClickEvent = null } = e || {};
+const calcArray = (array = []) => {
+  let all = 0;
+  array.forEach((element) => {
+    all += 1;
+    const { children = [] } = element;
     if (children.length > 0) {
-      return (
-        <Branch key={key} name={name} iconType={type} clickHandle={clickHandle} doubleClickEvent={doubleClickEvent}>
-          {renderBranch(children)}
-        </Branch>
-      );
+      const num = calcArray(children);
+      all += num;
     }
-    return <Branch key={key} name={name} iconType={type} clickHandle={clickHandle} doubleClickEvent={doubleClickEvent} />;
   });
-
-  return (
-    <div className="tree">
-      <style jsx>{style}</style>
-      {renderBranch(data)}
-    </div>
-  );
+  return all;
 };
+
+class Tree extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      unique: '',
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { unique = '' } = nextProps || {};
+    const { unique: prev = '' } = prevState || {};
+    if (prev !== unique) {
+      return {
+        ...prevState,
+        unique,
+        isLoading: true,
+      };
+    }
+    return {
+      ...prevState,
+    };
+  }
+
+  render() {
+    const { data = [], backgroundColor = '#fff' } = this.props || {};
+    const items = calcArray(data);
+    const round = items / 500;
+    const time = round * 1000;
+    setTimeout(() => {
+      this.setState({
+        isLoading: false,
+      });
+    }, time);
+
+    const renderBranch = (array) => array.map((e) => {
+      const { children = [], name = '', key = '', type = '', clickHandle = () => {}, doubleClickEvent = null } = e || {};
+      if (children.length > 0) {
+        return (
+          <Branch key={key} name={name} iconType={type} clickHandle={clickHandle} doubleClickEvent={doubleClickEvent}>
+            {renderBranch(children)}
+          </Branch>
+        );
+      }
+      return <Branch key={key} name={name} iconType={type} clickHandle={clickHandle} doubleClickEvent={doubleClickEvent} />;
+    });
+
+    const { isLoading = false } = this.state || {};
+
+    return (
+      <div className="tree">
+        <style jsx>{style}</style>
+        {isLoading ? (
+          <div className="tree-loading" style={{ backgroundColor }}>
+            <div style={{ height: '200px', position: 'relative' }}>
+              <Loading backgroundColor={backgroundColor} />
+            </div>
+          </div>
+        ) : null }
+        {renderBranch(data)}
+      </div>
+    );
+  }
+}
 
 export default Tree;
