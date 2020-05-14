@@ -14,6 +14,7 @@ import {
   TYPE_INS,
   TYPE_SCHEMA,
 } from '../Tree/config';
+import * as Message from '../Message';
 
 @withAppStore
 @observer
@@ -60,9 +61,13 @@ class Sidebar extends PureComponent {
   }
 
   schemaHandle = (value) => {
+    const _loadingItem = Message.startLoading();
+    console.log(Date.now());
     const { action = {} } = this.props || {};
     action.app.addSelectedSchemas(value);
-    emitTabEvent({ schema: value });
+    setTimeout(() => {
+      emitTabEvent({ schema: value, loadingId: _loadingItem });
+    }, 0);
   }
 
   render() {

@@ -17,13 +17,13 @@ export const error = ({ content = '', duration = 5000 }) => {
   $msg.classList.add('error', 'message');
   setTimeout(() => {
     $msg.classList.add('show');
-  }, 250);
+  }, 100);
   setTimeout(() => {
     $msg.classList.remove('show');
   }, duration);
   setTimeout(() => {
     $msg.parentNode.removeChild($msg);
-  }, duration + 250);
+  }, duration + 100);
   $main.appendChild($msg);
 };
 
@@ -35,9 +35,9 @@ export const startLoading = () => {
   $msg.textContent = 'Loading';
   $msg.id = lid;
   $msg.classList.add('Loading', 'message');
-  setTimeout(() => {
-    $msg.classList.add('show');
-  }, 250);
+  // setTimeout(() => {
+  $msg.classList.add('show');
+  // }, 100);
   $main.appendChild($msg);
   return {
     lid,
@@ -50,5 +50,5 @@ export const endLoading = ({ lid = '' }) => {
   $msg.classList.remove('show');
   setTimeout(() => {
     $msg.parentNode.removeChild($msg);
-  }, 250);
+  }, 100);
 };

@@ -5,6 +5,7 @@ import style from './index.scss';
 import Editor from '../Editor';
 import Modal from '../Modal';
 import Form from '../Form';
+import * as Message from '../Message';
 
 @withAppStore
 @observer
@@ -14,6 +15,9 @@ class Panel extends PureComponent {
     this.state = {
       isModalVisible: false,
     };
+  }
+
+  componentDidUpdate() {
   }
 
   showModal = () => {
@@ -29,6 +33,11 @@ class Panel extends PureComponent {
   }
 
   render() {
+    const { loadingId = {} } = this.props || {};
+    if (Object.keys(loadingId).length) {
+      Message.endLoading(loadingId);
+      console.log(Date.now());
+    }
     const { store = {} } = this.props || {};
     const { connection = {} } = store.app || {};
     const { host = '', type = '', port = '' } = connection || {};

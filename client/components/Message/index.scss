@@ -22,7 +22,7 @@ $height: 30px;
         font-size: 12px;
         opacity: 0;
         transform: translateY(-$height);
-        transition: all linear .25s;
+        transition: all linear .1s;
     }
 
     .message.show {

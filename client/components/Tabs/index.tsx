@@ -6,6 +6,7 @@ import style from './index.scss';
 import Panel from '../Panel';
 import { TAB_EVENT } from '../../utils/event';
 import CloseIcon from '../../assets/close.svg';
+import * as Message from '../Message';
 
 @withAppStore
 @observer
@@ -21,14 +22,16 @@ class Tabs extends PureComponent {
   componentDidMount() {
     document.addEventListener(TAB_EVENT, (e) => {
       const { detail = {} } = e || {};
-      const { schema = '' } = detail || {};
+      const { schema = '', loadingId = { lid: '' }, type = 'sql' } = detail || {};
       const { clist = [] } = this.state || {};
       const index = clist.findIndex((i) => i.name === schema);
       if (index === -1) {
         clist.push({
           name: schema,
-          component: <Panel schema={schema} func="sql" />,
+          component: <Panel schema={schema} loadingId={loadingId} func={type} />,
         });
+      } else {
+        Message.endLoading(loadingId);
       }
       this.setState({
         current: schema,
