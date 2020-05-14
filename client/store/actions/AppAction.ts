@@ -32,6 +32,13 @@ class AppAction {
     _set.add(value);
     this.app.selectedSchemas = [..._set];
   }
+
+  @action deleteSelectedSchemas(value) {
+    const { selectedSchemas = [] } = this.app || {};
+    const _set = new Set(selectedSchemas);
+    _set.delete(value);
+    this.app.selectedSchemas = [..._set];
+  }
 }
 
 export default AppAction;

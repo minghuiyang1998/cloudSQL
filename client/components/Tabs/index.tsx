@@ -35,6 +35,18 @@ class Tabs extends PureComponent {
       });
     }
 
+    closeTab = (value) => {
+      const { store = {}, action = {} } = this.props || {};
+      const { selectedSchemas = [] } = store.app || {};
+      const { current = '' } = this.state || {};
+      action.app.deleteSelectedSchemas(value);
+      if (value === current) {
+        this.setState({
+          current: selectedSchemas[selectedSchemas.length - 2],
+        });
+      }
+    }
+
     render() {
       const { store = {} } = this.props || {};
       const { selectedSchemas = [] } = store.app || {};
@@ -45,9 +57,9 @@ class Tabs extends PureComponent {
           <div className="tabs">
             {
               selectedSchemas.map((i) => (
-                <div key={i} className={clsn('tab', { active: i === current })} onClick={() => { this.tabHandle(i); }}>
-                  <span className="tab-name">{i}</span>
-                  <span onClick={() => {}} className="close-btn">
+                <div key={i} className={clsn('tab', { active: i === current })}>
+                  <span className="tab-name" onClick={() => { this.tabHandle(i); }}>{i}</span>
+                  <span onClick={() => { this.closeTab(i); }} className="close-btn">
                     <CloseIcon />
                   </span>
                 </div>
