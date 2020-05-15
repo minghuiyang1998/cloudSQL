@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import clsn from 'classnames';
 import withAppStore from '../../HOC/withAppStore';
 import Table from './Table';
+import BasicTable from './BasicTable';
 import style from './index.scss';
 import { genHashID } from '../../../utils/common';
 import { formatTableData } from '../../../utils/format';
@@ -152,7 +153,7 @@ class Console extends PureComponent {
     const { history = [] } = this.state || {};
     const { columns = [], data = [] } = formatTableData(history) || {};
     if (!history.length) return null;
-    return (<Table columns={columns} data={data} />);
+    return (<BasicTable columns={columns} data={data} />);
   }
 
   tabHandle = (id = '') => {

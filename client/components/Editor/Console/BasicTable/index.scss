@@ -1,0 +1,112 @@
+@import '../../../../stylesheets/variables.scss';
+$border-color: $light-grey;
+
+.table {
+    border-spacing: 0;
+    border: 1px solid transparent;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    font-size: 12px;
+    color: $grey;
+    // min-width: 0 !important;
+    overflow: hidden;
+
+    $thead-height: 31px;
+    .thead {
+        /* These styles are required for a scrollable body to align with the header properly */
+        height: $thead-height;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .tbody {
+        /* These styles are required for a scrollable table body */
+        position: absolute;
+        top: $thead-height;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .tr {
+        :last-child {
+            .td {
+                border-bottom: 0;
+            }
+        }
+        background-color: #fff;
+        border-bottom: 1px solid $border-color;
+    }
+
+    .th,
+    .td {
+        margin: 0;
+        padding: 0.5rem;
+        border-right: 1px solid $border-color;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        /* In this example we use an absolutely position resizer,
+        so this is required. */
+        position: relative;
+        display: block !important;
+
+        :last-child {
+            border-right: 0;
+        }
+
+        .resizer {
+            right: 0;
+            background: transparent;
+            width: 2px;
+            padding-left:2px;
+            background-clip: content-box;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            z-index: 1;
+            /* prevents from scrolling while dragging on touch devices */
+            touch-action :none;
+            cursor: col-resize;
+
+            :hover {
+                background-color: $beige;
+            }
+        }
+    }
+
+    .th {
+        background-color: $light-grey;
+        position: relative;
+        border: none;
+    }
+
+    .td {
+        cursor: pointer;
+    }
+}
+
+.col-details {
+    padding: 10px;
+    word-break: break-all;
+    font-size: 14px;
+    color: $grey;
+
+    div {
+        display: flex;
+        margin: 5px 0;
+
+        .key {
+            flex: none;
+            padding-right: 10px;
+            width: 100px;
+        }
+    }
+}
