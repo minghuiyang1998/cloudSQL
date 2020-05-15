@@ -12,6 +12,7 @@ $height: 30px;
   align-items: center;
 
     .message {
+        position: relative;
         background-color: #ffffff;
         width: 250px;
         margin: 10px auto;
@@ -22,9 +23,23 @@ $height: 30px;
         height: $height;
         line-height: $height;
         font-size: 12px;
+
         // opacity: 0;
         // transform: translateY(-$height);
         // animation: show .5s;
+
+        .msg-loading {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .icon-wrapper {
+                position: relative;
+                width: 40px;
+                height: 100%;
+                margin-right: 30px;
+            }
+        }
     }
 
     .hidden {

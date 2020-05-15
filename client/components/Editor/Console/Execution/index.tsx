@@ -10,6 +10,7 @@ import Chart from '../../../Chart';
 import { formatTableData } from '../../../../utils/format';
 import Error from '../../../Error';
 import * as Message from '../../../Message';
+import SearchIcon from '../../../../assets/search.svg';
 
 const D_CSV = 'csv';
 const D_JSON = 'json';
@@ -22,7 +23,23 @@ class Execution extends PureComponent {
     super(props);
     this.state = {
       isModalVisible: false,
+      search: '',
     };
+  }
+
+  setSearch = (value) => {
+    this.setState({
+      search: value,
+    });
+  }
+
+  filterResult = (key, array) => {
+    if (!key) return array;
+    const result = array.filter((i) => {
+      const str = Object.values(i).join('______').toLowerCase();
+      return str.search(key.toLowerCase()) >= 0;
+    });
+    return result;
   }
 
   showModal = () => {
@@ -71,14 +88,14 @@ class Execution extends PureComponent {
 
   getSelectedColumns = (array = []) => {
     this.selectedData = array;
-    console.log('Execution -> getSelectedColumns -> this.selectedData', this.selectedData);
   }
 
   render() {
     const { info = {} } = this.props || {};
     const { status = '', result = [], timeCount = 0, rows = 0, msg = '' } = info || {};
-    const { isModalVisible = false } = this.state || {};
-    const { columns = [], data = [] } = formatTableData(result) || {};
+    const { isModalVisible = false, search = '' } = this.state || {};
+    const _result = this.filterResult(search, result);
+    const { columns = [], data = [] } = formatTableData(_result) || {};
     return (
       <>
         <Modal title="Generate Chart" width="800" visible={isModalVisible} onClose={this.closeModal}>
@@ -96,6 +113,12 @@ class Execution extends PureComponent {
             <div className="rows">
               {rows}
               <span>rows</span>
+            </div>
+            <div className="search-wrapper">
+              <input className="search" value={search} placeholder="Search schema" onChange={(event) => this.setSearch(event.target.value)} />
+              <div className="icon">
+                <SearchIcon />
+              </div>
             </div>
             <div className="btn-link mg-l-auto" onClick={this.showModal}>Generate Charts</div>
             <Select width={150} placeHolder="Export File" options={DOWNLOAD_ALLOWED} onChange={this.downloadHandle} />

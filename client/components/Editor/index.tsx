@@ -25,11 +25,10 @@ class Editor extends PureComponent {
   }
 
   onChange = (e) => {
-    console.log('Editor -> onChange -> e)', e);
+    // console.log('Editor -> onChange -> e)', e);
   }
 
   setRunning = ({ isRunning = true, runningList = [] }) => {
-    console.log('Editor -> setRunning -> runningList', isRunning, runningList);
     this.setState({
       isRunning,
       runningList,

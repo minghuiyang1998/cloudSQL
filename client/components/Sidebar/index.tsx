@@ -9,7 +9,6 @@ import Modal from '../Modal';
 import Form from '../Form';
 import { NEW_TAB_EVENT, emitEvent } from '../../utils/event';
 import RefreshIcon from '../../assets/refresh.svg';
-import SearchIcon from '../../assets/search.svg';
 import {
   TYPE_INS,
   TYPE_SCHEMA,
@@ -22,7 +21,6 @@ class Sidebar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      search: '',
       isModalVisible: false,
       config: {},
     };
@@ -38,12 +36,6 @@ class Sidebar extends PureComponent {
     this.setState({
       isModalVisible: false,
       config: {},
-    });
-  }
-
-  setSearch = (value) => {
-    this.setState({
-      search: value,
     });
   }
 
@@ -70,9 +62,10 @@ class Sidebar extends PureComponent {
     }, 0);
   }
 
+
   render() {
     const { darkTheme = true } = this.props || {};
-    const { search = '', isModalVisible = false, config = {} } = this.state || {};
+    const { isModalVisible = false, config = {} } = this.state || {};
     const { store = {}, action = {} } = this.props || {};
     const { history = [] } = store.user || {};
     const notLoggedIn = history.map((i) => {
@@ -148,14 +141,6 @@ class Sidebar extends PureComponent {
           <div className="new">
             New Instance
             <span className="plus" onClick={this.showModal}>+</span>
-          </div>
-          <div className="toolbar">
-            <div className="search-wrapper">
-              <input className="search" value={search} placeholder="Search schema" onChange={(event) => this.setSearch(event.target.value)} />
-              <div className="icon">
-                <SearchIcon />
-              </div>
-            </div>
             <div className="refresh-btn" onClick={this.refreshHandle}>
               <RefreshIcon />
             </div>

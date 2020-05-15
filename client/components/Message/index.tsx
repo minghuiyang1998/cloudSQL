@@ -7,13 +7,13 @@ import {
   REMOVE_MSG_EVENT,
   emitEvent,
 } from '../../utils/event';
+import Loading from '../Loading';
 
 export class Message extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       list: [],
-      willRemove: [],
     };
   }
 
@@ -21,33 +21,24 @@ export class Message extends PureComponent {
     document.addEventListener(NEW_MSG_EVENT, (e) => {
       const { detail = {} } = e || {};
       const { type = '', content = '', mid = '' } = detail || {};
-      this.pushList({ type, content, mid });
+      const { list = [] } = this.state || {};
+      const item = {
+        type,
+        mid,
+        content,
+      };
+      this.setState({
+        list: [...list, item],
+      });
     });
     document.addEventListener(REMOVE_MSG_EVENT, (e) => {
       const { detail = {} } = e || {};
       const { mid = '' } = detail || {};
-      this.removeList(mid);
-    });
-  }
-
-  pushList({ type, content, mid }) {
-    console.log('Message -> pushList -> type, content, mid', type, content, mid);
-    const { list = [] } = this.state || {};
-    const item = {
-      type,
-      mid,
-      content,
-    };
-    this.setState({
-      list: [...list, item],
-    });
-  }
-
-  removeList(mid) {
-    const { list = [] } = this.state || {};
-    const _list = list.filter((i) => i.mid !== mid);
-    this.setState({
-      list: _list,
+      const { list = [] } = this.state || {};
+      const _list = list.filter((i) => i.mid !== mid);
+      this.setState({
+        list: _list,
+      });
     });
   }
 
@@ -85,7 +76,12 @@ export const startLoading = () => {
   const item = {
     type: 'loading',
     mid: lid,
-    content: 'loading',
+    content: (
+      <div className="msg-loading">
+        <div className="icon-wrapper"><Loading zoom=".7" /></div>
+        <div>Loading ...</div>
+      </div>
+    ),
   };
   emitEvent(NEW_MSG_EVENT, item);
   return {
