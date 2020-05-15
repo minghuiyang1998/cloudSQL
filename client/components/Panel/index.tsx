@@ -17,9 +17,6 @@ class Panel extends PureComponent {
     };
   }
 
-  componentDidUpdate() {
-  }
-
   showModal = () => {
     this.setState({
       isModalVisible: true,

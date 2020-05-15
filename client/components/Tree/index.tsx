@@ -17,39 +17,31 @@ const calcArray = (array = []) => {
 };
 
 class Tree extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: true,
-      unique: '',
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     isLoading: false,
+  //     unique: '',
+  //   };
+  // }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { unique = '' } = nextProps || {};
-    const { unique: prev = '' } = prevState || {};
-    if (prev !== unique) {
-      return {
-        ...prevState,
-        unique,
-        isLoading: true,
-      };
-    }
-    return {
-      ...prevState,
-    };
-  }
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   const { unique = '' } = nextProps || {};
+  //   const { unique: prev = '' } = prevState || {};
+  //   if (prev !== unique) {
+  //     return {
+  //       ...prevState,
+  //       unique,
+  //       isLoading: false,
+  //     };
+  //   }
+  //   return {
+  //     ...prevState,
+  //   };
+  // }
 
   render() {
     const { data = [], backgroundColor = '#fff' } = this.props || {};
-    const items = calcArray(data);
-    const round = items / 500;
-    const time = round * 1000;
-    setTimeout(() => {
-      this.setState({
-        isLoading: false,
-      });
-    }, time);
 
     const renderBranch = (array) => array.map((e) => {
       const { children = [], name = '', key = '', type = '', clickHandle = () => {}, doubleClickEvent = null } = e || {};

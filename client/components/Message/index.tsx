@@ -1,54 +1,98 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
+import clsn from 'classnames';
 import style from './index.scss';
 import { genHashID } from '../../utils/common';
+import {
+  NEW_MSG_EVENT,
+  REMOVE_MSG_EVENT,
+  emitEvent,
+} from '../../utils/event';
 
-const MAIN = 'Message';
+export class Message extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: [],
+      willRemove: [],
+    };
+  }
 
-export const Message = () => (
-  <div id={MAIN} className="message-wrapper">
-    <style jsx>{style}</style>
-  </div>
-);
+  componentDidMount() {
+    document.addEventListener(NEW_MSG_EVENT, (e) => {
+      const { detail = {} } = e || {};
+      const { type = '', content = '', mid = '' } = detail || {};
+      this.pushList({ type, content, mid });
+    });
+    document.addEventListener(REMOVE_MSG_EVENT, (e) => {
+      const { detail = {} } = e || {};
+      const { mid = '' } = detail || {};
+      this.removeList(mid);
+    });
+  }
+
+  pushList({ type, content, mid }) {
+    console.log('Message -> pushList -> type, content, mid', type, content, mid);
+    const { list = [] } = this.state || {};
+    const item = {
+      type,
+      mid,
+      content,
+    };
+    this.setState({
+      list: [...list, item],
+    });
+  }
+
+  removeList(mid) {
+    const { list = [] } = this.state || {};
+    const _list = list.filter((i) => i.mid !== mid);
+    this.setState({
+      list: _list,
+    });
+  }
+
+  render() {
+    const { list = [] } = this.state || {};
+    return (
+      <div className="message-wrapper">
+        <style jsx>{style}</style>
+        {
+          list.map((i) => {
+            const { type = 'error', mid = '', content = '' } = i || {};
+            return <div key={mid} className={clsn('message', type)}>{content}</div>;
+          })
+        }
+      </div>
+    );
+  }
+}
 
 export const error = ({ content = '', duration = 5000 }) => {
-  const $main = document.getElementById(MAIN);
-  const $msg = document.createElement('div');
-  $msg.textContent = content;
-  $msg.classList.add('error', 'message');
+  const mid = genHashID();
+  const item = {
+    type: 'error',
+    mid,
+    content,
+  };
+  emitEvent(NEW_MSG_EVENT, item);
   setTimeout(() => {
-    $msg.classList.add('show');
-  }, 100);
-  setTimeout(() => {
-    $msg.classList.remove('show');
+    emitEvent(REMOVE_MSG_EVENT, { mid });
   }, duration);
-  setTimeout(() => {
-    $msg.parentNode.removeChild($msg);
-  }, duration + 100);
-  $main.appendChild($msg);
 };
 
 export const startLoading = () => {
-  const $main = document.getElementById(MAIN);
-  if (!$main) return { lid: '' };
-  const $msg = document.createElement('div');
   const lid = genHashID();
-  $msg.textContent = 'Loading';
-  $msg.id = lid;
-  $msg.classList.add('Loading', 'message');
-  // setTimeout(() => {
-  $msg.classList.add('show');
-  // }, 100);
-  $main.appendChild($msg);
+  const item = {
+    type: 'loading',
+    mid: lid,
+    content: 'loading',
+  };
+  emitEvent(NEW_MSG_EVENT, item);
   return {
     lid,
   };
 };
 
 export const endLoading = ({ lid = '' }) => {
-  const $msg = document.getElementById(lid);
-  if (!$msg) return;
-  $msg.classList.remove('show');
-  setTimeout(() => {
-    $msg.parentNode.removeChild($msg);
-  }, 100);
+  emitEvent(REMOVE_MSG_EVENT, { mid: lid });
 };

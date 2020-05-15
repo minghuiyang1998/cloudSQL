@@ -2,9 +2,11 @@ $height: 30px;
 .message-wrapper {
   position: fixed;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9001 !important;
+  right: 0;
+  left: 0;
+  margin: auto;
+  width: 250px;
+  z-index: 9 !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,20 +22,35 @@ $height: 30px;
         height: $height;
         line-height: $height;
         font-size: 12px;
-        opacity: 0;
-        transform: translateY(-$height);
-        transition: all linear .1s;
+        // opacity: 0;
+        // transform: translateY(-$height);
+        // animation: show .5s;
     }
 
-    .message.show {
+    .hidden {
+        animation: hidden .5s;
+    }
+}
+
+
+@keyframes show {
+    from {
+        opacity: 0;
+        transform: translateY(-$height);
+    }
+    to {
         opacity: 1;
         transform: translateY(0px);
     }
+}
 
-    .error {
-        
+@keyframes hidden {
+    from {
+        opacity: 1;
+        transform: translateY(0px);
     }
-
-    .loading {
+    to {
+        opacity: 0;
+        transform: translateY(-$height);
     }
 }

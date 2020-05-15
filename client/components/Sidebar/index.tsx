@@ -7,7 +7,7 @@ import style from './index.scss';
 import Tree from '../Tree';
 import Modal from '../Modal';
 import Form from '../Form';
-import { emitTabEvent } from '../../utils/event';
+import { NEW_TAB_EVENT, emitEvent } from '../../utils/event';
 import RefreshIcon from '../../assets/refresh.svg';
 import SearchIcon from '../../assets/search.svg';
 import {
@@ -63,10 +63,10 @@ class Sidebar extends PureComponent {
   schemaHandle = (value) => {
     const _loadingItem = Message.startLoading();
     console.log(Date.now());
-    const { action = {} } = this.props || {};
-    action.app.addSelectedSchemas(value);
     setTimeout(() => {
-      emitTabEvent({ schema: value, loadingId: _loadingItem });
+      const { action = {} } = this.props || {};
+      action.app.addSelectedSchemas(value);
+      emitEvent(NEW_TAB_EVENT, { schema: value, loadingId: _loadingItem });
     }, 0);
   }
 

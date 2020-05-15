@@ -4,7 +4,7 @@ import clsn from 'classnames';
 import withAppStore from '../HOC/withAppStore';
 import style from './index.scss';
 import Panel from '../Panel';
-import { TAB_EVENT } from '../../utils/event';
+import { NEW_TAB_EVENT } from '../../utils/event';
 import CloseIcon from '../../assets/close.svg';
 import * as Message from '../Message';
 
@@ -20,7 +20,7 @@ class Tabs extends PureComponent {
   }
 
   componentDidMount() {
-    document.addEventListener(TAB_EVENT, (e) => {
+    document.addEventListener(NEW_TAB_EVENT, (e) => {
       const { detail = {} } = e || {};
       const { schema = '', loadingId = { lid: '' }, type = 'sql' } = detail || {};
       const { clist = [] } = this.state || {};
@@ -50,17 +50,17 @@ class Tabs extends PureComponent {
       const { store = {}, action = {} } = this.props || {};
       const { selectedSchemas = [] } = store.app || {};
       const { current = '', clist = [] } = this.state || {};
-      action.app.deleteSelectedSchemas(value);
-      const index = clist.findIndex((i) => i.name === value);
-      if (index !== -1) {
-        clist.splice(index, 1);
-      }
+      const _clist = clist.filter((i) => i.name !== value);
+      const index = selectedSchemas.findIndex((i) => i === value);
+      const len = selectedSchemas.length;
+      const _curr = index - 1 < 0 ? len - 1 : index - 1;
       if (value === current) {
         this.setState({
-          current: selectedSchemas[selectedSchemas.length - 2],
-          clist,
+          current: selectedSchemas[_curr],
+          clist: _clist,
         });
       }
+      action.app.deleteSelectedSchemas(value);
     }
 
     render() {
