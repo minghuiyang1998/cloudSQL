@@ -87,13 +87,14 @@ class Postgres extends Driver {
           reject(error);
           client.end();
         }
-        client.query(sql, (err, rows) => {
+        client.query(sql, (err, result) => {
+          const { rows = [] } = result || {};
           if (err) {
             reject(err);
           } else {
             resolve(rows);
           }
-          client.disconnect();
+          client.end();
         });
       });
     });

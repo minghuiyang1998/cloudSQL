@@ -84,7 +84,17 @@ class Console extends PureComponent {
         const info = statusList[k];
         const { sql = '', status = '', database = '' } = info || {};
         if (status !== 'loading') return;
-        this.asyncRunSQL({ sql, connection: { ...connection, database }, info });
+        // order is important, if there is a database in connection don't use tab current replace it
+        const { database: defaultDB = '' } = connection || {};
+        this.asyncRunSQL({
+          sql,
+          connection:
+          {
+            ...connection,
+            database: defaultDB || database,
+          },
+          info,
+        });
       });
       isRuned = true;
     }

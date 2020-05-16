@@ -1,4 +1,5 @@
 export const NEW_TAB_EVENT = 'new_tab';
+export const CLEAR_ALL_TABS = 'clear_all_tab';
 export const NEW_MSG_EVENT = 'new_msg';
 export const REMOVE_MSG_EVENT = 'remove_msg';
 

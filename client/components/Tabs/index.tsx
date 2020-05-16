@@ -4,7 +4,7 @@ import clsn from 'classnames';
 import withAppStore from '../HOC/withAppStore';
 import style from './index.scss';
 import Panel from '../Panel';
-import { NEW_TAB_EVENT } from '../../utils/event';
+import { NEW_TAB_EVENT, CLEAR_ALL_TABS } from '../../utils/event';
 import CloseIcon from '../../assets/close.svg';
 import * as Message from '../Message';
 
@@ -36,6 +36,12 @@ class Tabs extends PureComponent {
       this.setState({
         current: schema,
         clist,
+      });
+    });
+    document.addEventListener(CLEAR_ALL_TABS, () => {
+      this.setState({
+        current: '',
+        clist: [],
       });
     });
   }

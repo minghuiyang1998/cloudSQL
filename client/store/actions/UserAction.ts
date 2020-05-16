@@ -12,6 +12,7 @@ import {
   putRevisedConnection,
   deleteConnection,
 } from '../../dao/connection';
+import { CLEAR_ALL_TABS, emitEvent } from '../../utils/event';
 
 
 class UserAction {
@@ -47,16 +48,18 @@ class UserAction {
     }
 
     const result = await postNewConnection(body);
-    const { code = 0, msg = '', data: newHistory = [] } = result || {};
+    const { code = 0, msg = '', data = {} } = result || {};
+    const { connection = {}, history = [] } = data || {};
     if (code === 200) {
-      const { cid = '' } = body || {};
-      const index = newHistory.findIndex((i) => i.cid === cid);
+      const { cid = '' } = connection || {};
+      const index = history.findIndex((i) => i.cid === cid);
       if (index !== -1) {
-        newHistory.splice(index, 1);
+        history.splice(index, 1);
       }
-      this.user.history = newHistory;
-      this.app.connection = body;
+      this.user.history = history;
+      this.app.connection = connection;
       this.app.selectedSchemas = [];
+      emitEvent(CLEAR_ALL_TABS);
     }
     return {
       code,
@@ -75,15 +78,16 @@ class UserAction {
     }
     const { cid = '' } = body || {};
     const result = await putRevisedConnection(cid, body);
-    const { code = 0, msg = '', data: newHistory = [] } = result || {};
+    const { code = 0, msg = '', data = {} } = result || {};
+    const { connection = {}, history = [] } = data || {};
+    console.log('@actionreviseConnection -> result', result);
     if (code === 200) {
-      const index = newHistory.findIndex((i) => i.cid === cid);
-      if (index !== -1) {
-        newHistory.splice(index, 1);
-      }
-      this.user.history = newHistory;
-      this.app.connection = body;
+      const { cid: connectionId = '' } = connection || {};
+      const _hist = history.filter((i) => i.cid !== connectionId);
+      this.user.history = _hist;
+      this.app.connection = connection;
       this.app.selectedSchemas = [];
+      emitEvent(CLEAR_ALL_TABS);
     }
     return {
       code,
@@ -105,6 +109,7 @@ class UserAction {
       if (connectionId === cid) {
         this.app.connection = {};
         this.app.selectedSchemas = [];
+        emitEvent(CLEAR_ALL_TABS);
       }
     }
     return {

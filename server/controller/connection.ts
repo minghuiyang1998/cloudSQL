@@ -7,15 +7,18 @@ export async function createConnection(ctx:Context) {
   const { body: connection = {} } = ctx.request || {};
   const { uuid = '' } = ctx.user || {};
   const _connection = {
-    cid: v4(),
     ...connection,
+    cid: v4(),
   };
   try {
     const newHistory = await ctx.models.history.connectionCreate(uuid, _connection);
     ctx.body = {
       code: StatusCode.SUCCESS,
       msg: StatusMsg.SUCCESS,
-      data: newHistory,
+      data: {
+        connection: _connection,
+        history: newHistory,
+      },
     };
   } catch (error) {
     ctx.body = {
@@ -34,7 +37,10 @@ export async function modifyConnectionInfos(ctx:Context) {
     ctx.body = {
       code: StatusCode.SUCCESS,
       msg: StatusMsg.SUCCESS,
-      data: newHistory,
+      data: {
+        connection,
+        history: newHistory,
+      },
     };
   } catch (error) {
     ctx.body = {
