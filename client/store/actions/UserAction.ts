@@ -56,6 +56,7 @@ class UserAction {
       }
       this.user.history = newHistory;
       this.app.connection = body;
+      this.app.selectedSchemas = [];
     }
     return {
       code,
@@ -82,6 +83,7 @@ class UserAction {
       }
       this.user.history = newHistory;
       this.app.connection = body;
+      this.app.selectedSchemas = [];
     }
     return {
       code,
@@ -100,7 +102,10 @@ class UserAction {
         newHistory.splice(index, 1);
       }
       this.user.history = newHistory;
-      if (connectionId === cid) this.app.connection = {};
+      if (connectionId === cid) {
+        this.app.connection = {};
+        this.app.selectedSchemas = [];
+      }
     }
     return {
       code,
