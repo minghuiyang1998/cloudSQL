@@ -24,7 +24,7 @@ const headerProps = (props, { column }) => getStyles(props, column.align);
 
 const cellProps = (props, { cell }) => getStyles(props, cell.column.align);
 
-function Table({ columns, data, getSelectedColumns = () => {} }) {
+function Table({ columns, data }) {
   const defaultColumn = React.useMemo(
     () => ({
       // When using the useFlexLayout:
@@ -38,7 +38,7 @@ function Table({ columns, data, getSelectedColumns = () => {} }) {
   const [isModalVisible, setModalStatus] = useState(false);
   const [current, setCurrent] = useState({});
 
-  const { getTableProps, headerGroups, rows, prepareRow, selectedFlatRows } = useTable(
+  const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data,

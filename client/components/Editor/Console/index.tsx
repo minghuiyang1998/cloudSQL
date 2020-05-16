@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import { observer } from 'mobx-react';
 import clsn from 'classnames';
 import withAppStore from '../../HOC/withAppStore';
-import Table from './Table';
 import BasicTable from './BasicTable';
 import style from './index.scss';
 import { genHashID } from '../../../utils/common';
