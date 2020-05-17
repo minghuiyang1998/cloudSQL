@@ -100,6 +100,16 @@ class SQLEditor extends PureComponent {
   // handleSelection = (selection) => {
   //   // console.log(selection.getRange());
   // }
+  onChange = (newValue) => {
+    this.setState({
+      value: newValue,
+    });
+    const { store, isNoSQL = false, database = '' } = this.props || {};
+    const { schema } = store.app || {};
+    const { editor = {} } = this.state || {};
+    const obj = updateCompletions(schema[database], isNoSQL);
+    editor.completers.push(obj);
+  }
 
   loadEditor = (editor) => {
     this.setState({ editor });
@@ -128,13 +138,13 @@ class SQLEditor extends PureComponent {
 
   render() {
     const { dimensions = {}, value = '', editor = {} } = this.state || {};
-    const { isRunning = false, isNoSQL = false } = this.props || {};
+    const { isRunning = false, isNoSQL = false, database = '' } = this.props || {};
     const { width = -1, height = -1 } = dimensions;
     const { theme = THEMES[0], fontSize = FONTSIZE[0], isActiveLineHighlighted = false, isGutterShow = true } = this.state || {};
     if (Object.keys(editor).length) {
       const { store } = this.props || {};
       const { schema } = store.app || {};
-      const obj = updateCompletions(schema);
+      const obj = updateCompletions(schema[database], isNoSQL);
       editor.completers.push(obj);
     }
     return (
@@ -160,7 +170,7 @@ class SQLEditor extends PureComponent {
                 highlightActiveLine={isActiveLineHighlighted}
                 mode={isNoSQL ? 'typescript' : 'sql'}
                 theme={theme}
-                onChange={(newValue) => { this.setState({ value: newValue }); }}
+                onChange={this.onChange}
                 name="query-ace-editor"
                 editorProps={{ $blockScrolling: true }}
                 height={`${height}px`}

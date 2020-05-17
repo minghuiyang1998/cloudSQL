@@ -95,7 +95,7 @@ class Editor extends PureComponent {
               pane2Style={{ backgroundColor: '#f2f2f2' }}
               resizerStyle={{ padding: '3px 0', backgroundColor: 'transparent', cursor: 'row-resize' }}
             >
-              <SQLEditor add={editorValue} isRunning={isRunning} setRunning={this.setRunning} isNoSQL={isNoSQL} />
+              <SQLEditor database={current} add={editorValue} isRunning={isRunning} setRunning={this.setRunning} isNoSQL={isNoSQL} />
               <Console database={current} setRunning={this.setRunning} runningList={runningList} isNoSQL={isNoSQL} />
             </Resizer>
           </div>
