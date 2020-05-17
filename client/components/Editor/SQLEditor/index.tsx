@@ -10,6 +10,7 @@ import style from './index.scss';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/ext-language_tools'; // avoid warning in develop tool
 import 'ace-builds/src-noconflict/mode-sql';
+import 'ace-builds/src-noconflict/mode-typescript';
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/theme-kuroir';
 import 'ace-builds/src-noconflict/theme-xcode';
@@ -127,7 +128,7 @@ class SQLEditor extends PureComponent {
 
   render() {
     const { dimensions = {}, value = '', editor = {} } = this.state || {};
-    const { isRunning = false } = this.props || {};
+    const { isRunning = false, isNoSQL = false } = this.props || {};
     const { width = -1, height = -1 } = dimensions;
     const { theme = THEMES[0], fontSize = FONTSIZE[0], isActiveLineHighlighted = false, isGutterShow = true } = this.state || {};
     if (Object.keys(editor).length) {
@@ -157,7 +158,7 @@ class SQLEditor extends PureComponent {
             <div className="fill" ref={measureRef}>
               <AceEditor
                 highlightActiveLine={isActiveLineHighlighted}
-                mode="sql"
+                mode={isNoSQL ? 'typescript' : 'sql'}
                 theme={theme}
                 onChange={(newValue) => { this.setState({ value: newValue }); }}
                 name="query-ace-editor"

@@ -37,7 +37,8 @@ class Editor extends PureComponent {
 
   render() {
     const { store, current = '' } = this.props || {};
-    const { schema } = store.app || {};
+    const { schema, connection } = store.app || {};
+    const { type = '' } = connection || {};
     const data = schema[current] || {};
     const tables = Object.keys(data);
     const list = tables.map((t) => {
@@ -73,6 +74,7 @@ class Editor extends PureComponent {
       };
     });
     const { editorValue = '', isRunning = false, runningList = [] } = this.state || {};
+    const isNoSQL = type === 'MongoDB';
     return (
       <div className="editor">
         <style jsx>{style}</style>
@@ -93,8 +95,8 @@ class Editor extends PureComponent {
               pane2Style={{ backgroundColor: '#f2f2f2' }}
               resizerStyle={{ padding: '3px 0', backgroundColor: 'transparent', cursor: 'row-resize' }}
             >
-              <SQLEditor add={editorValue} isRunning={isRunning} setRunning={this.setRunning} />
-              <Console database={current} setRunning={this.setRunning} runningList={runningList} />
+              <SQLEditor add={editorValue} isRunning={isRunning} setRunning={this.setRunning} isNoSQL={isNoSQL} />
+              <Console database={current} setRunning={this.setRunning} runningList={runningList} isNoSQL={isNoSQL} />
             </Resizer>
           </div>
         </Resizer>

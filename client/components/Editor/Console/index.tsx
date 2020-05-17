@@ -174,6 +174,7 @@ class Console extends PureComponent {
 
   render() {
     const { current = '', statusList = {} } = this.state || {};
+    const { isNoSQL = false } = this.props || {};
     const isDefault = current === TAB_DEFAULT;
     const tabs = Object.keys(statusList).map((k) => {
       const info = statusList[k];
@@ -192,7 +193,7 @@ class Console extends PureComponent {
           }
         </div>
         <div className="fill">
-          { isDefault ? this.renderDefault() : (<Execution info={statusList[current]} />) }
+          { isDefault ? this.renderDefault() : (<Execution info={statusList[current]} isNoSQL={isNoSQL} />) }
         </div>
       </div>
     );

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { ExportToCsv } from 'export-to-csv';
 import { saveAs } from 'file-saver';
+import ReactJson from 'react-json-view';
 import style from './index.scss';
 import Loading from '../../../Loading';
 import Table from '../Table';
@@ -91,7 +92,7 @@ class Execution extends PureComponent {
   }
 
   render() {
-    const { info = {} } = this.props || {};
+    const { info = {}, isNoSQL = false } = this.props || {};
     const { status = '', result = [], timeCount = 0, rows = 0, msg = '' } = info || {};
     const { isModalVisible = false, search = '' } = this.state || {};
     const _result = this.filterResult(search, result);
@@ -105,27 +106,50 @@ class Execution extends PureComponent {
           <style jsx>{style}</style>
           { status === 'loading' ? <Loading /> : null }
           { status === 'error' ? <Error msg={msg} /> : null }
-          <div className="tools">
-            <div className="time-count">
-              {timeCount}
-              <span>seconds</span>
-            </div>
-            <div className="rows">
-              {rows}
-              <span>rows</span>
-            </div>
-            <div className="search-wrapper">
-              <input className="search" value={search} placeholder="Search schema" onChange={(event) => this.setSearch(event.target.value)} />
-              <div className="icon">
-                <SearchIcon />
-              </div>
-            </div>
-            <div className="btn-link mg-l-auto" onClick={this.showModal}>Generate Charts</div>
-            <Select width={150} placeHolder="Export File" options={DOWNLOAD_ALLOWED} onChange={this.downloadHandle} />
-          </div>
-          <div className="flex-fill">
-            { data && data.length ? <Table columns={columns} data={data} getSelectedColumns={this.getSelectedColumns} /> : null }
-          </div>
+          {
+            isNoSQL ? (
+              <>
+                <div className="tools">
+                  <div className="time-count">
+                    {timeCount}
+                    <span>seconds</span>
+                  </div>
+                  <div className="rows">
+                    {rows}
+                    <span>rows</span>
+                  </div>
+                  <div className="search-wrapper">
+                    <input className="search" value={search} placeholder="Search schema" onChange={(event) => this.setSearch(event.target.value)} />
+                    <div className="icon">
+                      <SearchIcon />
+                    </div>
+                  </div>
+                  <div className="btn-link mg-l-auto" onClick={this.showModal}>Generate Charts</div>
+                  <Select width={150} placeHolder="Export File" options={DOWNLOAD_ALLOWED} onChange={this.downloadHandle} />
+                </div>
+                <div className="flex-fill">
+                  { data && data.length ? <Table columns={columns} data={data} getSelectedColumns={this.getSelectedColumns} /> : null }
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="tools">
+                  <div className="time-count">
+                    {timeCount}
+                    <span>seconds</span>
+                  </div>
+                  <div className="rows">
+                    {rows}
+                    <span>rows</span>
+                  </div>
+                  <Select width={150} placeHolder="Export File" options={[JSON]} onChange={this.downloadHandle} />
+                </div>
+                <div className="flex-fill">
+                  <ReactJson src={{}} theme="rjv-default" />
+                </div>
+              </>
+            )
+          }
         </div>
       </>
     );
