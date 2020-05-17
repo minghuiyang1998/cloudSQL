@@ -97,6 +97,9 @@ class Execution extends PureComponent {
     const { isModalVisible = false, search = '' } = this.state || {};
     const _result = this.filterResult(search, result);
     const { columns = [], data = [] } = formatTableData(_result) || {};
+    if (isNoSQL) {
+      this.selectedData = result;
+    }
     return (
       <>
         <Modal title="Generate Chart" width="800" visible={isModalVisible} onClose={this.closeModal}>
@@ -116,12 +119,23 @@ class Execution extends PureComponent {
                   </div>
                   <div className="rows">
                     {rows}
-                    <span>rows</span>
+                    <span>items</span>
                   </div>
-                  <Select width={150} placeHolder="Export File" options={[JSON]} onChange={this.downloadHandle} />
+                  <Select width={150} placeHolder="Export File" options={[D_JSON]} onChange={this.downloadHandle} />
                 </div>
                 <div className="flex-fill">
-                  <ReactJson src={result} theme="rjv-default" />
+                  <ReactJson
+                    src={result}
+                    theme="rjv-default"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      overflow: 'auto',
+                    }}
+                  />
                 </div>
               </>
             ) : (

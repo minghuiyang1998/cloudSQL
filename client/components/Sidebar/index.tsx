@@ -128,7 +128,7 @@ class Sidebar extends PureComponent {
       children: notLoggedIn,
     }, {
       key: 'logged in instance',
-      name: `logged in instance(${loggedIn.length})`,
+      name: 'logged in instance',
       children: loggedIn,
     }];
     return (

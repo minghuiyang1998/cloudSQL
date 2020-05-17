@@ -142,7 +142,7 @@ class SQLEditor extends PureComponent {
         <style jsx>{style}</style>
         <div className="toolbar">
           <div className={clsn('btn-primary', { disable: isRunning })} onClick={isRunning ? null : this.executeSQL}>Execute</div>
-          <div className="btn-outline" onClick={this.formatSQL}>Format</div>
+          {isNoSQL ? null : <div className="btn-outline" onClick={this.formatSQL}>Format</div> }
           {/* <div className="btn-outline">SQL Diagnostics</div> */}
           <div className="mg-l-auto">
             <Dropdown icon={<SettingIcon />} components={this.renderSetting()} withArrow={false} />
