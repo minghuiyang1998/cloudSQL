@@ -118,17 +118,10 @@ class Execution extends PureComponent {
                     {rows}
                     <span>rows</span>
                   </div>
-                  <div className="search-wrapper">
-                    <input className="search" value={search} placeholder="Search schema" onChange={(event) => this.setSearch(event.target.value)} />
-                    <div className="icon">
-                      <SearchIcon />
-                    </div>
-                  </div>
-                  <div className="btn-link mg-l-auto" onClick={this.showModal}>Generate Charts</div>
-                  <Select width={150} placeHolder="Export File" options={DOWNLOAD_ALLOWED} onChange={this.downloadHandle} />
+                  <Select width={150} placeHolder="Export File" options={[JSON]} onChange={this.downloadHandle} />
                 </div>
                 <div className="flex-fill">
-                  { data && data.length ? <Table columns={columns} data={data} getSelectedColumns={this.getSelectedColumns} /> : null }
+                  <ReactJson src={result} theme="rjv-default" />
                 </div>
               </>
             ) : (
@@ -142,10 +135,17 @@ class Execution extends PureComponent {
                     {rows}
                     <span>rows</span>
                   </div>
-                  <Select width={150} placeHolder="Export File" options={[JSON]} onChange={this.downloadHandle} />
+                  <div className="search-wrapper">
+                    <input className="search" value={search} placeholder="Search schema" onChange={(event) => this.setSearch(event.target.value)} />
+                    <div className="icon">
+                      <SearchIcon />
+                    </div>
+                  </div>
+                  <div className="btn-link mg-l-auto" onClick={this.showModal}>Generate Charts</div>
+                  <Select width={150} placeHolder="Export File" options={DOWNLOAD_ALLOWED} onChange={this.downloadHandle} />
                 </div>
                 <div className="flex-fill">
-                  <ReactJson src={{}} theme="rjv-default" />
+                  { data && data.length ? <Table columns={columns} data={data} getSelectedColumns={this.getSelectedColumns} /> : null }
                 </div>
               </>
             )

@@ -80,7 +80,6 @@ class UserAction {
     const result = await putRevisedConnection(cid, body);
     const { code = 0, msg = '', data = {} } = result || {};
     const { connection = {}, history = [] } = data || {};
-    console.log('@actionreviseConnection -> result', result);
     if (code === 200) {
       const { cid: connectionId = '' } = connection || {};
       const _hist = history.filter((i) => i.cid !== connectionId);
