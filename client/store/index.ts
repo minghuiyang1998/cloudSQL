@@ -1,5 +1,4 @@
 import { autorun } from 'mobx';
-import { updateCompletions } from '../utils/updateCompletions';
 
 import {
   UserStore,

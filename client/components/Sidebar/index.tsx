@@ -126,10 +126,6 @@ class Sidebar extends PureComponent {
       key: 'Instance not logged in',
       name: `Instance not logged in(${notLoggedIn.length})`,
       children: notLoggedIn,
-    }, {
-      key: 'logged in instance',
-      name: 'logged in instance',
-      children: loggedIn,
     }];
     return (
       <>
@@ -145,6 +141,12 @@ class Sidebar extends PureComponent {
               <RefreshIcon />
             </div>
           </div>
+          {cid ? (
+            <div>
+              <div>The current connection: </div>
+              <Tree data={loggedIn} unique="sidebar" backgroundColor="#252526" />
+            </div>
+          ) : null}
           <Tree data={content} unique="sidebar" backgroundColor="#252526" />
         </div>
       </>

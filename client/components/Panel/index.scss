@@ -15,6 +15,7 @@
     }
 
     .panel-header {
+        min-width: 800px;
         $height: 46px;
         position: relative;
         height: $height;

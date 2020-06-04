@@ -27,11 +27,11 @@ export function updateCompletions(schemaInfo, isNoSQL = false) {
         const _keys = cols.map((c) => c.column_name);
         columnsKeys = [...columnsKeys, ..._keys];
       });
+      // 当前行存在table就把对应column value提高, 存在column就把tablevalue提高
       const allTokens = session
         .getValue()
         .split(/\s+/)
         .map((t) => t.toUpperCase());
-      // 存在table就把对应column value提高, 存在column就把tablevalue提高
       const currTable = [];
       tablesKeys.forEach((t) => {
         if (allTokens.indexOf(t) >= 0) {
