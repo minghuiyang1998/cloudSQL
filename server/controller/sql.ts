@@ -56,7 +56,7 @@ export async function runSQL(ctx: Context) {
   } catch (e) {
     ctx.body = {
       code: StatusCode.DB_ERROR,
-      msg: `test connection fail, ${e}`,
+      msg: `${e}`,
     };
   }
 }
@@ -83,7 +83,7 @@ export async function connectDB(ctx: Context) {
   } catch (e) {
     ctx.body = {
       code: StatusCode.DB_ERROR,
-      msg: `test connection fail, ${e}`,
+      msg: `connection fail, ${e}`,
     };
   }
 }

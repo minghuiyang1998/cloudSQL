@@ -107,25 +107,46 @@ class MongoDB extends Driver {
       obj = {},
       max = 1000,
     } = NoSqltransfer(sql);
-    // console.log(collection, func, obj, max);
+    // console.log(collection, '1', func, '2', typeof obj, max);
 
     const client = await connectClient(dbConfig);
     const db = await client.db(database);
+    if (func === 'createCollection') {
+      return new Promise((resolve, reject) => {
+        db.createCollection(obj, (err, result) => {
+          if (err) {
+            // eslint-disable-next-line prefer-promise-reject-errors
+            reject([{ msg: 'fails' }]);
+          }
+          resolve([{ msg: 'ok' }]);
+          client.close();
+        });
+      });
+    }
+
     const _collection = db.collection(collection);
     return new Promise((resolve, reject) => {
       _collection[func](obj, (err, result) => {
-        result.toArray((error, rows) => {
-          if (error) {
-            reject(error);
-          } else {
-            const _sliced = rows.slice(0, max + 1);
-            resolve(_sliced);
-          }
-        });
+        try {
+          result.toArray((error, rows) => {
+            if (error) {
+              reject(error);
+            } else {
+              let _sliced = rows;
+              if (max) {
+                _sliced = rows.slice(0, max + 1);
+              }
+              resolve(_sliced);
+            }
+          });
+        } catch (error) {
+          resolve(result);
+        }
         client.close();
       });
     });
   };
+
 
   // eslint-disable-next-line arrow-body-style
   static getSchema = async (connection) => {
