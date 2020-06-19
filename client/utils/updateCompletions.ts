@@ -42,7 +42,7 @@ export function updateCompletions(schemaInfo, isNoSQL = false) {
         const cols = schemaInfo[i] || [];
         const colkeys = cols.map((c) => c.column_name);
         colkeys.forEach((k) => {
-          columnCompletions[k] += 1;
+          columnCompletions[k] += 2;
         });
       });
       const currCol = [];
@@ -57,7 +57,7 @@ export function updateCompletions(schemaInfo, isNoSQL = false) {
           columns.forEach((column) => {
             const { column_name: colName = '', table_name: tableName = '' } = column || {};
             if (colName === i) {
-              tableCompletions[tableName] += 1;
+              tableCompletions[tableName] += 2;
             }
           });
         });
